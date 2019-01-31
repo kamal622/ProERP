@@ -1,0 +1,134 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Services.Models.DailyPackingGridModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-controller="DailyPackingController">
+    <section class="content-header  clearfix">
+        <h1>
+            Daily Packing Details
+            <small>Daily Packing Details</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Daily Packing Details</li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            @*<div class="col-md-1">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Line</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-drop-down-list jqx-width="'100%'"
+                                                    jqx-auto-drop-down-height="false"
+                                                    jqx-display-member="'Name'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="LineSource"
+                                                    jqx-instance="ddlLine"
+                                                    jqx-on-change="onLineChange(event)"
+                                                    jqx-theme="theme"
+                                                    id="ddlLine"></jqx-drop-down-list>
+                            </div>*@
+                            <div class="col-md-1">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label" for="SearchSiteName">Date</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-date-time-input jqx-width="120"
+                                                     jqx-theme="theme"
+                                                     jqx-format-string="'dd-MM-yyyy'"
+                                                     jqx-instance="dtPackingDate"
+                                                     jqx-show-calendar-button="true"></jqx-date-time-input>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary bg-blue" id="searchSites" type="submit" ng-click="onSearchClick()">
+                                    <i class="fa fa-search"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <table style="width:100%;" cellpadding="2" cellspacing="2" border="0">
+                        <tr>
+                            <td style="text-align:left">
+                                <button id="btnAddNew" class="btn bg-blue" type="button" ng-click="onAddNewClick(this)">
+                                    <i class="fa fa-plus"></i>
+                                    Add Rows
+                                </button>
+                                <button id="btnSave" class="btn bg-blue" type="button" ng-click="onSaveClick(this)">
+                                    <i class="fa fa-save"></i>
+                                    Save
+                                </button>
+
+                            </td>
+                            <td style="text-align:right">
+                                <button type="button" class="btn bg-blue" ng-click="OnExport('excel')"><i class="fa fa-file-excel-o"></i>&nbsp;Export</button>
+                                <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                                    <i class="fa fa-refresh"></i>
+                                    Refresh
+                                </button>
+                                <button id="btnDelete" class="btn bg-red" type="button" ng-click="onDeleteClick(event)">
+                                    <i class="fa fa-trash-o"></i>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="height:5px;"></div>
+                    <jqx-grid jqx-instance="gridDailyPacking"
+                              jqx-width="'100%'"
+                              jqx-sortable="true"
+                              jqx-theme="theme"
+                              jqx-editable="true"
+                              jqx-autoheight="false"
+                              jqx-selectionmode="'checkbox'" @*multiplecellsadvanced*@
+                              jqx-source="DailyPackingSource"
+                              jqx-columns="DailyPackingColumns"
+                              jqx-columngroups="DailyPackingGroupColumns"
+                              jqx-editmode="'click'"
+                              jqx-columnsresize="true"
+                              jqx-showaggregates="true"
+                              jqx-show-statusbar="true"
+                              jqx-on-cellbeginedit="OnCellBeginEdit(event)"
+                              id="gridDailyPacking"></jqx-grid>
+
+                    @*<div class="pull-right pad">
+
+                        </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="~/js/FormulationRequest/DailyPackingController.js"></script>
+}
+
+
+
+

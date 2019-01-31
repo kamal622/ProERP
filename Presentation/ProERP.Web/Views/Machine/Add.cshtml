@@ -1,0 +1,68 @@
+﻿
+@using ProERP.Web.Framework.UI;
+@model  ProERP.Services.Models.MachineViewModel
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Machines");
+}
+
+<div ng-controller="MachineAddController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Add a new machine
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a href="/Machine/List/">back to machine list</a>
+            </small>
+        </h1>
+       
+    </div>
+    <div class="content">
+
+        <div class="form-horizontal">
+            <div id="customer-edit" class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabDetail" data-toggle="tab" data-tab-name="tabDetail">Machine Detail</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabDetail">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    @Html.Partial("_AddOrUpdateMachine", Model)
+                                    <div class="pull-right">
+                                        <button class="btn bg-blue" ng-click="onAddMachine(event)">
+                                            <i class="fa fa-floppy-o"></i>
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/JS/Machine/AddController.js"></script>
+
+}
+
+
+
+
+
+
+
+
+
+

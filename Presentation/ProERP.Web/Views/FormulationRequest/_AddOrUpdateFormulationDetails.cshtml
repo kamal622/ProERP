@@ -1,0 +1,59 @@
+﻿@model ProERP.Web.Models.FormulationRequestsViewModel
+
+<jqx-validator jqx-instance="FormulationDetailsValidator" jqx-hint-type="'label'" jqx-rules="FormulationDetailsRules">
+    <div class="form-group" style="margin-bottom:10px;">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="Item" class="control-label">Item</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="label-wrapper">
+                @*<jqx-combo-box ng-model="model.FormulationRequestsDetails.ItemId"
+                               jqx-width="'100%'"
+                               jqx-auto-drop-down-height="false"
+                               jqx-display-member="'Name'"
+                               jqx-value-member="'Id'"
+                               jqx-source="WinItemSource"
+                               jqx-theme="theme"
+                               jqx-search-mode="'containsignorecase'"
+                               jqx-auto-complete="true"
+                               jqx-instance="ddlWinItem"
+                               id="ddlWinItem"></jqx-combo-box>*@
+                <jqx-combo-box ng-model="model.FormulationRequestsDetails.ItemId"
+                               jqx-height="30"
+                               jqx-auto-drop-down-height="false"
+                               jqx-display-member="'Name'"
+                               jqx-value-member="'Id'"
+                               jqx-source="WinItemSource"
+                               jqx-theme="theme"
+                               jqx-search-mode="'containsignorecase'"
+                               jqx-auto-complete="true"
+                               jqx-selected-index="0"
+                               jqx-instance="ddlWinItem"
+                               id="ddlWinItem"></jqx-combo-box>
+            </div>@*jqx-on-change="onWinItemChange(event)"*@
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom:10px;">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="Item Qty" class="control-label">Item Qty</label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="label-wrapper" >
+                <jqx-number-input ng-model="model.FormulationRequestsDetails.ItemQty"
+                                  jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-min="0"
+                                  jqx-input-mode="simple"
+                                  jqx-decimal-digits="2"
+                                  jqx-theme="theme"
+                                  jqx-instance="txtItemQty" />
+            </div>
+        </div>
+    </div>
+  
+</jqx-validator>
+

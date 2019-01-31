@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="MachineDetailsDS" targetNamespace="http://tempuri.org/MachineDetailsDS.xsd" xmlns:mstns="http://tempuri.org/MachineDetailsDS.xsd" xmlns="http://tempuri.org/MachineDetailsDS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="MachineDetailsDS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="MachineDetailsDS" msprop:Generator_UserDSName="MachineDetailsDS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="MachineDetails" msprop:Generator_TableClassName="MachineDetailsDataTable" msprop:Generator_TableVarName="tableMachineDetails" msprop:Generator_RowChangedName="MachineDetailsRowChanged" msprop:Generator_TablePropName="MachineDetails" msprop:Generator_RowDeletingName="MachineDetailsRowDeleting" msprop:Generator_RowChangingName="MachineDetailsRowChanging" msprop:Generator_RowEvHandlerName="MachineDetailsRowChangeEventHandler" msprop:Generator_RowDeletedName="MachineDetailsRowDeleted" msprop:Generator_RowClassName="MachineDetailsRow" msprop:Generator_UserTableName="MachineDetails" msprop:Generator_RowEvArgName="MachineDetailsRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" minOccurs="0" />
+              <xs:element name="MachineName" msprop:Generator_ColumnVarNameInTable="columnMachineName" msprop:Generator_ColumnPropNameInRow="MachineName" msprop:Generator_ColumnPropNameInTable="MachineNameColumn" msprop:Generator_UserColumnName="MachineName" type="xs:string" minOccurs="0" />
+              <xs:element name="ItemQtyPercentage" msprop:Generator_ColumnVarNameInTable="columnItemQtyPercentage" msprop:Generator_ColumnPropNameInRow="ItemQtyPercentage" msprop:Generator_ColumnPropNameInTable="ItemQtyPercentageColumn" msprop:Generator_UserColumnName="ItemQtyPercentage" type="xs:decimal" minOccurs="0" />
+              <xs:element name="ItemQtyGram" msprop:Generator_ColumnVarNameInTable="columnItemQtyGram" msprop:Generator_ColumnPropNameInRow="ItemQtyGram" msprop:Generator_ColumnPropNameInTable="ItemQtyGramColumn" msprop:Generator_UserColumnName="ItemQtyGram" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,58 @@
+﻿
+@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.PartViewModel
+
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Parts");
+}
+<div ng-controller="PartController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Update part
+            <small>
+
+                <i class="fa fa-arrow-circle-left"></i>
+                <a href="/Part/List/">back to part list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+
+            <button class="btn bg-blue" ng-click="OnSavePart(event)">
+                <i class="fa fa-floppy-o"></i>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="form-horizontal">
+            <div id="customer-edit" class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabDetail" data-toggle="tab" data-tab-name="tabDetail">Part Detail</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabDetail">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    @Html.Partial("_AddOrUpdatePart", Model)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    @section scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript" src="~/JS/Part/AddOrUpdateController.js"></script>
+
+    }

@@ -1,0 +1,156 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Web.Models.PartViewModel
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Parts");
+}
+
+<div ng-controller="PartController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Parts</h1>
+        <div class="pull-right">
+            <a class="btn bg-blue" href="/Part/Add/">
+                <i class="fa fa-plus-square"></i>
+                Add New
+            </a>
+            <button class="btn bg-red" ng-click="onDelete(event)">
+                <i class="fa fa-trash-o"></i>
+                Delete (selected)
+            </button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Part Name</label>
+                                                <div title="A part name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input name="SearchPartName" ng-model="SearchPartName" class="form-control text-box single-line" id="SearchPartName" type="text" value="" width="100" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                    </div>
+                                </div>
+                                @*<div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <div class="label-wrapper">
+                            <label title="" class="control-label">Site</label>
+                            <div title="A plant name" class="ico-help" area-describedby="">
+                                <i class="fa fa-question-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <jqx-drop-down-list ng-model="model.SiteId"
+                                            jqx-width="200"
+                                            jqx-height="30"
+                                            jqx-auto-drop-down-height="true"
+                                            jqx-display-member="'Name'"
+                                            jqx-value-member="'Id'"
+                                            jqx-source="SiteSource"
+                                            jqx-instance="ddlSite"
+                                            jqx-selected-index="0"
+                                            jqx-disabled = "DisableSiteList"
+                                            jqx-theme="theme"
+                                            jqx-on-change="onSiteChange(event)"
+                                            jqx-on-binding-complete="onSiteBindingComplete(event)"></jqx-drop-down-list>
+
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <div class="label-wrapper">
+                            <label title="" class="control-label">Plant</label>
+                            <div title="select plant" class="ico-help" area-describedby="">
+                                <i class="fa fa-question-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <jqx-drop-down-list id="ddlPlant"
+                                            jqx-width="200"
+                                            jqx-height="30"
+                                            jqx-auto-drop-down-height="true"
+                                            jqx-display-member="'Name'"
+                                            jqx-value-member="'Id'"
+                                            jqx-source="PlantSource"
+                                            jqx-instance="ddlPlant"
+                                            jqx-theme="theme"
+                                            jqx-on-change="onPlantChange(event)"
+                                            jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+                    </div>
+                </div>
+            </div>*@
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+
+                                        </div>
+                                        <div class="col-md-7">
+                                            <button class="btn btn-primary btn-search" id="searchSites" type="button" ng-click="onSearch(event)">
+                                                <i class="fa fa-search"></i>
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right pad">
+                            <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                                <i class="fa fa-refresh"></i>
+                                Refresh
+                            </button>
+                            </div>
+                        <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                                      jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme"
+                                      jqx-source="Part" jqx-settings="PartGrid" jqx-selection-mode="checkbox"
+                                      jqx-columns="[
+                                            { text: 'Part Name', datafield: 'Name' },
+                                            { text: '', width: 70, cellsrenderer: UpdatePart,sortable: false}
+                                            ]"></jqx-grid>
+                        @*{ text: 'Plant', datafield: 'PlantName' },
+                        { text: 'Line', datafield: 'LineName' },
+                        { text: 'Machine', datafield: 'MachineName'  },*@
+                        </div>
+                </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript" src="~/JS/Part/ListController.js"></script>
+}

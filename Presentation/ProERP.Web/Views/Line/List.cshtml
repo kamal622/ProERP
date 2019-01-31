@@ -1,0 +1,154 @@
+﻿@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.LineViewModel
+
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Lines");
+}
+
+
+<div ng-controller="LineListController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Lines</h1>
+        <div class="pull-right">
+            <a class="btn bg-blue" href="/Line/Add/">
+                <i class="fa fa-plus-square"></i>
+                Add New
+            </a>
+            <button class="btn bg-red" ng-click="onDelete(event)">
+                <i class="fa fa-trash-o"></i>
+                Delete (selected)
+            </button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Line Name</label>
+                                                <div title="A line name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input name="SearchLineName" ng-model="SearchLineName" class="form-control text-box single-line" id="SearchLineName" type="text" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Site</label>
+                                                <div title="A plant name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(m => m.SiteId, new SelectList(Model.Sites, "Id", "Name"),
+
+                                                                          new { jqx_drop_down_list = "ddlSite", jqx_width = 200, jqx_height = 33, jqx_theme = "theme", Id = "ddlSite", jqx_disabled = "DisableSiteList" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Plant </label>
+                                                <div title="A plant name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            @Html.DropDownListFor(m => m.PlantId, new SelectList(Model.Plants, "Id", "Name"), "All Plants", new { jqx_drop_down_list = "ddlPlant", jqx_width = 200, jqx_height = 33, jqx_theme = "theme", id = "ddlPlant" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+
+                                        </div>
+                                        <div class="col-md-8">
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+
+                                        </div>
+                                        <div class="col-md-8">
+                                            <button class="btn btn-primary btn-search" id="searchLine" type="button" ng-click="onSearch(event)">
+                                                <i class="fa fa-search"></i>
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right pad">
+                            <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                                <i class="fa fa-refresh"></i>
+                                Refresh
+                            </button>
+                        </div>
+                        <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                                  jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption"
+                                  jqx-source="lines" jqx-settings="LineGrid" jqx-selection-mode="checkbox"
+                                  jqx-columns="[
+                                            { text: 'Plant', datafield: 'PlantName'},
+                                            { text: 'Line Name', datafield: 'Name' },
+                                            { text: 'Location', datafield: 'Location'},
+                                            { text: 'In Charge', datafield: 'InCharge' },
+                                            { text: 'PlantId', datafield: 'PlantId', hidden: true},
+                                            { text: 'Is Active', datafield: 'IsActive' ,width: 70, columntype: 'checkbox'},
+
+                      { text: '', width: 70, cellsrenderer: UpdateLine,sortable: false}]"></jqx-grid>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript" src="~/JS/Line/ListController.js"></script>
+}
+

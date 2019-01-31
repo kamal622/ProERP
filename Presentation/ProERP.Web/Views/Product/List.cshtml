@@ -1,0 +1,101 @@
+﻿@using ProERP.Web.Framework.UI;
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div ng-controller="ProductController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Products</h1>
+        <div class="pull-right">
+            <button id="btnAdd" class="btn bg-blue" type="button" ng-click="onAddClick(event)">
+                <i class="fa fa-plus"></i>
+                Add
+            </button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">Product Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input name="SearchUserName" ng-model="SearchProductName" class="form-control text-box single-line" type="text" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-search" type="button" ng-click="onSearch(event)">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right pad">
+                            <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefresh(event)">
+                                <i class="fa fa-refresh"></i>
+                                Refresh
+                            </button>
+                        </div>
+                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                                  jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme"
+                                  jqx-source="ProductSource" jqx-instance="GrdProduct"
+                                  jqx-columns="[
+                                            { text: 'Product Code', datafield: 'Code',width: 100 },
+                                            { text: 'Short Name', datafield: 'ShortName',width: 150},
+                                            { text: 'Category', datafield: 'CategoryName',width: 250},
+                                            { text: 'Name', datafield: 'Name' },
+                                            { text: 'Edit', cellsrenderer: UpdateProduct,sortable: false, width: 70},
+                                            { text: 'Delete', cellsrenderer: DeleteProduct,sortable: false, width: 70}
+                                                ]"></jqx-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <jqx-window jqx-instance="WinAddOrUpdateProduct" jqx-theme="theme" jqx-width="500" jqx-height="400" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="false">
+        <div><b>Product</b></div>
+        <div>
+            <br>
+            <div class="nav-tabs-custom">
+                <div class="tab-content" style="height:290px;">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    @{Html.RenderPartial("_AddOrUpdateProduct");}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="onSaveProduct(event)">
+                    <i class="fa fa-floppy-o"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/Product/ProductController.js"></script>
+}
+
+

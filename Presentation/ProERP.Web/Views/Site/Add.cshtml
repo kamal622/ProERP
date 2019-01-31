@@ -1,0 +1,67 @@
+﻿@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.SiteViewModel
+
+
+@{
+    ViewBag.Title = "Add a new site";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Sites");
+}
+
+<div ng-controller="SiteAddController">
+@using (Html.BeginForm("AddSite", "Site", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+   
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Add a new site
+            <small>
+
+                <i class="fa fa-arrow-circle-left"></i>
+                <a href="/Site/List/">back to site list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+
+            <button class="btn bg-blue" >
+                <i class="fa fa-floppy-o"></i>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="form-horizontal">
+            <div id="customer-edit" class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabDetail" data-toggle="tab" data-tab-name="tabDetail">Site Detail</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabDetail">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    @Html.Partial("_AddOrUpdateSite", Model)
+                                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</div>
+
+
+@section scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/JS/Site/AddController.js"></script>
+
+}
+

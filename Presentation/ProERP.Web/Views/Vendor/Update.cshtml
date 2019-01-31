@@ -1,0 +1,66 @@
+﻿@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.IndentViewModel
+
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Vendor");
+}
+
+<div ng-controller="AddOrUpdateVendorController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Update vendor
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a href="/Vendor/List/">back to vendor list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button class="btn bg-blue" ng-click="OnSavevendor(event)">
+                <i class="fa fa-floppy-o"></i>
+                Save
+            </button>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="form-horizontal">
+            <div id="customer-edit" class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabDetail" data-toggle="tab" data-tab-name="tabDetail">Vendor Detail</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabDetail">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    @Html.Partial("_AddOrUpdateVendor", Model)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/JS/Vendor/AddOrUpdateController.js"></script>
+
+}
+
+
+
+
+
+
+
+

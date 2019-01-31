@@ -1,0 +1,224 @@
+﻿
+@model  ProERP.Web.Models.PreventiveMaintenanceViewModel
+@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("PreventiveMaintenance");
+}
+
+<div ng-controller="PMController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Preventive Maintenance</h1>
+        <div class="pull-right">
+            <a class="btn bg-blue" href="/PreventiveMaintenance/Add/">
+                <i class="fa fa-plus-square"></i>
+                Add New
+            </a>
+            <button class="btn bg-red" ng-click="onDelete(event)">
+                <i class="fa fa-trash-o"></i>
+                Delete (selected)
+            </button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Machine Name</label>
+                                                <div title="A machine name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input name="SearchMachineName" ng-model="SearchMachineName" class="form-control text-box single-line" id="SearchMachineName" type="text" value="" width="100" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Plant </label>
+                                                <div title="A plant name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <jqx-drop-down-list id="ddlPlant"
+                                                                jqx-width="200"
+                                                                jqx-height="30"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="PlantSource"
+                                                                jqx-instance="ddlPlant"
+                                                                jqx-theme="theme"
+                                                                jqx-on-change="onPlantChange(event)"
+                                                                jqx-on-binding-complete="onPlantBindingComplete(event)"
+                                                                ng-model="PlantId"></jqx-drop-down-list>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Line</label>
+                                                <div title="select line" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <jqx-drop-down-list jqx-width="200"
+                                                                jqx-height="30"
+                                                                jqx-auto-bind="false"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="LineSource"
+                                                                jqx-instance="ddlLine"
+                                                                jqx-theme="theme"
+                                                                jqx-on-change="onLineChange(event)"
+                                                                jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Machine</label>
+                                                <div title="select line" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <jqx-combo-box      jqx-width="200"
+                                                                jqx-height="30"
+                                                                jqx-auto-bind="false"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="MachineSource"
+                                                                jqx-instance="MachineInstance"
+                                                                jqx-search-mode="'containsignorecase'"
+                                                                jqx-auto-complete="true"
+                                                                jqx-theme="theme"
+                                                                jqx-on-binding-complete="onBindingMachine(event)"></jqx-combo-box>
+
+                                        </div>
+                                    </div>
+                                </div>*@
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Schedule Type</label>
+                                                <div title="ScheduleType" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <jqx-drop-down-list ng-model="model.ScheduleType"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Description'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="ScheduleSource"
+                                                                jqx-width="200"
+                                                                jqx-height="30"
+                                                                jqx-theme="theme"
+                                                                jqx-instance="ddlScheduleType"
+                                                                jqx-on-binding-complete="onScheduleTypeBindingComplete(event)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+
+                                        </div>
+                                        <div class="col-md-7">
+                                            <button class="btn btn-primary btn-search" id="searchPM" type="button" ng-click="onSearch(event)">
+                                                <i class="fa fa-search"></i>
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right pad">
+                            <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                                <i class="fa fa-refresh"></i>
+                                Refresh
+                            </button>
+                            <button type="button" class="btn bg-blue" ng-click="OnExport('excel')"><i class="fa fa-file-excel-o"></i>&nbsp;Export</button>
+                        </div>
+                        <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                                  jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme" jqx-editable="true"
+                                  jqx-source="PM" jqx-settings="PMGrid" jqx-selection-mode="checkbox" jqx-instance="GridPM"
+                                  jqx-columns="[          
+                                            
+                                            { text: 'Machine Name', datafield: 'MachineName' ,editable: false },
+                                            { text: 'Work Description', datafield: 'WorkName',editable: false },
+                                            { text: 'Check Point', datafield: 'Checkpoints',  width: 100 ,editable: false},
+                                            { text: 'Schedule Name', datafield: 'ScheduleTypeName', width: 100 ,editable: false},
+                                            { text: 'Frequency', datafield: 'Interval', width: 100 ,editable: false},
+                                            { text: 'Shutdown Required', datafield: 'ShutdownRequired', width: 120 ,editable: false},
+                                            { text: 'Schedule StartDate', datafield: 'ScheduleStartDate',  width: 120 ,editable: false,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Schedule EndDate', datafield: 'ScheduleEndDate',  width: 120,editable: false ,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Severity', datafield: 'Severity', editable: false, width: 120 },
+                                            { text: 'Observation', datafield: 'IsObservation', columntype: 'checkbox',editable: true, filterable: false},
+                                            { text: '', width: 70, cellsrenderer: UpdatePM,sortable: false,editable: false}]"></jqx-grid>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/js/PrventiveMaintanace/ListController.js"></script>
+}
+
+
+
+
+

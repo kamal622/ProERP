@@ -1,0 +1,193 @@
+﻿@model  ProERP.Web.Models.UtilityDetailsViewModel
+<div class="nav-tabs-custom">
+    <div class="tab-content" style="height: 355px;">
+        <div id="tab1" class="tab-pane active">
+            <div class="panel-group">
+                <div class="panel panel-default" >
+                    <jqx-validator jqx-instance="UtilityColumnValidator" jqx-hint-type="'label'" jqx-rules="UtilityColumnRules">
+                    <div class="row form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Column Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <jqx-input ng-model="model.ColumnName" jqx-height="25" jqx-width="180" jqx-theme="theme" id="txtColumnName" />
+                            </div>
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="DataType" class="control-label">Data Type</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <jqx-drop-down-list ng-model="model.DataType"
+                                                jqx-auto-drop-down-height="true"
+                                                jqx-display-member="'Description'"
+                                                jqx-value-member="'Id'"
+                                                jqx-source="[{Id:1,Description:'Integer'},{Id:2,Description:'Date'},{Id:3,Description:'Decimal'},{Id:4,Description:'String'},{Id:5,Description:'Boolean'},{Id:6,Description:'Time'}]"
+                                                jqx-width="180"
+                                                jqx-height="25"
+                                                jqx-theme="theme"
+                                                jqx-instance="dllDatatype"
+                                                id="dllDatatype" />
+                            </div>
+                           
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="GroupName" class="control-label">Group Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <jqx-input ng-model="model.GroupName" jqx-height="25" jqx-width="180" jqx-theme="theme" id="txtGroupName" />
+                            </div>
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="GroupName" class="control-label">Required</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" id="btnRequiedYes" name="RbtnRequired" ng-model="model.IsRequired" ng-value="true" ng-checked="true" /><label for="btnRequiedYes">&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;
+                                <input type="radio" id="btnRequiedNo" name="RbtnRequired" ng-model="model.IsRequired" ng-value="false" /><label for="btnRequiedNo">&nbsp;No</label>
+                            </div>
+
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="GroupName" class="control-label">IsAggregate</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" id="btnAggregateYes" name="RbtnAggregate" ng-model="model.IsAggregate" ng-click="Aggregate('True')" ng-value="true" /><label for="btnAggregateYes">&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;
+                                <input type="radio" id="btnAggregateNo" name="RbtnAggregate" ng-model="model.IsAggregate" ng-click="Aggregate('false')" ng-value="false" ng-checked="true" /><label for="btnAggregateNo">&nbsp;No</label>
+                            </div>
+                            <div class="col-md-2" ng-show="IsAggregateFunction">
+                                <div class="label-wrapper">
+                                    <label title="DataType" class="control-label">AggregateFunction</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-show="IsAggregateFunction">
+                                <jqx-drop-down-list ng-model="model.AggregateFunction"
+                                                    jqx-display-member="'Description'"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-width="180"
+                                                    jqx-height="25"
+                                                    jqx-source="[{Id:1,Description:'None'},{Id:2,Description:'SUM'},{Id:3,Description:'AVG'},{Id:4,Description:'MAX'},{Id:5,Description:'MIN'}]"
+                                                    jqx-theme="theme"
+                                                    jqx-instance="dllAggregateype" />
+                            </div>
+
+                           
+
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="GroupName" class="control-label">SearchColumn</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" id="btnSearchYes" name="RbtnSearch" ng-model="model.IsSearchColumn" ng-value="true" /><label for="btnSearchYes">&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;
+                                <input type="radio" id="btnSearchNo" name="RbtnSearch" ng-model="model.IsSearchColumn" ng-value="false" ng-checked="true" /><label for="btnSearchNo">&nbsp;No</label>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="DataType" class="control-label">Editable</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="radio" id="btnEditableYes" name="RbtnEdit" ng-model="model.IsEditable" ng-value="true" /><label for="btnEditableYes">&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;
+                                <input type="radio" id="btnEditableNo" name="RbtnEdit" ng-model="model.IsEditable" ng-value="false" ng-checked="true" /><label for="btnEditableNo">&nbsp;No</label>
+                            </div>
+                           
+                        </div>
+
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <div class="label-wrapper">
+                                <label title="GroupName" class="control-label">OnChangeFormula</label>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea name="Description" class="form-control" style="height: 55px;width:530px" ng-model="model.OnChangeFormula"></textarea>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-2">
+                            <div class="label-wrapper">
+                                <label title="GroupName" class="control-label">AutoGenerated</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="radio" id="btnAutoYes" name="RbtnAuto" ng-model="model.IsAutoGenerated" ng-value="true" /><label for="btnAutoYes">&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" id="btnAutoNo" name="RbtnAuto" ng-model="model.IsAutoGenerated" ng-value="false" ng-checked="true" /><label for="btnAutoNo">&nbsp;No</label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="label-wrapper">
+                                <label title="DataType" class="control-label">OrderBy</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="radio" id="btnOrderYes" name="RbtnOrder" ng-model="model.IsOrderBy" ng-value="true" /><label for="btnOrderYes">&nbsp;Yes</label>&nbsp;&nbsp;&nbsp;
+                            <input type="radio" id="btnOrderNo" name="RbtnOrder" ng-model="model.IsOrderBy" ng-value="false" ng-checked="true" /><label for="btnOrderNo">&nbsp;No</label>
+                        </div>
+                    </div>
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="GroupName" class="control-label">Width</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                @*<jqx-number-input jqx-instance="txtWidth" ng-model="model.Width" jqx-height="25" jqx-width="180" jqx-max="1000" jqx-theme="theme" id="txtWidth"></jqx-number-input>*@
+                                 <jqx-input ng-model="model.Width" jqx-height="25" jqx-width="180" jqx-theme="theme" id="txtWidth" />
+                            </div>
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="DataType" class="control-label">DefaultValue</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <jqx-input ng-model="model.DefaultValue" jqx-height="25" jqx-width="180" jqx-theme="theme" id="txtDefaultValue" />
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @*<div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="DataType" class="control-label">Order Number</label>
+                                </div>
+                            </div>*@
+                            @*<div class="col-md-4">
+                                <jqx-input ng-model="model.OrderNo" jqx-height="25" jqx-width="200" jqx-theme="theme" id="txtOrderNo" />
+                            </div>*@
+                            @*<div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="DataType" class="control-label">FixColumnId</label>
+                                </div>
+                            </div>*@
+                            @*<div class="col-md-4">
+                                <jqx-drop-down-list ng-model="model.FixColumnId"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Description'"
+                                    jqx-value-member="'Id'"
+                                    jqx-source="[{Id:1,Description:'Plant'},{Id:2,Description:'Line'},{Id:3,Description:'None'}]"
+                                    jqx-width="200"
+                                    jqx-height="25"
+                                    jqx-theme="theme"
+                                    jqx-instance="dllFixColumnId" />
+                            </div>*@
+                        </div>
+                    </jqx-validator>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>    

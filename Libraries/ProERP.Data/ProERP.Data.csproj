@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D261BA8A-2621-4257-B516-ACC4268B27A6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProERP.Data</RootNamespace>
+    <AssemblyName>ProERP.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EfRepository.cs" />
+    <Compile Include="IDbContext.cs" />
+    <Compile Include="Models\BreakDown.cs" />
+    <Compile Include="Models\BreakDownAttachment.cs" />
+    <Compile Include="Models\BreakDownMenPower.cs" />
+    <Compile Include="Models\BreakDownService.cs" />
+    <Compile Include="Models\BreakDownSpare.cs" />
+    <Compile Include="Models\BreakDownType.cs" />
+    <Compile Include="Models\BreakDownUploadHistory.cs" />
+    <Compile Include="Models\ColourSpecification.cs" />
+    <Compile Include="Models\CurrencyMaster.cs" />
+    <Compile Include="Models\DailyPackingDetail.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\DocumentAction.cs" />
+    <Compile Include="Models\DocumentHistory.cs" />
+    <Compile Include="Models\DocumentType.cs" />
+    <Compile Include="Models\EmployeeType.cs" />
+    <Compile Include="Models\FormulationChangedHistory.cs" />
+    <Compile Include="Models\FormulationMaster.cs" />
+    <Compile Include="Models\FormulationRequest.cs" />
+    <Compile Include="Models\FormulationRequestClose.cs" />
+    <Compile Include="Models\FormulationRequestsChangeHistory.cs" />
+    <Compile Include="Models\FormulationRequestsDetail.cs" />
+    <Compile Include="Models\FormulationRequestsStatu.cs" />
+    <Compile Include="Models\Indent.cs" />
+    <Compile Include="Models\IndentBudget.cs" />
+    <Compile Include="Models\IndentDetail.cs" />
+    <Compile Include="Models\IndentDetailAttachment.cs" />
+    <Compile Include="Models\IndentStatu.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemCategory.cs" />
+    <Compile Include="Models\Line.cs" />
+    <Compile Include="Models\LineMachineActiveHistory.cs" />
+    <Compile Include="Models\Machine.cs" />
+    <Compile Include="Models\MachineReading.cs" />
+    <Compile Include="Models\MachineType.cs" />
+    <Compile Include="Models\MaintanceRequestStatu.cs" />
+    <Compile Include="Models\MaintenancePriorityType.cs" />
+    <Compile Include="Models\MaintenanceRequest.cs" />
+    <Compile Include="Models\MaintenanceUserAssignment.cs" />
+    <Compile Include="Models\Mapping\BreakDownAttachmentMap.cs" />
+    <Compile Include="Models\Mapping\BreakDownMap.cs" />
+    <Compile Include="Models\Mapping\BreakDownMenPowerMap.cs" />
+    <Compile Include="Models\Mapping\BreakDownServiceMap.cs" />
+    <Compile Include="Models\Mapping\BreakDownSpareMap.cs" />
+    <Compile Include="Models\Mapping\BreakDownTypeMap.cs" />
+    <Compile Include="Models\Mapping\BreakDownUploadHistoryMap.cs" />
+    <Compile Include="Models\Mapping\ColourSpecificationMap.cs" />
+    <Compile Include="Models\Mapping\CurrencyMasterMap.cs" />
+    <Compile Include="Models\Mapping\DailyPackingDetailMap.cs" />
+    <Compile Include="Models\Mapping\DocumentActionMap.cs" />
+    <Compile Include="Models\Mapping\DocumentHistoryMap.cs" />
+    <Compile Include="Models\Mapping\DocumentMap.cs" />
+    <Compile Include="Models\Mapping\DocumentTypeMap.cs" />
+    <Compile Include="Models\Mapping\EmployeeTypeMap.cs" />
+    <Compile Include="Models\Mapping\FormulationChangedHistoryMap.cs" />
+    <Compile Include="Models\Mapping\FormulationMasterMap.cs" />
+    <Compile Include="Models\Mapping\FormulationRequestCloseMap.cs" />
+    <Compile Include="Models\Mapping\FormulationRequestMap.cs" />
+    <Compile Include="Models\Mapping\FormulationRequestsChangeHistoryMap.cs" />
+    <Compile Include="Models\Mapping\FormulationRequestsDetailMap.cs" />
+    <Compile Include="Models\Mapping\FormulationRequestsStatuMap.cs" />
+    <Compile Include="Models\Mapping\IndentBudgetMap.cs" />
+    <Compile Include="Models\Mapping\IndentDetailAttachmentMap.cs" />
+    <Compile Include="Models\Mapping\IndentDetailMap.cs" />
+    <Compile Include="Models\Mapping\IndentMap.cs" />
+    <Compile Include="Models\Mapping\IndentStatuMap.cs" />
+    <Compile Include="Models\Mapping\ItemCategoryMap.cs" />
+    <Compile Include="Models\Mapping\ItemMap.cs" />
+    <Compile Include="Models\Mapping\LineMachineActiveHistoryMap.cs" />
+    <Compile Include="Models\Mapping\LineMap.cs" />
+    <Compile Include="Models\Mapping\MachineMap.cs" />
+    <Compile Include="Models\Mapping\MachineReadingMap.cs" />
+    <Compile Include="Models\Mapping\MachineTypeMap.cs" />
+    <Compile Include="Models\Mapping\MaintanceRequestStatuMap.cs" />
+    <Compile Include="Models\Mapping\MaintenancePriorityTypeMap.cs" />
+    <Compile Include="Models\Mapping\MaintenanceRequestMap.cs" />
+    <Compile Include="Models\Mapping\MaintenanceUserAssignmentMap.cs" />
+    <Compile Include="Models\Mapping\MSreplication_optionsMap.cs" />
+    <Compile Include="Models\Mapping\OrderMap.cs" />
+    <Compile Include="Models\Mapping\PartMap.cs" />
+    <Compile Include="Models\Mapping\PlantBudgetMap.cs" />
+    <Compile Include="Models\Mapping\PlantMap.cs" />
+    <Compile Include="Models\Mapping\PLMMVersionMap.cs" />
+    <Compile Include="Models\Mapping\PreventiveHoldHistoryMap.cs" />
+    <Compile Include="Models\Mapping\PreventiveMaintenanceMap.cs" />
+    <Compile Include="Models\Mapping\PreventiveReviewHistoryMap.cs" />
+    <Compile Include="Models\Mapping\PreventiveScheduleTypeMap.cs" />
+    <Compile Include="Models\Mapping\PreventiveWorkDescriptionMap.cs" />
+    <Compile Include="Models\Mapping\ProcessLogSheet1Map.cs" />
+    <Compile Include="Models\Mapping\ProcessLogSheet2Map.cs" />
+    <Compile Include="Models\Mapping\ProductCategoryMap.cs" />
+    <Compile Include="Models\Mapping\ProductMasterMap.cs" />
+    <Compile Include="Models\Mapping\PurchaseMap.cs" />
+    <Compile Include="Models\Mapping\QASpecificationMap.cs" />
+    <Compile Include="Models\Mapping\QAStatuMap.cs" />
+    <Compile Include="Models\Mapping\QOSLineMap.cs" />
+    <Compile Include="Models\Mapping\ReadingDataMap.cs" />
+    <Compile Include="Models\Mapping\RMItemMap.cs" />
+    <Compile Include="Models\Mapping\RMRequestDetailMap.cs" />
+    <Compile Include="Models\Mapping\RMRequestMasterMap.cs" />
+    <Compile Include="Models\Mapping\RMRequestStatuMap.cs" />
+    <Compile Include="Models\Mapping\RoleMap.cs" />
+    <Compile Include="Models\Mapping\SectionMap.cs" />
+    <Compile Include="Models\Mapping\SequenceMap.cs" />
+    <Compile Include="Models\Mapping\SettingMap.cs" />
+    <Compile Include="Models\Mapping\ShutdownHistoryMap.cs" />
+    <Compile Include="Models\Mapping\SiteMap.cs" />
+    <Compile Include="Models\Mapping\SpareTypeMap.cs" />
+    <Compile Include="Models\Mapping\spt_fallback_dbMap.cs" />
+    <Compile Include="Models\Mapping\spt_fallback_devMap.cs" />
+    <Compile Include="Models\Mapping\spt_fallback_usgMap.cs" />
+    <Compile Include="Models\Mapping\spt_monitorMap.cs" />
+    <Compile Include="Models\Mapping\spt_valuesMap.cs" />
+    <Compile Include="Models\Mapping\StatusMap.cs" />
+    <Compile Include="Models\Mapping\SubAssemblyMap.cs" />
+    <Compile Include="Models\Mapping\TemplateFixColumnMap.cs" />
+    <Compile Include="Models\Mapping\TemplateMap.cs" />
+    <Compile Include="Models\Mapping\TemplateMappingMap.cs" />
+    <Compile Include="Models\Mapping\UserAssignmentMap.cs" />
+    <Compile Include="Models\Mapping\UserClaimMap.cs" />
+    <Compile Include="Models\Mapping\UserLoginMap.cs" />
+    <Compile Include="Models\Mapping\UserMap.cs" />
+    <Compile Include="Models\Mapping\UserProfileMap.cs" />
+    <Compile Include="Models\Mapping\UserRoleMap.cs" />
+    <Compile Include="Models\Mapping\VendorCategoryMap.cs" />
+    <Compile Include="Models\Mapping\VendorMap.cs" />
+    <Compile Include="Models\Mapping\VersionNoteMap.cs" />
+    <Compile Include="Models\Mapping\WIPStoreItemMap.cs" />
+    <Compile Include="Models\Mapping\WIPStoreMap.cs" />
+    <Compile Include="Models\masterContext.cs" />
+    <Compile Include="Models\MSreplication_options.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Part.cs" />
+    <Compile Include="Models\Plant.cs" />
+    <Compile Include="Models\PlantBudget.cs" />
+    <Compile Include="Models\PLMMContext.cs" />
+    <Compile Include="Models\PLMMVersion.cs" />
+    <Compile Include="Models\PLPMContext.cs" />
+    <Compile Include="Models\PreventiveHoldHistory.cs" />
+    <Compile Include="Models\PreventiveMaintenance.cs" />
+    <Compile Include="Models\PreventiveReviewHistory.cs" />
+    <Compile Include="Models\PreventiveScheduleType.cs" />
+    <Compile Include="Models\PreventiveWorkDescription.cs" />
+    <Compile Include="Models\ProcessLogSheet1.cs" />
+    <Compile Include="Models\ProcessLogSheet2.cs" />
+    <Compile Include="Models\ProductCategory.cs" />
+    <Compile Include="Models\ProductMaster.cs" />
+    <Compile Include="Models\Purchase.cs" />
+    <Compile Include="Models\QASpecification.cs" />
+    <Compile Include="Models\QAStatu.cs" />
+    <Compile Include="Models\QOSLine.cs" />
+    <Compile Include="Models\ReadingData.cs" />
+    <Compile Include="Models\RMItem.cs" />
+    <Compile Include="Models\RMRequestDetail.cs" />
+    <Compile Include="Models\RMRequestMaster.cs" />
+    <Compile Include="Models\RMRequestStatu.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Section.cs" />
+    <Compile Include="Models\Sequence.cs" />
+    <Compile Include="Models\Setting.cs" />
+    <Compile Include="Models\ShutdownHistory.cs" />
+    <Compile Include="Models\Site.cs" />
+    <Compile Include="Models\SpareType.cs" />
+    <Compile Include="Models\spt_fallback_db.cs" />
+    <Compile Include="Models\spt_fallback_dev.cs" />
+    <Compile Include="Models\spt_fallback_usg.cs" />
+    <Compile Include="Models\spt_monitor.cs" />
+    <Compile Include="Models\spt_values.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\SubAssembly.cs" />
+    <Compile Include="Models\Template.cs" />
+    <Compile Include="Models\TemplateFixColumn.cs" />
+    <Compile Include="Models\TemplateMapping.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserAssignment.cs" />
+    <Compile Include="Models\UserClaim.cs" />
+    <Compile Include="Models\UserLogin.cs" />
+    <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\Vendor.cs" />
+    <Compile Include="Models\VendorCategory.cs" />
+    <Compile Include="Models\VersionNote.cs" />
+    <Compile Include="Models\WIPStore.cs" />
+    <Compile Include="Models\WIPStoreItem.cs" />
+    <Compile Include="ProERPContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProERP.Core\ProERP.Core.csproj">
+      <Project>{c79868d6-f120-4157-9fe0-218fc3f700c8}</Project>
+      <Name>ProERP.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Context.tt" />
+    <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Entity.tt" />
+    <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Mapping.tt" />
+    <Content Include="SQLScripts\DBChanges.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

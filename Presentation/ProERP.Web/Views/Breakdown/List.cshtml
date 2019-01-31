@@ -1,0 +1,466 @@
+﻿@using ProERP.Web.Framework.UI;
+
+@model ProERP.Web.Models.BreakdownViewModel
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Breakdowns");
+}
+
+<div ng-controller="BreakdownListController">
+    <!-- Content Header (Page header) -->
+    <section class="content-header  clearfix">
+        <h1>
+            Breakdowns
+            <small>Breakdown Analysis</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Breakdown Analysis</li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label" for="SearchSiteName">Site Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            @Html.DropDownListFor(m => m.SiteId, new SelectList(Model.SiteList, "Id", "Name"), new { id = "ddlSite", jqx_instance = "ddlSite", jqx_drop_down_list = "ddlSite", jqx_width = 200, jqx_height = 33, jqx_theme = "theme", jqx_disabled = "DisableSiteList" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label" for="SearchSiteName">Plant Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <jqx-drop-down-list id="ddlPlant" jqx-instance="ddlPlant" jqx-source="plantDataSource" jqx-display-member="'Name'" jqx-value-member="'Id'" jqx-width="200" jqx-height="33" jqx-theme="theme" jqx-selected-index="0" jqx-on-select="onSelect(event)" jqx-on-binding-complete="PlantBindingComplete(event)"></jqx-drop-down-list>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label" for="SearchSiteName">Date</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <jqx-date-time-input jqx-instance="dtpSearchDate" jqx-width="200" jqx-height="33"
+                                                                 jqx-selection-mode="'range'" jqx-theme="theme" jqx-created="SearchDateCreated"></jqx-date-time-input>
+                                        </div>
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-5">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+
+                                        </div>
+                                        <div class="col-md-10">
+                                            <button class="btn btn-primary btn-search" id="searchSites" type="button" ng-click="onSearchClick()">
+                                                <i class="fa fa-search"></i>
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li ng-class="{active: $index == 0}" ng-repeat="line in LineList">
+                                <a href="#tabDetail_{{line.Id}}" data-toggle="tab" data-tab-name="{{line.Name}}">{{line.Name}}</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div ng-class="{'tab-pane': true, active: $index == 0}" id="tabDetail_{{line.Id}}" ng-repeat="line in LineList">
+                                <div class="panel-group">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="pull-right pad">
+                                                <button id="btnRefresh_{{line.Id}}" class="btn bg-" type="button" ng-click="onRefreshClick(this)">
+                                                    <i class="fa fa-refresh"></i>
+                                                    Refresh
+                                                </button>
+
+                                                <button id="btnExport_{{line.Id}}" class="btn bg-blue" type="button" ng-click="onExportClick(this)">
+                                                    <i class="fa fa-file-excel-o"></i>
+                                                    Export
+                                                </button>
+
+                                                <button id="btnSave_{{line.Id}}" class="btn bg-blue" type="button" ng-click="onSaveClick(this)">
+                                                    <i class="fa fa-save"></i>
+                                                    Save
+                                                </button>
+
+                                                @if (User.IsInRole("Lavel1") || User.IsInRole("Lavel2"))
+                                                {
+                                                    <button class="btn bg-red" ng-click="onDeleteClick(this)">
+                                                        <i class="fa fa-trash-o"></i>
+                                                        Delete (selected)
+                                                    </button>
+                                                }
+                                            </div>
+                                            <jqx-grid data-id="grdMain_{{line.Id}}"
+                                                 jqx-altrows="true"
+                                                 jqx-width="'100%'"
+                                                 jqx-sortable="true"
+                                                 @*jqx-pageable="true"
+                                                    jqx-pagesize="GridPageSize"
+                                                    jqx-pagesizeoptions="GridPageSizeOption"*@
+                                                 jqx-theme="theme"
+                                                 jqx-editable="true"
+                                                 @*jqx-autorowheight="true"*@
+                                                 jqx-autoheight="true"
+                                                 jqx-selectionmode="'checkbox'"
+                                                 jqx-source="GridSource{{line.Id}}"
+                                                 jqx-columns="BreakdownColumns"
+                                                 jqx-columngroups="BreakdownGroupColumns"
+                                                 jqx-editmode="'click'"></jqx-grid>
+                                            <div class="pull-right pad">
+                                                <button id="btnAddNew_{{line.Id}}" class="btn bg-blue" type="button" ng-click="onAddNewClick(this)">
+                                                    <i class="fa fa-plus"></i>
+                                                    Add Rows
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <jqx-window jqx-height="700" jqx-width="620" jqx-auto-open="false" jqx-animation-type="'slide'" jqx-is-modal="true" jqx-theme="theme"
+                                jqx-instance="WinSpares">
+                        <div>
+                            Spares Used
+                        </div>
+                        <div>
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#tab1" data-toggle="tab" data-tab-name="Service">Service</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab2" data-toggle="tab" data-tab-name="Men Power">Man Power</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab3" data-toggle="tab" data-tab-name="Part">Part</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab4" data-toggle="tab" data-tab-name="Attachment">Attachment</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab1" class="tab-pane active">
+                                        <div class="panel-group">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body form-horizontal">
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Vendor</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control" ng-model="ServiceItem.VendorName" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Cost</label>
+                                                        <div class="col-md-9">
+                                                            <jqx-number-input jqx-width="250" jqx-height="30" jqx-spin-buttons="true" ng-model="ServiceItem.Cost" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Comments</label>
+                                                        <div class="col-md-9">
+                                                            <textarea rows="2" class="form-control" ng-model="ServiceItem.Comments"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group pull-right ">
+                                                        <div class="col-md-12">
+                                                            <jqx-button jqx-theme="theme" jqx-height="30" jqx-width="100" jqx-instance="BtnAdd" ng-click="AddServiceClick()">Add</jqx-button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <jqx-grid jqx-width="'100%'" jqx-height="150" jqx-theme="theme" jqx-selectionmode="'none'"
+                                                                      jqx-instance="GrdService" jqx-source="ServiceGridSource" jqx-auto-bind="false"
+                                                                      jqx-columns="[
+                                                                                    { text: 'Id', datafield: 'Id',hidden:'true'},
+                                                                                    { text: 'BreakDownId', datafield: 'BreakDownId',hidden:'true'},
+                                                                                    { text: 'Vendor', datafield: 'VendorName'},
+                                                                                    { text: 'Cost', datafield: 'Cost', width:100},
+                                                                                    { text: 'Delete', width: 50, align: 'center', columntype:'button', buttonclick: ServiceDelete, cellsrenderer: DeleteServiceCellRenderer}]"></jqx-grid>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab2" class="tab-pane">
+                                        <div class="panel-group">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body form-horizontal">
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Name</label>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control" ng-model="MenPowerItem.Name" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Employee Type</label>
+                                                        <div class="col-md-9">
+                                                            <jqx-drop-down-list jqx-ng-model ng-model="MenPowerItem.EmployeeType"
+                                                                                jqx-width="250"
+                                                                                jqx-height="30"
+                                                                                jqx-instance="ddlEmployeeType"
+                                                                                jqx-auto-drop-down-height="true"
+                                                                                jqx-display-member="'Type'"
+                                                                                jqx-value-member="'Id'"
+                                                                                jqx-source="EmployeeTypeSource">
+                                                            </jqx-drop-down-list>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Over Time?</label>
+                                                        <div class="col-md-9">
+                                                            <jqx-check-box ng-model="checked" aria-label="Toggle ngHide" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" ng-show="checked">
+                                                        <label title="" class="control-label col-md-3">Rate/Hr.</label>
+                                                        <div class="col-md-3">
+                                                            <jqx-number-input jqx-width="250" jqx-height="30" jqx-spin-buttons="true" jqx-min="0" jqx-max="999" ng-model="MenPowerItem.HourlyRate" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Comments</label>
+                                                        <div class="col-md-9">
+                                                            <textarea rows="2" class="form-control" ng-model="MenPowerItem.Comments"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group pull-right ">
+                                                        <div class="col-md-12">
+                                                            <jqx-button jqx-theme="theme" jqx-height="33" jqx-width="100" jqx-instance="BtnAdd" jqx-on-click="AddMenPowerClick()">Add</jqx-button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <jqx-grid jqx-width="'100%'" jqx-height="200" jqx-theme="theme"
+                                                                      jqx-instance="GrdMenPower" jqx-source="MenPoweGridSource" jqx-auto-bind="false"
+                                                                      jqx-columns="[
+                                                                                    { text: 'Id', datafield: 'Id',hidden:'true'},
+                                                                                    { text: 'BreakDownId', datafield: 'BreakDownId',hidden:'true'},
+                                                                                    { text: 'Name', datafield: 'Name'},
+                                                                                    { text: 'Employee Type', datafield: 'EmployeeType' ,width:150},
+                                                                                    { text: 'OverTime', datafield: 'IsOverTime', hidden:'true'},
+                                                                                    { text: 'HourlyRate', datafield: 'HourlyRate', width:'80'},
+                                                                                    { text: 'Delete', width: 50, align: 'center',columntype:'button', sortable: false, editable: false, buttonclick: MenPowerDelete, cellsrenderer: DeleteMenPowerCellRenderer}
+                                                                                     ]"></jqx-grid>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab3" class="tab-pane">
+                                        <div class="panel-group">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body form-horizontal">
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Part</label>
+                                                        <div class="col-md-6">
+                                                            <jqx-combo-box jqx-ng-model ng-model="PartItem.Part"
+                                                                           jqx-width="200"
+                                                                           jqx-height="30"
+                                                                           jqx-auto-drop-down-height="true"
+                                                                           jqx-display-member="'Name'"
+                                                                           jqx-value-member="'Id'"
+                                                                           jqx-source="PartSource"
+                                                                           jqx-instance="ddlpart"
+                                                                           jqx-search-mode="'containsignorecase'"
+                                                                           jqx-auto-complete="false"
+                                                                           @*jqx-auto-bind="false"*@
+                                                                           jqx-theme="theme"></jqx-combo-box>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <jqx-button jqx-theme="theme" jqx-height="33" jqx-width="80" jqx-instance="BtnAddNew" jqx-on-click="AddNewPartClick()">Add New</jqx-button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Quantity</label>
+                                                        <div class="col-md-6">
+                                                            <jqx-number-input jqx-width="250" jqx-height="30" jqx-spin-buttons="true" jqx-min="0" ng-model="PartItem.Quantity" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label title="" class="control-label col-md-3">Comments</label>
+                                                        <div class="col-md-9">
+                                                            <textarea rows="2" class="form-control" ng-model="PartItem.Comments"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group pull-right pad">
+                                                        <div class="col-md-12">
+                                                            <jqx-button jqx-theme="theme" jqx-height="33" jqx-width="100" jqx-instance="BtnAdd" jqx-on-click="AddPartClick()">Add</jqx-button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <jqx-grid jqx-width="'100%'" jqx-height="200" jqx-theme="theme"
+                                                                      jqx-instance="GrdPart" jqx-source="PartGridSource" jqx-auto-bind="false"
+                                                                      jqx-columns="[
+
+                                                                                    { text: 'Id', datafield: 'Id',hidden:'true'},
+                                                                                    { text: 'BreakDownId', datafield: 'BreakDownId',hidden:'true'},
+                                                                                    { text: 'Part Name', datafield: 'PartName', width: 150},
+                                                                                    { text: 'Description', datafield: 'Comments'},
+                                                                                    { text: 'Quantity', datafield: 'Quantity'},
+                                                                                    { text: 'Delete', width: 50, align: 'center',columntype:'button', sortable: false, editable: false,buttonclick: PartDelete, cellsrenderer: DeletePartCellRenderer}
+                                                                                    ]"></jqx-grid>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab4" class="tab-pane">
+                                        <div class="panel-group">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body form-horizontal">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <jqx-file-upload jqx-instance="ddlAttachment" jqx-theme="theme"
+                                                                             jqx-auto-upload="true"
+                                                                             jqx-accept="'image/*'"
+                                                                             jqx-multiple-files-upload="false"
+                                                                             jqx-upload-url="'@Url.Content("~/Breakdown/UploadBreakdownAttachments")'"
+                                                                             jqx-file-input-name="fileToUpload"
+                                                                             jqx-on-upload-end="BDAttachment_UploadEnd(event)" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <jqx-grid jqx-theme="theme" jqx-width="'100%'" jqx-height="350" jqx-auto-bind="false"
+                                                                      jqx-instance="GrdAttachment" jqx-source="AttachmentGridSource"
+                                                                      jqx-columns="[
+                                                                                    { text: 'Id', datafield: 'Id',hidden:'true'},
+                                                                                    { text: 'File Name', datafield: 'OriginalFileName'},
+                                                                                    { text: 'View', width: 100, columntype:'button', align: 'center', cellsrenderer: DownloadAttachmentCellRenderer, buttonclick: ViewImageClick},
+                                                                                    { text: 'Delete', width: 100, align: 'center', columntype:'button', buttonclick: DeleteAttachment, cellsrenderer: DeleteAttachmentCellRenderer}]"></jqx-grid>
+                                                        </div>
+                                                        <jqx-window jqx-instance="ImgWindow" jqx-height="630" jqx-width="720" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+                                                            <div>
+                                                                <span id="spanTitle"></span>
+                                                                @*{{ImageOriginalName}}*@
+                                                            </div>
+                                                            <div style="display: table-cell;text-align: center;vertical-align: middle;">
+                                                                @*<img alt="image" ng-src="data:image/png;base64,{{ImageData}}" align="middle" />*@
+                                                                <img id="imgView" alt="image" align="middle" />
+                                                            </div>
+                                                        </jqx-window>
+                                                        <!-- Modal -->
+                                                        @*<div class="modal fade" id="imgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                            <h4 class="modal-title" id="myModalLabel">{{ImageOriginalName}}</h4>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <img alt="image" ng-src="data:image/png;base64,{{ImageData}}" />
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </jqx-window>
+                    <jqx-window jqx-instance="Mainwindow" jqx-height="300" jqx-width="500" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+                        <div>
+                            Add New Part
+                        </div>
+                        <div>
+                            <div class="panel-body form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <div class="label-wrapper">
+                                            <label title="PartName" class="control-label">Part Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+
+                                        <jqx-text-area jqx-height="30"
+                                                       jqx-theme="theme"
+                                                       ng-model="Name"></jqx-text-area>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <div class="label-wrapper">
+                                            <label title="Note description" class="control-label">Description</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <jqx-text-area jqx-width="'100%'"
+                                                       jqx-height="100"
+                                                       jqx-theme="theme"
+                                                       ng-model="Description" />
+                                    </div>
+                                </div>
+                                <div class="form-group pull-right pad">
+                                    <button class="btn bg-blue" ng-click="onNewPartSave($event)">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </jqx-window>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="~/js/Breakdown/ListController.js"></script>
+}
+

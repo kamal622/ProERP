@@ -1,0 +1,240 @@
+﻿
+@model  ProERP.Services.Models.MachineViewModel
+
+<div jqx-validator jqx-instance="MachineValidator" jqx-hint-type="'label'" jqx-rules="Rules">
+    <div class="form-group" ng-show="false">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Site</label>
+                <div title="A plant name" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <jqx-drop-down-list ng-model="model.SiteId"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="SiteSource"
+                                jqx-instance="ddlSite"
+                                jqx-selected-index="0"
+                                jqx-disabled="DisableSiteList"
+                                jqx-theme="theme"
+                                jqx-on-change="onSiteChange(event)"
+                                jqx-on-binding-complete="onSiteBindingComplete(event)"></jqx-drop-down-list>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Plant</label>
+                <div title="select plant" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <jqx-drop-down-list ng-model="model.PlantId"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="PlantSource"
+                                jqx-instance="ddlPlant"
+                                jqx-auto-bind="true"
+                                jqx-theme="theme"
+                                jqx-on-change="onPlantChange(event)"
+                                jqx-on-binding-complete="onPlantBindingComplete(event)"
+                                id="dropdownPlantName"></jqx-drop-down-list>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Line</label>
+                <div title="select line" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <jqx-drop-down-list ng-model="model.LineId"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="LineSource"
+                                jqx-instance="LineInstance"
+                                jqx-auto-bind="false"
+                                jqx-theme="theme"
+                                jqx-on-binding-complete="onLineBindingComplete(event)"
+                                id="dropdownLineName"></jqx-drop-down-list>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Machine Name</label>
+                <div title="A Machine name" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <input type="hidden" value="@ViewBag.MachineId" ng_model="model.Id" id="hdnMachineId" />
+            @Html.TextBoxFor(m => m.Name, new
+       {
+           style = "width:300px;",
+           @class = "form-control",
+           ng_model = "model.Name",
+           id = "txtMachineName"
+       })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Make</label>
+                <div title="Make" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Make, new
+       {
+           @class = "form-control",
+           style = "width:300px;",
+           ng_model = "model.Make"
+       })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Model</label>
+                <div title="Model" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.Model, new
+       {
+           style = "width:300px;",
+           @class = "form-control",
+           ng_model = "model.Model"
+       })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Installation Date</label>
+                <div title="Installation Date" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <jqx-date-time-input jqx-width="300"
+                                 jqx-height="33"
+                                 jqx-theme="theme"
+                                 ng-model="model.InstallationDate"></jqx-date-time-input>
+            @*<jqx-date-time-input jqx-settings="SearchDateSettings"></jqx-date-time-input>*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">InCharge</label>
+                <div title="Model" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            @Html.TextBoxFor(m => m.MachineInCharge, new
+       {
+           style = "width:300px;",
+           @class = "form-control",
+           ng_model = "model.MachineInCharge"
+       })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Machine Type</label>
+                <div title="select plant" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <jqx-drop-down-list ng-model="model.MachineTypeId"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="MachineTypeSource"
+                                jqx-theme="theme"
+                                jqx-instance="ddlMachineType"
+                                jqx-on-binding-complete="onMachineTypeBindingComplete(event)"
+                                id="dropdownMachineType"></jqx-drop-down-list>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Description</label>
+                <div title="site description" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            @Html.TextAreaFor(m => m.Description, new
+       {
+           @rows = 5,
+           @class = "form-control",
+           style = "width:300px;",
+           ng_model = "model.Description"
+       })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Is Active</label>
+                <div title="Machine is active" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+          @Html.CheckBoxFor(m => m.IsActive, new { ng_model = "model.IsActive", @checked = "checked"})
+        </div>
+    </div>
+</div>

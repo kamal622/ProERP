@@ -1,0 +1,64 @@
+﻿
+@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.MaintenanceRequestViewModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("MaintenanceRequest");
+}
+
+<div ng-controller="MRController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Update  maintenance request
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a href="/MaintenanceRequest/List/">back to maintenance request list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button class="btn bg-blue" ng-click="OnSaveMR(event)">
+                <i class="fa fa-floppy-o"></i>
+                Save
+            </button>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="form-horizontal">
+            <div id="customer-edit" class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabDetail" data-toggle="tab" data-tab-name="tabDetail">Maintenance Request Detail</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabDetail">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    @Html.Partial("_AddOrUpdateMaintenanceRequest", Model)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/JS/MaintenanceRequest/AddOrUpdateController.js"></script>
+
+}
+
+
+
+
+
+
+

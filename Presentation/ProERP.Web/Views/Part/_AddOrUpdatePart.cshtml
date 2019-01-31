@@ -1,0 +1,143 @@
+﻿
+@model  ProERP.Web.Models.PartViewModel
+@Html.HiddenFor(m => m.Id, new { id = "txtId" })
+
+@*<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Site</label>
+            <div title="A plant name" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-drop-down-list ng-model="model.SiteId"
+                            jqx-width="300"
+                            jqx-height="30"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Name'"
+                            jqx-value-member="'Id'"
+                            jqx-source="SiteSource"
+                            jqx-instance="ddlSite"
+                            jqx-selected-index="0"
+                            jqx-disabled = "DisableSiteList"
+                            jqx-theme="theme"
+                            jqx-on-change="onSiteChange(event)"
+                            jqx-on-binding-complete="onSiteBindingComplete(event)"></jqx-drop-down-list>
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Plant</label>
+            <div title="select plant" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-drop-down-list ng-model="model.PlantId"
+                            jqx-width="300"
+                            jqx-height="30"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Name'"
+                            jqx-value-member="'Id'"
+                            jqx-source="PlantSource"
+                            jqx-instance="ddlPlant"
+                            jqx-auto-bind="true"
+                            jqx-theme="theme"
+                            jqx-on-change="onPlantChange(event)"
+                            jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Line</label>
+            <div title="select plant" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+
+        <jqx-drop-down-list ng-model="model.LineId"
+                            jqx-width="300"
+                            jqx-height="30"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Name'"
+                            jqx-value-member="'Id'"
+                            jqx-source="LineSource"
+                            jqx-instance="ddlLine"
+                            jqx-auto-bind="false"
+                            jqx-theme="theme"
+                            jqx-on-change="onLineChange(event)"
+                            jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Machine</label>
+            <div title="select plant" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+
+        <jqx-combo-box ng-model="model.MachineId"
+                            jqx-width="300"
+                            jqx-height="30"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Name'"
+                            jqx-value-member="'Id'"
+                            jqx-source="MachineSource"
+                            jqx-theme="theme"
+                            jqx-search-mode="'containsignorecase'"
+                            jqx-auto-complete="true"
+                            jqx-selected-index="0"
+                            jqx-on-select="selectHandler(event)"
+                            jqx-on-binding-complete="onBindingMachine(event)"
+                            jqx-instance="MachineInstance"></jqx-combo-box>
+    </div>
+</div>*@
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Part Name</label>
+            <div title="PartName" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.Name"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Description</label>
+            <div title="site description" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.Description"
+                       jqx-width="300"
+                       jqx-height="100"
+                       jqx-theme="theme" />
+    </div>
+</div>

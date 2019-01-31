@@ -1,0 +1,356 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html ng-app="ProApp">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title - PLMM</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/jqwidgets/styles/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqx")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/Content/html5shiv.min.js"></script>
+    <script src="/Content/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+
+@if (Request.IsAuthenticated)
+{
+    <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
+        @*<div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        </ul>
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                </div>
+            </div>*@
+        <div ng-controller="BaseController" class="wrapper" style="height:100%;">
+            <!-- Main Header -->
+            <header class="main-header">
+                <!-- Logo -->
+                <a href="/" class="logo">
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini"><img alt="kkalpana industries (india) ltd" src="~/images/logo.png" width="30" height="30" /><b>P</b>LMM</span>
+                    <!-- logo for regular state and mobile devices -->
+                    <span class="logo-lg"><img alt="kkalpana industries (india) ltd" src="~/images/logo.png" width="30" height="30" /><b>P</b>LMM</span>
+                </a>
+
+                <!-- Header Navbar -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <!--
+                            @*<li class="dropdown messages-menu">
+                                <!-- Menu toggle button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the messages -->
+                                        <ul class="menu">
+                                            <li>
+                                                <!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <!-- User Image -->
+                                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                                    </div>
+                                                    <!-- Message title and timestamp -->
+                                                    <h4>
+                                                        Support Team
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <!-- The message -->
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                        </ul>
+                                        <!-- /.menu -->
+                                    </li>
+                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                </ul>
+                            </li>*@
+                                -->
+                            <!-- /.messages-menu -->
+                            @*<li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">1</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have Maintance request</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li>
+                                                <!-- start message -->
+                                                <a href="#">
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <!-- end message -->
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>*@
+                            <!-- Notifications Menu -->
+                            <li class="dropdown notifications-menu">
+                                <!-- Menu toggle button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    @*<span ng-show="PreventiveNotifationCnt > 0" class="label label-warning">{{PreventiveNotifationCnt}}</span>*@
+                                    <span ng-show="FormulationNotifationCnt > 0" class="label label-warning">{{FormulationNotifationCnt}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have Activities</li>
+                                    <li>
+                                        <!-- Inner Menu: contains the notifications -->
+                                        <ul class="menu">
+                                            <li>
+                                                <!-- start notification -->
+                                                <a href="/#divFormulationRequest" > @*/Home#PM*@
+                                                    <i class="fa fa-exclamation-circle text-aqua"></i>
+                                                    @*@ProERP.Web.Controllers.AccountController.RemainPreventiveMaintenance()*@
+                                                    @*PMPendingCount Preventive Activities.*@
+                                                    {{NewFormulationRequestCount}} New Formulation Request
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <!-- start notification -->
+                                                <a href="/#divRMRequest">   @*/Home#divShutLineMachine*@
+                                                    <i class="fa fa-exclamation-circle text-aqua"></i>
+                                                    @*@ProERP.Web.Controllers.AccountController.RemainPreventiveMaintenance()*@
+                                                    @*PMShutdownCount Shutdown Activities.*@
+                                                    {{RMRequestCount}} RM Request
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <!-- start notification -->
+                                                <a href="/#divRMRequest">
+                                                    <i class="fa fa-exclamation-circle text-aqua"></i>
+                                                    @*MaintenanceRequestOpenCount New Maintenance Activities.*@
+                                                    {{RMDispatchCount}} RM Dispatch
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <!-- start notification -->
+                                                <a href="/#tab_Details_4">  @*/Home#MR*@
+                                                    <i class="fa fa-exclamation-circle text-aqua"></i>
+                                                    @*MaintenanceRequestInProcessCount Process Maintenance Activities.*@
+                                                    {{ReadyForTestingCount}} Ready For Testing
+                                                </a>
+                                            </li>
+                                            <!-- end notification -->
+                                        </ul>
+                                    </li>
+                                    @*<li class="footer"><a href="#">View all</a></li>*@
+                                </ul>
+                            </li>
+                            <!-- Tasks Menu -->
+                            <li class="dropdown tasks-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    @*<span ng-show="OverdueNotifationCnt > 0" class="label label-danger">OverdueNotifationCnt</span>*@
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">@*You have Overdue Activities*@</li>
+                                    <li>
+                                        <!-- Inner menu: contains the tasks -->
+                                        <ul class="menu">
+                                            <li>
+                                                <!-- Task item -->
+                                                <a href="/Home#divShutLineMachine">
+                                                    @*<i class="fa fa-exclamation-circle text-aqua"></i> &nbsp; &nbsp;PMOverDueCount Overdue Activities.*@
+                                                    @*@ProERP.Web.Controllers.AccountController.OverduePreventiveMaintenance()*@
+                                                </a>
+                                                @*@Html.ActionLink("check healthiness of relay contacts", "Index", "Home")*@
+                                            </li>
+                                            @*<li>
+                                                    <!-- Task item -->
+                                                    @Html.ActionLink("Belt tension check", "Index", "Home")
+                                                </li>
+                                                <li>
+                                                    <!-- Task item -->
+                                                    @Html.ActionLink("Filter on silos checking & cleaning", "Index", "Home")
+                                                </li>*@
+                                            <!-- end task item -->
+                                        </ul>
+                                    </li>
+                                    @*<li class="footer">
+                                            <a href="">View all tasks</a>
+                                            @Html.ActionLink("View all tasks", "Index", "Home")
+                                        </li>*@
+                                </ul>
+                            </li>
+                            <!-- User Account Menu -->
+
+                            <li class="dropdown user user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <!-- The user image in the navbar-->
+                                    @*<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">*@
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                    <span class="hidden-xs">@User.Identity.GetUserName()</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <img src="~/Images/user-icon.png" class="img-circle" alt="User Image" style="border: 0px currentColor; border-image: none;">
+
+                                        <p>
+                                            {{FirstName}} - {{LastName}}
+                                        </p>
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="/Manage" class="btn btn-default btn-flat fa fa-user"> Profile</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="/Account/Logoff" class="btn btn-default btn-flat fa fa-sign-out"> Sign out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            @*<li class="dropdown user user-menu">
+                                    <a href="/Account/Logoff" class="dropdown-toggle">
+                                        <span class="hidden-xs">Sign out</span>
+                                    </a>
+                                </li>*@
+
+                            <!-- Control Sidebar Toggle Button -->
+                            @*<li>
+                                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                                </li>*@
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel (optional) -->
+                    <!--@*<div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>Alexander Pierce</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                             </div>*@-->
+                    <!-- search form (Optional) -->
+                    <!--  @*<form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="
+                        </div>*@-->
+                    <!-- search form (Optional) -->
+                    <!--  @*<form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                    <i class="fa fa-search"></i>
+                            </button>
+                                </span>
+                            </div>
+                        </form>*@-->
+                    <!-- /.search form -->
+                    <!-- Sidebar Menu -->
+
+                    @Html.Partial("_Menu")
+
+                    <!-- /.sidebar-menu -->
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
+            <!-- Main Footer -->
+            <footer class="main-footer">
+                <!-- To the right -->
+                <div class="pull-right hidden-xs">
+                    Developed for <a href="http://kkalpanagroup.com/" >kkalpana industries (india) ltd</a> by <a href="http://www.prologicielconsulting.com">Prologiciel Consulting</a>
+                </div>
+                <!-- Default to the left -->
+                <strong>Copyright &copy; 2017.</strong> All rights reserved.
+            </footer>
+            <jqx-loader id="jqxLoader" jqx-auto-open="false" jqx-is-modal="true" jqx-theme="theme" jqx-text="LoadingText" jqx-image-position="top" jqx-height="60" jqx-width="120"></jqx-loader>
+        </div>
+        <!-- ./wrapper -->
+        @RenderSection("scripts", required: false)
+    </body>
+}
+else
+{
+    <body class="hold-transition login-page bg-aqua-active">
+        @RenderBody()
+        <!-- Main Footer -->
+        <footer class="main-footer" style="margin-left: 0px;">
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Developed for <a href="http://kkalpanagroup.com/" >kkalpana industries (india) ltd</a> by <a href="http://www.prologicielconsulting.com">Prologiciel Consulting</a>
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2017.</strong> All rights reserved.
+        </footer>
+        @RenderSection("scripts", required: false)
+    </body>
+}
+</html>

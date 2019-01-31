@@ -1,0 +1,180 @@
+﻿@using ProERP.Web.Framework.UI;
+
+@model ProERP.Web.Models.ReportInfo
+@{
+    ViewBag.Title = "ReportTemplate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("BAHistoryReportTemplate");
+}
+
+<div ng-controller="BreakdownsReportController">
+    <!-- Content Header (Page header) -->
+    <section class="content-header  clearfix">
+        <h1>
+            Breakdown Report
+            <small>Breakdown Analysis</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Breakdown Analysis</li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row form-group">
+                                
+                                        @*<div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Site</label>
+                                                <div title="A plant name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <jqx-drop-down-list jqx-width="180"
+                                                                jqx-height="30"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="SiteSource"
+                                                                jqx-instance="ddlSite"
+                                                                jqx-selected-index="0"
+                                                                jqx-disabled="DisableSiteList"
+                                                                jqx-theme="theme"
+                                                                jqx-on-change="onSiteChange(event)"
+                                                                jqx-on-binding-complete="onSiteBindingComplete(event)"></jqx-drop-down-list>
+
+                                        </div>*@
+
+                                        <div class="col-md-1">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Plant</label>
+                                                <div title="select plant" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <jqx-drop-down-list jqx-width="180"
+                                                                jqx-height="30"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="PlantSource"
+                                                                jqx-instance="ddlPlant"
+                                                                jqx-selected-index="0"
+                                                                jqx-theme="theme"
+                                                                jqx-on-change="onPlantChange(event)"
+                                                                jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+                                        </div>
+
+                                 <div class="col-md-1">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Line</label>
+                                        <div title="select plant" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <jqx-drop-down-list jqx-width="180"
+                                                        jqx-height="30"
+                                                        jqx-auto-drop-down-height="true"
+                                                        jqx-display-member="'Name'"
+                                                        jqx-value-member="'Id'"
+                                                        jqx-source="LineSource"
+                                                        jqx-instance="ddlLine"
+                                                        jqx-selected-index="0"
+                                                        jqx-theme="theme"
+                                                        jqx-on-change="onLineChange(event)"
+                                                        jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+                                </div>
+
+                                 @*<div class="col-md-1">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Machine</label>
+                                        <div title="Select machine" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                @*<div class="col-md-2">
+                                            <jqx-combo-box jqx-width="180"
+                                                   jqx-height="30"
+                                                   jqx-auto-drop-down-height="false"
+                                                   jqx-display-member="'Name'"
+                                                   jqx-value-member="'Id'"
+                                                   jqx-source="MachineSource"
+                                                   jqx-theme="theme"
+                                                   jqx-search-mode="'containsignorecase'"
+                                                   jqx-auto-complete="false"
+                                                   jqx-selected-index="0"
+                                                   jqx-on-binding-complete="onBindingMachine(event)"
+                                                   jqx-instance="ddlMachine"></jqx-combo-box>
+                                </div>*@
+
+                                <div class="col-md-1">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label" for="SearchSiteName">Date</label>
+                                        <div title="select plant" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-date-time-input jqx-instance="dtpSearchDate" jqx-width="180" jqx-height="30"
+                                                         jqx-selection-mode="'range'" jqx-theme="theme" jqx-created="SearchDateCreated"></jqx-date-time-input>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id="searchSites" type="button" ng-click="onSearchClick()">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+
+                                   
+                            </div>
+                          
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <div class="col-md-11">
+                                            <label id="lblError" style="color:red;"> </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                    <div class="panel-body">
+                        <iframe id="frmReport" frameborder="0" style="width:100%;height:1000px" scrolling="auto"></iframe> 
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="~/js/Breakdown/BreakdownReportController.js"></script>
+}

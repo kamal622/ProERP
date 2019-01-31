@@ -1,0 +1,217 @@
+﻿@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("UtilityConfiguration");
+}
+
+<div ng-controller="UtilityConfigurationController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Utility Configuration</h1>
+        <div class="pull-right">
+            <button class="btn bg-blue" ng-click="onAddNewReport(event)">
+                <i class="fa fa-plus-square"></i>
+                Add New
+            </button>
+            @*<button class="btn bg-red" ng-click="onDelete(event)">
+                <i class="fa fa-trash-o"></i>
+                Delete 
+            </button>*@
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Report Name</label>
+                                                <div title="A Report name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <input name="SearchReportName" ng-model="SearchReportName" class="form-control text-box single-line" id="SearchReportName" type="text" value="" width="100" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+
+                                        </div>
+                                        <div class="col-md-7">
+                                            <button class="btn btn-primary btn-search" type="button" ng-click="onSearch(event)">
+                                                <i class="fa fa-search"></i>
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="pull-right pad">
+                        <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                              jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme" jqx-editable="true"
+                              jqx-source="UtilityConfigSource" jqx-instance="GridUtilityConfig"
+                              jqx-columns="[
+
+                                            { text: 'Report Name', datafield: 'Name' ,editable: false, width: 200 },
+                                            { text: 'Report Description', datafield: 'Description',editable: false },
+                                            { text: 'Active', datafield: 'IsActive',columntype: 'checkbox', editable: true , width: 50},
+                                            { text: 'Edit', width: 50, cellsrenderer: EditReport,sortable: false,editable: false}]"></jqx-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <jqx-window jqx-instance="WinAddReport" jqx-theme="theme" jqx-width="790" jqx-height="700" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="true">
+        <div><b>Utility Report</b></div>
+        <div>
+            <br>
+
+            <div class="nav-tabs-custom" >
+               <div class="panel-group" >
+                   <div class="panel panel-default" style="height: 155px;width:770px;" >
+                       <jqx-validator jqx-instance="ReportValidator" jqx-hint-type="'label'" jqx-rules="ReportRules">
+                           <div class="row form-group">
+                               <div class="col-md-2">
+                                   <div class="label-wrapper">
+                                       <label title="" class="control-label">Report Name</label>
+                                   </div>
+                               </div>
+                               <div class="col-md-10">
+                                   <jqx-input ng-model="model.Name" jqx-instance="txtName"  jqx-width="600" jqx-height="25" jqx-theme="theme" id="txtReportName" />
+                               </div>
+                           </div>
+                           <div class="row form-group">
+                               <div class="col-md-2">
+                                   <div class="label-wrapper">
+                                       <label title="" class="control-label">Description</label>
+                                   </div>
+                               </div>
+                               <div class="col-md-10">
+                                   <jqx-text-area jqx-instance="txtDescription" ng-model="model.Description" jqx-width="600" jqx-theme="theme" jqx-height="55"></jqx-text-area>
+                               </div>
+                           </div>
+                           <div class="row form-group">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Active</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <jqx-check-box jqx-instance="chkIsActive" ng-model="model.IsActive" jqx-theme="theme" jqx-height="25"></jqx-check-box>
+                               </div>
+                           </div>
+                           @*<div class="pull-right">
+                <button class="btn bg-blue" ng-click="OnCreateReport(event)">
+                    <i class="fa fa-floppy-o"></i>
+                    Create
+                </button>
+            </div>*@
+                       </jqx-validator>
+                   </div>
+                  <div class="panel panel-default" style="height: 355px;width:770px;">
+                      <div class="panel-body" >
+                          <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-height="250" jqx-sortable="true" jqx-editable="true" jqx-theme="theme" 
+                                    jqx-source="TemplateMappingSource" jqx-instance="GridTemplateMapping" 
+                                    jqx-columns="[
+                                    
+                                            { text: 'Column Name', datafield: 'ColumnName' ,editable: false, width: 100 },
+                                            { text: 'Data Type', datafield: 'DataType',editable: false , width: 100},
+                                            { text: 'Group Name', datafield: 'GroupName',editable: false },
+                                            { text: 'Editable', datafield: 'IsEditable' ,columntype: 'checkbox',editable: false , width: 50},
+                                            { text: 'Search', datafield: 'IsSearchColumn',columntype: 'checkbox',editable: false , width: 50},
+                                            { text: 'Up', width: 50 ,cellsrenderer: UpRowCellRenderer ,columntype:'button', buttonclick: UpRow},
+                                            { text: 'Down' , width: 50,align: 'center' , columntype:'button', buttonclick: DownRow, cellsrenderer: DownRowCellRenderer },        
+                                            { text: 'Edit', width: 70, columntype:'button', buttonclick: EditRow, cellsrenderer: EditCellRenderer, sortable: false,editable: false},
+                                            { text: 'Delete', width: 70, columntype:'button', buttonclick: DeleteRow, cellsrenderer: DeleteCellRenderer, sortable: false,editable: false}]"></jqx-grid>
+                          
+                          @*
+    { text: 'Up', width: 50, cellsrenderer: UpRowCellRenderer,sortable: false,editable: false},*@
+                          <div class="pull-right">
+                              <button class="btn bg-blue" ng-click="OnSaveAllColumn(event)">
+                                  <i class="fa fa-floppy-o"></i>
+                                  Save
+                              </button>
+                              <button class="btn bg-blue" ng-click="OnAddColumn(event)">
+                                  <i class="fa fa-floppy-o"></i>
+                                  Add new column
+                              </button>
+                              <br>
+                          </div>
+                          
+                       </div> 
+                      @**@
+
+                     
+                  </div>
+                </div>
+                
+            </div>
+            
+
+        </div>
+    </jqx-window>
+
+
+    <jqx-window jqx-instance="WinAddColumn" jqx-theme="theme" jqx-width="700" jqx-height="500" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="true">
+        <div><b>Add New Column</b></div>
+        <div>
+            <br>
+            <div class="nav-tabs-custom">
+                @{Html.RenderPartial("AddOrUpdateReport");}
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="OnSaveRow(event)">
+                    <i class="fa fa-floppy-o"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/js/Utility/UtilityConfigurationController.js"></script>
+}
+
+
+
+
+
+
+

@@ -1,0 +1,90 @@
+﻿@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("ViewNotes");
+}
+
+<div ng-controller="NotesController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">View Notes</h1>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="pull-right pad">
+                        <button id="btnAddNew" class="btn bg-blue" type="button" ng-click="onAddClick(this)">
+                            <i class="fa fa-plus-square"></i>
+                            Add New
+                        </button>
+                    </div>
+                    <jqx-grid jqx-sortable="true" jqx-theme="theme" jqx-editable="false" jqx-source="VersionSource" 
+                              jqx-instance="GridVersion"  jqx-settings="GridSettings"  
+                              jqx-columns="[
+                                            { text: 'Version', datafield: 'ReleaseVersion' ,editable: false },
+                                            { text: 'Release Date', datafield: 'ReleaseDate' ,editable: false, cellsformat: 'dd/MM/yyyy' },
+                                            { text: 'Edit', width: 100, cellsrenderer: EditCellRenderer ,sortable: false ,editable: true ,align: 'center' },
+                                            { text: 'Delete', width: 100, cellsrenderer: DeleteCellRenderer ,sortable: false ,editable: true ,align: 'center'}]"></jqx-grid>
+                </div>
+            </div>
+        </div>
+        <jqx-window jqx-instance="WinNotes" jqx-height="'auto'" jqx-width="550" jqx-is-modal="true" jqx-resizable="true" jqx-theme="theme" jqx-auto-open="false">
+            <div>
+                Add Notes
+            </div>
+            <div>
+                <jqx-validator jqx-instance="NotesValidator" jqx-hint-type="'label'" jqx-rules="Rules">
+                             <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-body form-horizontal">
+                <div class="form-group">
+                    <label title="" class="control-label col-md-3">Version No</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="txtReleaseVersion" ng-model="model.ReleaseVersion" ng-disabled="enableVersiontxtBox" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label title="" class="control-label col-md-3">Notes</label>
+                    <div class="col-md-9">
+                        <textarea rows="2" class="form-control" id="txtNotes" ng-model="Notes"></textarea>
+                    </div>
+                </div>
+                <div class="form-group pull-right ">
+                    <div class="col-md-12">
+                        <jqx-button jqx-theme="theme" jqx-height="30" jqx-width="100" jqx-instance="BtnAdd" ng-click="onSaveNotes(this)">Add</jqx-button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <jqx-grid jqx-width="'100%'" jqx-height="200" jqx-theme="theme" jqx-columnsresize="true" jqx-sortable="true"
+                                  jqx-instance="GridNotes" jqx-source="NotesSource" jqx-editable="true"
+                                  jqx-columns="[
+                                    { text: 'Id', datafield: 'Id',hidden:'true'},
+                                    { text: 'Notes', datafield: 'Notes' ,editable: false},
+                                    { text: 'Edit', width: 70 , columntype:'button', buttonclick: EditNote, cellsrenderer: EditCell ,sortable: false ,editable: true ,align : 'center' },
+                                    { text: 'Delete', width: 70 ,columntype:'button', buttonclick: DeleteNote, cellsrenderer: DeleteCell ,sortable: false ,editable: true , align : 'center' }]"></jqx-grid>
+                    </div>
+                </div>
+                <div class="form-group pull-right ">
+                    <div class="col-md-12">
+                        <jqx-button jqx-theme="theme" jqx-height="30" jqx-width="100" jqx-instance="BtnSaveAllNotes" ng-click="onSaveAllNotes()">Save</jqx-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                </jqx-validator>
+            </div>
+        </jqx-window>
+    </div>
+   
+
+
+
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/js/Dashboard/VersionNotes.js"></script>
+}

@@ -1,0 +1,46 @@
+﻿/*body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}*/
+
+/* Set padding to keep content from hitting the edges */
+/*.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}*/
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+/*.dl-horizontal dt {
+    white-space: normal;
+}*/
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+
+/* Define in N o p in style.css*/
+
+
+
+.form-horizontal .label-wrapper{
+    display:table;
+    float:right;
+    min-height:28px;
+}
+.form-horizontal .label-wrapper .ico-help{
+    display:table-cell;
+    color:#3c8dbc;
+    font-size:1.17em;
+    padding-left:6px;
+}
+.btn-search {
+    margin-top: 10px;
+    min-width: 150px;
+    padding: 7px 10px;
+    font-size: 18px;
+}

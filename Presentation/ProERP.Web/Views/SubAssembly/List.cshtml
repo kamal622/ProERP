@@ -1,0 +1,212 @@
+﻿@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.MachineViewModel
+
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("SubAssemblies");
+}
+
+
+
+<div ng-controller="SubAssemblyListController">
+
+    <div class="content-header clearfix">
+        <h1 class="pull-left">SubAssemblies</h1>
+        <div class="pull-right">
+            <a class="btn bg-blue" href="/SubAssembly/Add/">
+                <i class="fa fa-plus-square"></i>
+                Add New
+            </a>
+            <button class="btn bg-red">
+                <i class="fa fa-trash-o"></i>
+                Delete (selected)
+            </button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label" for="SearchName">SubAssembly</label>
+                                            <div title="A SubAssembly name" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input name="SearchSubAssembly" class="form-control text-box single-line" id="SearchSubAssembly" type="text" value="" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">Site</label>
+                                            <div title="A site name" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <jqx-drop-down-list ng-model="model.SiteId"
+                                                            jqx-width="300"
+                                                            jqx-height="30"
+                                                            jqx-auto-drop-down-height="true"
+                                                            jqx-display-member="'Name'"
+                                                            jqx-value-member="'Id'"
+                                                            jqx-source="SiteSource"
+                                                            jqx-theme="theme"
+                                                            jqx-instance="SiteInstance"
+                                                            jqx-on-change="onSelectSite(event)"></jqx-drop-down-list>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label" for="SearchSiteName">Plant</label>
+                                            <div title="A plant name" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <jqx-drop-down-list ng-model="model.PlantId"
+                                                            jqx-width="300"
+                                                            jqx-height="30"
+                                                            jqx-auto-drop-down-height="true"
+                                                            jqx-display-member="'Name'"
+                                                            jqx-value-member="'Id'"
+                                                            jqx-source="PlantSource"
+                                                            jqx-theme="theme"
+                                                            jqx-instance="PlantInstance"
+                                                            jqx-auto-bind="false"
+                                                            jqx-on-change="onSelectPlant(event)"></jqx-drop-down-list>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">Line</label>
+                                            <div title="A line name" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <jqx-drop-down-list ng-model="model.LineId"
+                                                            jqx-width="300"
+                                                            jqx-height="30"
+                                                            jqx-auto-drop-down-height="true"
+                                                            jqx-display-member="'Name'"
+                                                            jqx-value-member="'Id'"
+                                                            jqx-source="LineSource"
+                                                            jqx-instance="LineInstance"
+                                                            jqx-auto-bind="false"
+                                                            jqx-on-change="onSelectLine(event)"
+                                                            jqx-theme="theme"></jqx-drop-down-list>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label" for="SearchSiteName">Machine</label>
+                                            <div title="A machine name" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <jqx-drop-down-list ng-model="model.MachineId"
+                                                            jqx-width="300"
+                                                            jqx-height="30"
+                                                            jqx-auto-drop-down-height="true"
+                                                            jqx-display-member="'Name'"
+                                                            jqx-value-member="'Id'"
+                                                            jqx-source="MachineSource"
+                                                            jqx-theme="theme"
+                                                            jqx-instance="MachineInstance"
+                                                            jqx-auto-bind="false"
+                                                           ></jqx-drop-down-list>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                       
+                                    </div>
+                                    <div class="col-md-8">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+
+                                    </div>
+                                    <div class="col-md-8">
+                                        <button class="btn btn-primary btn-search" id="searchSites" type="button" ng-click="onSearch(event)">
+                                            <i class="fa fa-search"></i>
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                                  jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption"
+                                  jqx-source="SubAssemblies" jqx-settings="SubAssemblyGrid" jqx-selection-mode="checkbox"
+                                  jqx-columns="[
+                                            { text: 'Name', datafield: 'Name', width: 120 },
+                                            { text: 'Description', datafield: 'Description',  width: 120 },
+                                            { text: 'Machine Name', datafield: 'MachineName', width: 120 },
+                                            { text: 'Line Name', datafield: 'LineName',  width: 180 },
+                                            { text: '', width: 70, cellsrenderer: UpdateSubAssembly,sortable: false}]"></jqx-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script type="text/javascript" src="~/JS/SubAssembly/ListController.js"></script>
+}
+
+
+
+
+

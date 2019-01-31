@@ -1,0 +1,91 @@
+﻿@model  ProERP.Web.Models.IndentBudgetViewModel
+@Html.HiddenFor(m => m.Id, new { id = "txtId" })
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Budget Type</label>
+            <div title="Budget type" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-drop-down-list ng-model="model.BudgetType"
+                            jqx-auto-drop-down-height="true"
+                            jqx-source="['CapEx','OpEx']"
+                            style="width:100%;"
+                            jqx-height="30"
+                            jqx-theme="theme"
+                            jqx-instance="ddlBudgetType"
+                            jqx-on-binding-complete="onBindingBudgetType(event)" />
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Budget Code</label>
+            <div title="Budget code" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-input jqx-height="30"
+                   jqx-width="200"
+                   jqx-theme="theme"
+                   ng-model="model.BudgetCode"></jqx-input>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Amount</label>
+            <div title="Budget amount" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-number-input jqx-height="30"
+                          jqx-width="200"
+                          jqx-spin-buttons="true"
+                          jqx-theme="theme"
+                          jqx-min="1"
+                          ng-model="model.Amount"></jqx-number-input>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Financial Year</label>
+            <div title="Financial Year" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-input jqx-height="30"
+                   jqx-width="200"
+                   jqx-theme="theme"
+                   ng-model="model.FinancialYear"></jqx-input>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Is Active</label>
+            <div title="Is Active" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-check-box jqx-theme="theme"
+                       ng-model="model.IsActive"></jqx-check-box>
+    </div>
+</div>
+

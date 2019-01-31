@@ -1,0 +1,132 @@
+﻿@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.IndentViewModel
+
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("EngineeringPurchase");
+}
+
+<div ng-controller="IndentsController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Indent</h1>
+        <div class="pull-right">
+            <a class="btn bg-blue" href="/Indent/Add/">
+                <i class="fa fa-plus-square"></i>
+                Add New
+            </a>
+            @*<button class="btn bg-red" ng-click="onDelete(event)">
+                    <i class="fa fa-trash-o"></i>
+                    Delete (selected)
+                </button>*@
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Item Name</label>
+                                        <div title="A Item name" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input name="SearchItemName" ng-model="SearchItemName" class="form-control text-box single-line" id="SearchItemName" type="text" value="" width="100" />
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Created By</label>
+                                        <div title="Created by" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-drop-down-list jqx-auto-drop-down-height="true"
+                                                        jqx-display-member="'UserName'"
+                                                        jqx-value-member="'Id'"
+                                                        jqx-selected-index="0"
+                                                        jqx-source="UserSource"
+                                                        jqx-width="180"
+                                                        jqx-height="30"
+                                                        jqx-theme="theme"
+                                                        jqx-instance="ddlUser" 
+                                                        jqx-on-binding-complete="onUserBindingComplete(event)"/>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Requisition</label>
+                                        <div title="Requisition" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-drop-down-list jqx-auto-drop-down-height="true"
+                                                        jqx-source="['ALL','PR','JR']"
+                                                        jqx-width="180"
+                                                        jqx-height="30"
+                                                        jqx-selected-index="0"
+                                                        jqx-theme="theme"
+                                                        jqx-instance="ddlRequisitionType" 
+                                                        jqx-on-binding-complete="onRequisitionBindingComplete(event)"/>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right right">
+                                        <button class="btn btn-primary btn-search" id="searchSites" type="button" ng-click="onSearch(event)">
+                                            <i class="fa fa-search"></i>
+                                            Search
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="pull-right pad">
+                        <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <jqx-grid  id="MainGrid" jqx-altrows="true" jqx-settings="GridSettings" jqx-instance="MainGrid" jqx-sortable="true"
+                              jqx-columns="[
+                                                { text: 'Indent No', datafield: 'IndentNo' },
+                                                { text: 'Priority', datafield: 'PriorityName' },
+                                                { text: 'Requisition', datafield: 'RequisitionType' },
+                                                { text: 'Status', datafield: 'Status' },
+                                                { text: 'Created Date', datafield: 'CreatedOn', cellsformat: 'dd/MM/yyyy' },
+                                                { text: '', width: 70, cellsrenderer: UpdateIndent, sortable: false }
+                              ]"></jqx-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript" src="~/JS/Indent/ListController.js"></script>
+}

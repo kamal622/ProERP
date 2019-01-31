@@ -1,0 +1,1474 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Web.Models.DashboardViewModels
+@{
+    ViewBag.Title = "Dashboard";
+}
+@Html.HiddenFor(m => m.UserRole, new { id = "hdnRole" })
+<div ng-controller="DashboardController" class="content">
+    <section class="content-header">
+        <h1>
+            Product Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Product Dashboard</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="small-box bg-blue-gradient">
+                    <div class="inner text-center" style="height: 108px;">
+                        <img alt="kkalpana industries (india) ltd" src="~/images/logo.png" width="100" height="80" />
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        kkalpana industries
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-red-gradient">
+                    <div class="inner text-center">
+                        <h4>Formulation Requests</h4>
+                        <h4>0 | 0</h4>
+                        <b>Pending | Total</b>
+                    </div>
+                    <a href="Breakdown/List" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-green-gradient">
+                    <div class="inner text-center ">
+                        <h4>Request Status</h4>
+                        <h4>0 | 0</h4>
+                        <b>New | Dispatch</b>
+                    </div>
+                    <a href="#PM" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-yellow-gradient">
+                    <div class="inner text-center">
+                        <h4>QA Status</h4>
+                        <h4> 0 | 0</h4>
+                        <b>Pass | Fail </b>
+                    </div>
+                    <a href="#AT" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="divFormulationRequest">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Formulation Requests</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab_Details_1" data-toggle="tab" data-tab-name="New">New</a>
+                                </li>
+                                @*<li>
+                                        <a href="#tab_Details_2" data-toggle="tab" data-tab-name="RM Recevied">RM Recevied</a>
+                                    </li>*@
+                                <li>
+                                    <a href="#tab_Details_3" data-toggle="tab" data-tab-name="InProgress">In Progress</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_Details_4" data-toggle="tab" data-tab-name="Testing">Ready for Testing</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_Details_5" data-toggle="tab" data-tab-name="Testing">Test Complete</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_Details_6" data-toggle="tab" data-tab-name="Testing">Closed</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab_Details_1" class="tab-pane active">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaNewFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'new')"><i class="fa fa-file-excel-o"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('new')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaNewRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterNew" jqx-source="FormulationNewSource" jqx-instance="GrdFormulationNew"
+                                                  jqx-on-bindingcomplete="onGridNewBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Status', datafield: 'StatusName',width: 100 },
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 100 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 100},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: '', datafield: 'RMRequest',width: 100 , pinned: true , cellsrenderer: RMRequestrender,sortable: false,columntype: 'button', buttonclick : RMRequest , cellsalign: 'center'},
+                                                    { text: '', datafield: 'Start',width: 100 , pinned: true , cellsrenderer: StartNewFormulationtrender,sortable: false,columntype: 'button', buttonclick : StartNewFormulation , cellsalign: 'center'},
+                                                    { text: '',datafield: 'View', width: 100 , sortable: false, cellsrenderer: ViewNewformulationrender,columntype: 'button', buttonclick : ViewNewFormulation, cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                    </div>
+                                </div>
+
+                                @*<div id="tab_Details_2" class="tab-pane">
+                                        <div class="panel-group">
+                                            <div class="pull-right pad">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" ng-click="onFormulaReceviedFilterClick()"><i class="fa fa-filter"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'recevied')"><i class="fa fa-file-excel-o"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnPrint('recevied')"><i class="fa fa-print"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="onFormulaReceviedRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                                </div>
+                                            </div>
+                                            <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                      jqx-showfilterrow="ShowFilterRecevied" jqx-source="FormulationReceviedSource" jqx-instance="GrdFormulationRecevied"
+                                                      jqx-on-bindingcomplete="onGridReceviedBinidingComplete()"
+                                                      jqx-columns="[
+                                                        { text: 'Status', datafield: 'StatusName',width: 100 },
+                                                        { text: 'Lot No', datafield: 'LotNo',width: 150 },
+                                                        { text: 'Grade Name', datafield: 'GradeName' },
+                                                        { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                        { text: 'Lot Size', datafield: 'LOTSize',width: 130},
+                                                        { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                        { text: '',datafield: 'New', width: 100 , disabled : true, pinned: true , cellsrenderer: Receviedformulationrender,sortable: false,columntype: 'button', buttonclick : FormulationRecevied , cellsalign: 'center'},
+                                                        { text: '',datafield: 'View', width: 100 , sortable: false, cellsrenderer: ViewReceviedformulationrender,columntype: 'button', buttonclick : ViewReceviedFormulation, cellsalign: 'center'}
+                                            ]"></jqx-grid>
+                                        </div>
+                                    </div>*@
+
+                                <div id="tab_Details_3" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaProgressFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'progress')"><i class="fa fa-file-excel-o"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('progress')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaProgressRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterProgress" jqx-source="FormulationProgressSource" jqx-instance="GrdFormulationProgress"
+                                                  jqx-on-bindingcomplete="onGridProgressBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Status', datafield: 'StatusName',width: 100 },
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 150 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 130},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: '',datafield: 'SampleReady', width: 110 , pinned: true, cellsrenderer: Progressformulationrender, columntype: 'button', buttonclick : ProgressFormulation , sortable: false ,cellsalign: 'center'},
+                                                    { text: '',datafield: 'RequestRM', width: 110 , pinned: true, cellsrenderer: ProgressRMRequestrender, columntype: 'button', buttonclick : ProgressRMRequest , sortable: false ,cellsalign: 'center'},
+                                                    { text: '',datafield: 'View', width: 100 ,cellsrenderer: ViewProgressformulationrender, sortable: false,columntype: 'button',buttonclick : ViewProgressFormulation, cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                    </div>
+                                </div>
+
+                                <div id="tab_Details_4" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaTestFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'test')"><i class="fa fa-file-excel-o"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('test')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaTestRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterTest" jqx-source="FormulationTestSource" jqx-instance="GrdFormulationTest"
+                                                  jqx-on-bindingcomplete="onGridTestBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Status', datafield: 'StatusName',width: 100 },
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 150 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 130},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: 'Pass',datafield: 'Pass', width: 100 , pinned: true, cellsrenderer: testPassFormulationrender, columntype: 'button', buttonclick : testPassFormulation , sortable: false ,cellsalign: 'center'},
+                                                    { text: '',datafield: 'View', width: 100 , sortable: false,  cellsrenderer: testViewFormulationrender, columntype: 'button', buttonclick : ViewtestFormulation, cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                        @*{ text: '',datafield: 'Fail', width: 100 , pinned: true, cellsrenderer: testFailFormulationrender, columntype: 'button', buttonclick : testFailFormulation , sortable: false ,cellsalign: 'center'},*@
+                                    </div>
+                                </div>
+
+                                <div id="tab_Details_5" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaOtherFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'other')"><i class="fa fa-file-excel-o"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('other')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="onFormulaOtherRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterOther" jqx-source="FormulationOtherSource" jqx-instance="GrdFormulationOther"
+                                                  jqx-on-bindingcomplete="onGridOtherBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Status', datafield: 'StatusName',width: 130 },
+                                                    { text: 'QA Status', datafield: 'QAStatusName',width: 80 },
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 90 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 90},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 90},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: '',datafield: 'Close', width: 130 , pinned: true, cellsrenderer: CloseOtherFormulationrender, columntype: 'button', buttonclick : CloseOtherFormulation , sortable: false ,cellsalign: 'center'},
+                                                    { text: '',datafield: 'RequestRM', width: 90 , pinned: true, cellsrenderer: RMRequstOtherFormulationrender, columntype: 'button', buttonclick : RMRequestOtherFormulation , sortable: false ,cellsalign: 'center'},
+                                                    { text: '', datafield: 'View',width: 100 , cellsrenderer: ViewOtherFormulationrender, columntype: 'button', buttonclick : ViewOtherFormulation , sortable: false ,cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                    </div>
+                                </div>
+
+                                <div id="tab_Details_6" class="tab-pane">
+                                    <div class="panel-group">
+
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="Year" class="control-label">Year</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                @*<jqx-number-input jqx-width="'100%'"
+                                                    jqx-height="25"
+                                                    jqx-min="1"
+                                                    jqx-input-mode="simple"
+                                                    jqx-decimal-digits="0"
+                                                    jqx-instance="txtSearchYear"
+                                                    jqx-theme="theme" />*@
+                                                <jqx-drop-down-list jqx-width="'100%'"
+                                                                    jqx-height="25"
+                                                                    jqx-auto-drop-down-height="false"
+                                                                    jqx-display-member="'Name'"
+                                                                    jqx-value-member="'Id'"
+                                                                    jqx-source="YearSource"
+                                                                    jqx-instance="ddlYear"
+                                                                    jqx-theme="theme"
+                                                                    jqx-on-binding-complete="onYearBindingComplete(event)"
+                                                                    id="ddlYear"></jqx-drop-down-list>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="Month" class="control-label">Month</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <jqx-drop-down-list jqx-width="'100%'"
+                                                                    jqx-height="25"
+                                                                    jqx-auto-drop-down-height="false"
+                                                                    jqx-display-member="'Name'"
+                                                                    jqx-value-member="'Id'"
+                                                                    jqx-source="MonthSource"
+                                                                    jqx-instance="ddlMonth"
+                                                                    jqx-theme="theme"
+                                                                    id="ddlMonth"
+                                                                    jqx-on-binding-complete="onMonthBindingComplete(event)"></jqx-drop-down-list>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-primary btn-search" style="margin-top:0px;padding:1px;min-width:85px;" type="button" ng-click="onMonthYearSearch(event)">
+                                                    <i class="fa fa-search"></i>
+                                                    Search
+                                                </button>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="pull-right pad" style="padding-top:0px;">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-info" ng-click="onFormulaCloseFilterClick()"><i class="fa fa-filter"></i></button>
+                                                        <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'close')"><i class="fa fa-file-excel-o"></i></button>
+                                                        <button type="button" class="btn btn-info" ng-click="OnPrint('close')"><i class="fa fa-print"></i></button>
+                                                        <button type="button" class="btn btn-info" ng-click="onFormulaCloseRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterClose" jqx-source="FormulationCloseSource" jqx-instance="GrdFormulationClose"
+                                                  jqx-on-bindingcomplete="onGridCloseBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Status', datafield: 'StatusName',width: 80 },
+                                                    { text: 'QA Status', datafield: 'QAStatusName',width: 100 },
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 100 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 130},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: '', datafield: 'View',width: 100 ,columntype: 'button', sortable: false ,cellsalign: 'center' ,cellsrenderer: ViewCloseFormulationrender,buttonclick : ViewCloseFormulation },
+                                                    { text: 'Verify',datafield: 'Close', width: 165 , pinned: true,columntype: 'button',  sortable: false ,cellsalign: 'center' ,cellsrenderer: VerifiedCloseFormulationrender,buttonclick : VerifiedCloseFormulation}
+                                        ]"></jqx-grid>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="divRMRequest">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Raw Material Requests</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab_DetailsRM_1" data-toggle="tab" data-tab-name="New">New</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_DetailsRM_2" data-toggle="tab" data-tab-name="Recevied">Dispatch</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_DetailsRM_3" data-toggle="tab" data-tab-name="IsRecevied">Recevied</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab_DetailsRM_1" class="tab-pane active">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info" ng-click="OnRMFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'RMRequest')"><i class="fa fa-file-excel-o"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('RMRequest')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnRMRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterRMRequest" jqx-source="RMRequestSource" jqx-instance="GrdRMRequest"
+                                                  jqx-on-bindingcomplete="onGridRMRequestBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 100 },
+                                                    { text: 'Status', datafield: 'RMRequestStatus',width: 100 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 100},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: 'Request Date', datafield: 'RequestDate',width: 100,cellsformat: 'dd/MM/yyyy'},
+                                                    { text: 'Request By', datafield: 'RequestBy',width: 100},
+                                                    { text: 'View', datafield: 'View',width: 100 , pinned: true, cellsrenderer: ViewRMNewrender, columntype: 'button', buttonclick : ViewRMNewRequest , sortable: false ,cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                    </div>
+                                </div>
+                                <div id="tab_DetailsRM_2" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info" ng-click="onFilterRMReceviedClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'RMReceived')"><i class="fa fa-file-excel-o"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('RMReceived')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnRMReceviedRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterRMRecevied" jqx-source="RMReceviedSource" jqx-instance="GrdRMRecevied"
+                                                  jqx-on-bindingcomplete="onGridRMReceviedBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 100 },
+                                                    { text: 'Status', datafield: 'RMRequestStatus',width: 100 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 100},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: 'Request Date', datafield: 'RequestDate',width: 100,cellsformat: 'dd/MM/yyyy'},
+                                                    { text: 'Request By', datafield: 'RequestBy',width: 100},
+                                                    { text: 'Received', datafield: 'Recevied',width: 100 , pinned: true, cellsrenderer: RMReceviedrender, columntype: 'button', buttonclick : RMRecevied , sortable: false ,cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                        @*{ text: 'View', datafield: 'View',width: 100 , cellsrenderer: ViewRMrender, columntype: 'button', buttonclick : ViewRMRequest , sortable: false ,cellsalign: 'center'}*@
+                                    </div>
+                                </div>
+                                <div id="tab_DetailsRM_3" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="Year" class="control-label">Year</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <jqx-drop-down-list jqx-width="'100%'"
+                                                                    jqx-height="25"
+                                                                    jqx-auto-drop-down-height="false"
+                                                                    jqx-display-member="'Name'"
+                                                                    jqx-value-member="'Id'"
+                                                                    jqx-source="RMYearSource"
+                                                                    jqx-instance="ddlRMYear"
+                                                                    jqx-theme="theme"
+                                                                    jqx-on-binding-complete="onRMYearBindingComplete(event)"
+                                                                    id="ddlRMYear"></jqx-drop-down-list>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="Month" class="control-label">Month</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <jqx-drop-down-list jqx-width="'100%'"
+                                                                    jqx-height="25"
+                                                                    jqx-auto-drop-down-height="false"
+                                                                    jqx-display-member="'Name'"
+                                                                    jqx-value-member="'Id'"
+                                                                    jqx-source="RMMonthSource"
+                                                                    jqx-instance="ddlRMMonth"
+                                                                    jqx-theme="theme"
+                                                                    id="ddlRMMonth"
+                                                                    jqx-on-binding-complete="onRMMonthBindingComplete(event)"></jqx-drop-down-list>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="LotNo" class="control-label">Lot No</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <jqx-input jqx-instance="txtRMLotNo"
+                                                           class="form-control"
+                                                           jqx-height="25"
+                                                           jqx-width="'100%'"
+                                                           jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-primary btn-search" style="margin-top:0px;padding:1px;min-width:85px;" type="button" ng-click="onRMMonthYearSearch(event)">
+                                                    <i class="fa fa-search"></i>
+                                                    Search
+                                                </button>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="pull-right pad" style="padding-top:0px;">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-info" ng-click="onFilterCloseRMReceviedClick()"><i class="fa fa-filter"></i></button>
+                                                        <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'IsReceived')"><i class="fa fa-file-excel-o"></i></button>
+                                                        <button type="button" class="btn btn-info" ng-click="OnPrint('IsReceived')"><i class="fa fa-print"></i></button>
+                                                        <button type="button" class="btn btn-info" ng-click="OnRMCloseReceviedRefreshClick()"><i class="fa fa-refresh"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-filterable="ShowFilter"
+                                                  jqx-showfilterrow="ShowFilterRMCloseRecevied" jqx-source="RMCloseReceviedSource" jqx-instance="GrdRMCloseRecevied"
+                                                  jqx-on-bindingcomplete="onGridRMCloseReceviedBinidingComplete()"
+                                                  jqx-columns="[
+                                                    { text: 'Lot No', datafield: 'LotNo',width: 100 },
+                                                    { text: 'Status', datafield: 'RMRequestStatus',width: 100 },
+                                                    { text: 'Grade Name', datafield: 'GradeName' },
+                                                    { text: 'Qty To Produce', datafield: 'QtyToProduce',width: 130},
+                                                    { text: 'Lot Size', datafield: 'LOTSize',width: 100},
+                                                    { text: 'Color STD', datafield: 'ColorSTD',width: 250},
+                                                    { text: 'Request Date', datafield: 'RequestDate',width: 100,cellsformat: 'dd/MM/yyyy'},
+                                                    { text: 'Request By', datafield: 'RequestBy',width: 100},
+                                                    { text: 'View', datafield: 'Recevied',width: 100 , pinned: true, cellsrenderer: RMCloseViewrender, columntype: 'button', buttonclick : RMCloseView , sortable: false ,cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                        @*{ text: 'View', datafield: 'View',width: 100 , cellsrenderer: ViewRMrender, columntype: 'button', buttonclick : ViewRMRequest , sortable: false ,cellsalign: 'center'}*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <jqx-window jqx-instance="FormulationStartWindow" jqx-height="600" jqx-width="650" jqx-theme="theme" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Formualtion Request
+        </div>
+        <div>
+            <div class="nav-tabs-custom">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-height="300"
+                                              jqx-source="FormulationDetailSource" jqx-instance="GrdFormulationDetail" jqx-editable="true"
+                                              jqx-columns="formulationDetailsColumn"></jqx-grid>
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="LotNo" class="control-label">Remarks </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            @*<div class="label-wrapper">*@
+                                            <jqx-text-area jqx-instance="txtStartRemarks" jqx-theme="theme" jqx-height="40" ng-model="StartRemarks"></jqx-text-area>
+                                            @*</div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="onStartClick(event)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="FormulationViewWindow" jqx-height="700" jqx-width="730" jqx-theme="theme" jqx-resizable="true" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Formualtion Request
+        </div>
+        <div>
+            <div class="nav-tabs-custom" style="margin-bottom:5px;">
+                <ul class="nav nav-tabs" ng-show="IsTestResult">
+                    <li class="active" id="litestResult1">
+                        <a href="#tab_TestResult_1" data-toggle="tab" data-tab-name="Formulation Request">Formulation Request</a>
+                    </li>
+                    <li id="litestResult2" ng-repeat="testResult in TestResultList">
+                        <a href="#tab_TestResult_2_{{testResult.VersionNo}}" data-toggle="tab" data-tab-name="Test Request">Test Result - Ver {{testResult.VersionNo}}</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="height:480px;padding-top:5px;padding-bottom:5px;">
+                    <div id="tab_TestResult_1" class="tab-pane active" style="padding-top:5px;padding-bottom:5px;">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal" style="padding:4px;">
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="LotNo" class="control-label">Lot No</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="model.LotNo" id="txtLotNo" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="GradeName" class="control-label">Grade Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input jqx-height="25" ng-model="model.GradeName" id="txtGradeName" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="QtyToProduce" class="control-label">Qty Produce</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-number-input ng-model="model.QtyToProduce"
+                                                              jqx-width="'100%'"
+                                                              jqx-height="25"
+                                                              jqx-min="1"
+                                                              jqx-input-mode="simple"
+                                                              jqx-decimal-digits="0"
+                                                              jqx-instance="txtQtyToProduce"
+                                                              jqx-theme="theme"
+                                                              jqx-on-change="onQtytoProduceChange()"
+                                                              ng-disabled="enableProperty" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Lot Size" class="control-label">Lot Size</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input jqx-height="25" ng-model="model.LOTSize" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Color STD" class="control-label">Color STD</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input jqx-height="25" ng-model="model.ColorSTD" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="WorkoderNo" class="control-label">Work Order#</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input jqx-height="25" ng-model="model.WorkOrderNo" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Description" class="control-label">Notes</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <textarea ng-model="model.Notes" class="form-control text-box multi-line" type="text" style="padding-left: 0px;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;" ng-disabled="enableProperty"></textarea>
+                                        </div>
+                                    </div>
+                                    <jqx-grid jqx-width="'100%'" jqx-height="150" jqx-theme="theme" jqx-editable="false"
+                                              jqx-showaggregates="true" jqx-show-statusbar="true"
+                                              jqx-source="FormulationRequestDetailsSource" jqx-instance="GrdFormulationDetailsRequest"
+                                              jqx-columns="[
+                                            { text: 'Item Name', datafield: 'ItemName',editable: false },
+                                            { text: 'Item In %', datafield: 'ItemQtyPercentage',editable: false, width: 150 ,cellvaluechanging :ItemQtyPercentagechange, validation : percentageValidation ,aggregates:['sum']  },
+                                            { text: 'Item InGram', datafield: 'ItemQtyGram',width: 150 ,editable: false,cellsrenderer : ItemInGramrender ,aggregates:['sum']},
+                                                ]"></jqx-grid>
+                                    <br />
+                                    <jqx-grid jqx-width="'100%'" jqx-height="135" jqx-theme="theme"
+                                              jqx-source="FormulationRemarksSource" jqx-instance="grdFormulationRemarks"
+                                              jqx-columns="[
+                                           { text: '#', datafield: 'Id', width: 30  },
+                                           { text: 'Remarks', datafield: 'Remarks' },
+                                           { text: 'Remarks By', datafield: 'RemarksBy' , width: 100 },
+                                           { text: 'Remarks Date', datafield: 'RemarksDate' ,cellsformat: 'dd/MM/yyyy' , width: 80 }
+                                      ]"></jqx-grid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab_TestResult_2_{{testResult.VersionNo}}" ng-repeat="testResult in TestResultList" class="tab-pane" style="padding-top:5px;padding-bottom:5px;" ng-show="IsTestResult">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal" style="padding:4px;">
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-12" style="height:18px;">
+                                            <div class="label-wrapper" style="float:left;">
+                                                <b>Colour Specification</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="DeltaE" class="control-label">ΔE:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.colorSpec.DeltaE" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewDeltaE" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="DeltaL" class="control-label">ΔL:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.colorSpec.DeltaL" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewDeltaL" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Delltaa" class="control-label">Δa:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.colorSpec.Deltaa" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewDeltaa" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Deltab" class="control-label">Δb:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.colorSpec.Deltab" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewDeltab" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:5px;">
+                                        <div class="col-md-12" style="height:18px;">
+                                            <div class="label-wrapper" style="float:left;">
+                                                <b>QA Specification(ASTM Testing)</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="MFI 220C/10kg" style="width:87px;" class="control-label"> MFI 220C/10kg </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.MFI220c10kg" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewMFI220C10kg" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="SP Gravity" class="control-label"> SP Gravity </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.SPGravity" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewSPGravity" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Ash Content" style="width:87px;" class="control-label">Ash Content</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.AshContent" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewAshContent" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Notch Impact" class="control-label">Notch Impact</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.NotchImpact" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewNotchImpact" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Tensile" class="control-label">Tensile</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.Tensile" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewTensile" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Flexural modulus" style="width:97px;" class="control-label">Flexural modulus</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.FlexuralModule" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewFlexuralmodulus" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2" style="padding-right:10px;">
+                                            <div class="label-wrapper">
+                                                <label title="Flexural Strength" style="width:97px;" class="control-label">Flexural Strength</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.FlexuralStrength" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewFlexuralStrength" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Elongation" class="control-label">Elongation</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.Elongation" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewElongation" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="Flammablity" class="control-label">Flammablity</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.Flammability" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewFlammablity" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="GWT at" class="control-label">GWT at</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <jqx-input ng-model="testResult.qaSpec.GWTAt" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" jqx-instance="txtViewGWTat" />
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Notes" class="control-label">Notes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <jqx-text-area jqx-instance="txtViewCloseNotes" jqx-theme="theme" jqx-height="35" ></jqx-text-area>
+                                            </div>
+                                        </div>*@
+                                    <div class="pull-right">
+                                        <button class="btn bg-blue" id="ColorQaVerNo_{{testResult.VersionNo}}" ng-click="OnColorQADownloadClick(this)" ng-show="IsTestResult">
+                                            <i class="fa fa-fw fa-download"></i>
+                                            Download
+                                        </button>
+                                        @*<button class="btn bg-blue" id="testResultdownload__{{testResult.VersionNo}}" ng-click="OnTestResultDownloadClick(this)" ng-show="IsTestResult">
+                                                <i class="fa fa-fw fa-download"></i>
+                                                Download Test Result
+                                            </button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="OnDownloadClick(event)" ng-show="IsDownload">
+                    <i class="fa fa-fw fa-download"></i>
+                    Download
+                </button>
+                <button class="btn bg-blue" ng-click="OnBatchDownloadClick(event)" ng-show="IsBatch">
+                    <i class="fa fa-fw fa-download"></i>
+                    Download Batch Yield
+                </button>
+
+                <button class="btn bg-blue" ng-click="OnMaterialIssuedReturnDownloadClick(event)" ng-show="IsTestResult">
+                    <i class="fa fa-fw fa-download"></i>
+                    Material Issued Return
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="FormulationRemarksWindow" jqx-height="150" jqx-width="400" jqx-theme="theme" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Formualtion Request
+        </div>
+        <div>
+            <div class="form-group">
+                <jqx-validator jqx-instance="RemarksValidator" jqx-hint-type="'label'" jqx-rules="RemarksRules">
+                    <div class="col-md-2">
+                        <div class="label-wrapper">
+                            <label title="remarks" class="control-label">Remarks </label>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="label-wrapper">
+                            <textarea class="form-control text-box multi-line" id="txtformulationRemarks" ng-model="fomulationRemarks" type="text" value="" style="padding-left:1px;"></textarea>
+                            @*<jqx-text-area jqx-theme="theme" jqx-instance="txtformulationRemarks" jqx-height="35" ng-model="fomulationRemarks"></jqx-text-area>*@
+                        </div>
+                    </div>
+                </jqx-validator>
+            </div>
+            <div class="pull-right">
+                <br />
+                <button class="btn bg-blue" ng-click="onSaveRemarksClick(event)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="RequestRemarkWindow" jqx-height="510" jqx-width="600" jqx-theme="theme" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Formualtion Request
+        </div>
+        <div>
+            <div class="nav-tabs-custom">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-height="250"
+                                              jqx-showaggregates="true" jqx-show-statusbar="true"
+                                              jqx-source="RawMaterialDetailSource" jqx-instance="GrdRawMaterial" jqx-editable="true"
+                                              jqx-columns="[
+                                                    { text: 'Item', datafield: 'ItemName' ,editable: false},
+                                                    { text: 'Requested Qty', datafield: 'RequestedQty',width: 100 ,editable: true ,aggregates:['sum']}
+                                        ]"></jqx-grid>
+                                    <br />
+                                    <div class="form-group">
+                                        <jqx-validator jqx-instance="RemarksValidator" jqx-hint-type="'label'" jqx-rules="RemarksRules">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="remarks" class="control-label">Remarks </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <jqx-text-area jqx-theme="theme" jqx-instance="txtRequestRemarks" jqx-height="45" ng-model="requestRemarks"></jqx-text-area>
+                                            </div>
+                                        </jqx-validator>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pull-right">
+                <br />
+                <button class="btn bg-blue" ng-click="onRequestRemarksClick(event)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="VerifyRemarkWindow" jqx-height="150" jqx-width="400" jqx-theme="theme" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Formualtion Request
+        </div>
+        <div>
+            <jqx-validator jqx-instance="RemarksValidator" jqx-hint-type="'label'" jqx-rules="RemarksRules">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="remarks" class="control-label">Remarks </label>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <jqx-text-area jqx-theme="theme" jqx-instance="txtVerifyNotes" jqx-height="45"></jqx-text-area>
+                </div>
+            </jqx-validator>
+            <div class="pull-right">
+                <br />
+                <button class="btn bg-blue" ng-click="onVerifyRemarksClick(event)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="FormulationCloseWindow" jqx-height="580" jqx-width="800" jqx-theme="theme" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Formulation Close
+        </div>
+        <div>
+            <br>
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active" id="liformulationclose1">
+                        <a href="#tab_Close_1" data-toggle="tab" data-tab-name="Retun item">Return Item</a>
+                    </li>
+                    <li id="liformulationclose2">
+                        <a href="#tab_Close_2" data-toggle="tab" data-tab-name="Machine Reading">Machine Reading</a>
+                    </li>
+                    <li id="liformulationclose3">
+                        <a href="#tab_Close_3" data-toggle="tab" data-tab-name="Close">Output Details</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="height:414px;">
+                    <div id="tab_Close_1" class="tab-pane active">
+                        <div class="panel-group">
+                            <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-height="300"
+                                      jqx-showaggregates="true" jqx-show-statusbar="true" jqx-editable="true"
+                                      jqx-source="MaterialCloseSource" jqx-instance="GrdFormulationMaterial" jqx-selectionmode='multiplecellsadvanced'
+                                      jqx-columns="MaterialCloseColumns"></jqx-grid>
+                        </div>@*jqx-keyboard-navigation="true"*@
+                    </div>
+                    <div id="tab_Close_2" class="tab-pane">
+                        <div class="panel-group">
+                            <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-height="300"
+                                      jqx-showaggregates="true" jqx-show-statusbar="true" jqx-editable="true"
+                                      jqx-source="MachineReadingSource" jqx-instance="GrdMachineReading" jqx-selectionmode='multiplecellsadvanced'
+                                      jqx-columns="[
+                                                    { text: 'Machine', datafield: 'MachineName' ,editable: false},
+                                                    { text: 'Reading', datafield: 'Reading',width: 200,editable: true,aggregates:['sum']}
+                                        ]"></jqx-grid>
+                        </div>
+                    </div>
+                    <div id="tab_Close_3" class="tab-pane ">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    <jqx-validator jqx-instance="FormulationCloseValidator" jqx-hint-type="'label'" jqx-rules="FormulationCloseRules">
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="FG Packed qty" class="control-label">FG Packed Qty</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.FGPackedQty" jqx-instance="txtFGDeposition" class="form-control" id="txtFGDeposition" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="NSP" class="control-label">NSP</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.NSP" id="txtNSP" jqx-instance="txtNSP" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Start Up/Trials" class="control-label">Start Up/Trials</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.StartUpTrials" id="txtStartUpSCOffSpecs" jqx-instance="txtStartUpSCOffSpecs" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="QC Rejected" class="control-label">QC Rejected</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.QCRejected" id="txtQCRejected" jqx-instance="txtQCRejected" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Lumps" class="control-label">Lumps</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.Lumps" id="txtLumps" jqx-instance="txtLumps" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Longs and Fines" class="control-label">Longs & Fines</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.LongsandFines" id="txtLongsandFines" jqx-instance="txtLongsandFines" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Lab Sample" class="control-label">Lab Sample</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.LabSample" id="txtLabSample" jqx-instance="txtLabSample" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Sweepaged" class="control-label">Sweepaged</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.Sweepaged" id="txtSweepaged" jqx-instance="txtSweepaged" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Additives" class="control-label">Additives</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.Additives" id="txtAdditives" jqx-instance="txtAdditives" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="MIX Material" class="control-label">MIX Material</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.MixMaterial" id="txtMixMaterial" jqx-instance="txtMixMaterial" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="PackingBags" class="control-label">Packing Bags</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input ng-model="model.FormulationClose.PackingBags" id="txtPackingBags" jqx-instance="txtPackingBags" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Close Remarks" class="control-label">Remarks </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <textarea class="form-control text-box multi-line" id="txtCloseRemarks" ng-model="CloseNotes" type="text" value="" style="padding-left:1px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </jqx-validator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="onSaveFormulationClose()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="RawMaterialWindow" jqx-height="600" jqx-width="600" jqx-theme="theme" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Raw Material Request
+        </div>
+        <div>
+            <div class="nav-tabs-custom">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-height="300"
+                                              jqx-showaggregates="true" jqx-show-statusbar="true"
+                                              jqx-source="RMRequestDetailSource" jqx-instance="GrdRMRequestDetails" jqx-editable="true"
+                                              jqx-columns="[
+                                                    { text: 'Item', datafield: 'ItemName' ,editable: false},
+                                                    { text: 'Requested Qty', datafield: 'RequestedQty',width: 100 ,editable: false,aggregates:['sum']},
+                                                    { text: 'Issued Qty', datafield: 'IssuedQty',width: 100 ,type: 'number',cellsrenderer : RMIssuedQtycellrender,editable: true ,aggregates:['sum']}
+                                        ]"></jqx-grid>
+                                    <br />
+                                    <div class="form-group" ng-show="IsRMReceived">
+                                        <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="LotNo" class="control-label">Remarks </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control text-box multi-line" ng-model="RMRemarks" type="text" value="" style="padding-left:1px;"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="onDispatchClick(event)" ng-show="IsDispatch">
+                    Dispatch
+                </button>
+                <button class="btn bg-blue" ng-click="onReceviedClick(event)" ng-show="IsMaterialReceived">
+                    Recevied
+                </button>
+                <button class="btn bg-blue" ng-click="onMaterialIssueDownloadClick(event)" ng-show="IsMaterialSlip">
+                    Download
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="ReadyForTestingWindow" jqx-height="530" jqx-width="730" jqx-theme="theme" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+        <div>
+            Colour and QA Specification
+        </div>
+        <div>
+            <div class="nav-tabs-custom" style="margin-bottom:8px;">
+                <div class="tab-content" style="height:444px;">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal" style="height:420px;">
+                                    <jqx-validator jqx-instance="ColoursQAValidator" jqx-hint-type="'label'" jqx-rules="ColoursQARules">
+                                        <div class="form-group" style="margin-bottom:10px;">
+                                            <div class="col-md-12" style="height:18px;">
+                                                <div class="label-wrapper" style="float:left;">
+                                                    <b>Colour Specification</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="DeltaE" class="control-label"> ΔE: </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtDeltaE" ng-model="model.ColourSpec.DeltaE" class="form-control" id="txtDeltaE" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="DeltaL" class="control-label"> ΔL: </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtDeltaL" ng-model="model.ColourSpec.DeltaL" class="form-control" id="txtDeltaL" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Deltaa" class="control-label"> Δa: </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtDeltaa" ng-model="model.ColourSpec.Deltaa" class="form-control" id="txtDeltaa" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Deltab" class="control-label"> Δb: </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtDeltab" ng-model="model.ColourSpec.Deltab" class="form-control" id="txtDeltab" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group" style="margin-bottom:8px;">
+                                            <div class="col-md-12" style="height:18px;">
+                                                <div class="label-wrapper" style="float:left;">
+                                                    <b>QA Specification (ASTM Testing)</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="MFI 220C/10kg" style="width:87px;" class="control-label"> MFI 220C/10kg </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtMFI220C10kg" ng-model="model.QASpec.MFI220C10kg" class="form-control" id="txtMFI220C10kg" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="SP Gravity" class="control-label"> SP Gravity </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtSPGravity" ng-model="model.QASpec.SPGravity" class="form-control" id="txtSPGravity" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Ash Content" style="width:87px;" class="control-label">Ash Content</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtAshcontent" ng-model="model.QASpec.AshContent" class="form-control" id="txtAshcontent" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Notch Impact" class="control-label">Notch Impact</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtNotchimpact" ng-model="model.QASpec.NotchImpact" class="form-control" id="txtNotchimpact" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Tensile" class="control-label">Tensile</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtTensile" ng-model="model.QASpec.Tensile" class="form-control" id="txtTensile" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Flexural modulus" style="width:97px;" class="control-label">Flexural modulus</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtFlexuralmodulus" ng-model="model.QASpec.FlexuralModule" class="form-control" id="txtFlexuralmodulus" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Flexural Strength" style="width:97px;" class="control-label">Flexural Strength</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtFlexuralStrength" ng-model="model.QASpec.FlexuralStrength" class="form-control" id="txtFlexuralStrength" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Elongation" class="control-label">Elongation</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtElongation" ng-model="model.QASpec.Elongation" class="form-control" id="txtElongation" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Flammablity" class="control-label">Flammablity</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtFlammablity" ng-model="model.QASpec.Flammability" class="form-control" id="txtFlammablity" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="GWT at" class="control-label">GWT at</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <jqx-input jqx-instance="txtGWTat" ng-model="model.QASpec.GWTAt" class="form-control" id="txtGWTat" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="Notes" class="control-label">Notes</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <jqx-text-area jqx-theme="theme" jqx-instance="txtColorQANotes" jqx-height="35" id="txtColorQANotes"></jqx-text-area>
+                                            </div>
+                                        </div>
+                                    </jqx-validator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="onOkGoClick(event)">
+                    Ok, Go ahead
+                </button>
+                <button class="btn bg-blue" ng-click="onStopProductionClick(event)">
+                    Stop Production
+                </button>
+                <button class="btn bg-blue" ng-click="onChangeFormulationClick(event)">
+                    Change Formulation
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="WindowChangeFormualtion" jqx-theme="theme" jqx-width="700" jqx-height="660" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="false">
+        <div><b>Formulation Request</b></div>
+        <div>
+            <br>
+            <div class="nav-tabs-custom">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    @{Html.RenderPartial("~/Views/FormulationRequest/_AddOrUpdateFormulationRequest.cshtml", new ProERP.Web.Models.FormulationRequestsViewModel { });}
+                                    <div class="pull-right" style="padding-bottom:5px;">
+                                        <button class="btn bg-blue" ng-click="onAddNewItem(event)">
+                                            <i class="fa fa-plus-square"></i>
+                                            Add
+                                        </button>
+                                    </div>
+                                    <jqx-grid jqx-width="'100%'" jqx-height="200" jqx-theme="theme" jqx-editable="true"
+                                              jqx-showaggregates="true" jqx-show-statusbar="true"
+                                              jqx-source="FormulationDetailsSource" jqx-instance="GrdFormulationRequest"
+                                              jqx-columns="[
+                                            { text: 'Item Name', datafield: 'ItemName',editable: false },
+                                            { text: 'Item In %', datafield: 'ItemQtyPercentage',editable: true, width: 150 ,cellvaluechanging :UpdateItemQtyPercentagechange ,aggregates:['sum']  },
+                                            { text: 'Item InGram', datafield: 'ItemQtyGram',width: 150 ,editable: false,cellsrenderer : UpdateItemInGramrender,aggregates:['sum']},
+                                            { text: 'Delete', datafield: 'Delete',width: 50 ,editable: false,cellsrenderer : DeleteItemrender,columntype: 'button', buttonclick : DeleteItem}
+                                                ]"></jqx-grid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button class="btn bg-blue" ng-click="onUpdateFormulationClick(event)">
+                        <i class="fa fa-floppy-o"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="WindowAddItem" jqx-theme="theme" jqx-width="350" jqx-height="250" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="false">
+        <div><b>Item</b></div>
+        <div>
+            <div class="nav-tabs-custom"></div>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-body form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label title="Item" class="control-label">Item</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <jqx-combo-box jqx-height="30"
+                                                       jqx-auto-drop-down-height="false"
+                                                       jqx-display-member="'Name'"
+                                                       jqx-value-member="'Id'"
+                                                       jqx-source="RMItemSource"
+                                                       jqx-theme="theme"
+                                                       jqx-search-mode="'containsignorecase'"
+                                                       jqx-auto-complete="true"
+                                                       jqx-selected-index="0"
+                                                       jqx-instance="ddlItemId"
+                                                       id="ddlItemId"></jqx-combo-box>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                        <div class="label-wrapper">
+                                            <label title="Item" class="control-label">Item in Perc%</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <jqx-number-input jqx-height="30"
+                                                          jqx-min="0"
+                                                          jqx-input-mode="simple"
+                                                          jqx-decimal-digits="2"
+                                                          jqx-theme="theme"
+                                                          jqx-instance="txtIteminPerc" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="SaveItem(event)">
+                    <i class="fa fa-floppy-o"></i>
+                    Save Item
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+    <jqx-window jqx-instance="WinVersionUpdated" jqx-height="'auto'" jqx-width="500" jqx-is-modal="true" jqx-resizable="true" jqx-theme="theme" jqx-auto-open="IsVersionUpdated" jqx-on-close="OnVersionUpdateWinClose(event)">
+        <div>
+            What's New
+        </div>
+        <div>
+            <h4 class="text-center"> Version : @Model.ReleaseVersion</h4>
+            <ul>
+                @foreach (var item in Model.WhatsNewNotes)
+                {
+                    <li>@item</li>
+                }
+            </ul>
+            <div class="form-group content-header">
+                <jqx-check-box jqx-instance="chkNextTime" jqx-theme="theme"><b><font color="gray">Do not show me next time</font></b> </jqx-check-box>
+            </div>
+            <div class="form-group pull-right pad">
+                <jqx-button jqx-theme="theme" jqx-height="30" jqx-width="100" jqx-instance="BtnOK" ng-click="OnOkClick(event)">
+                    Ok
+                </jqx-button>
+            </div>
+        </div>
+    </jqx-window>
+
+</div>
+<style type="text/css">
+    .jqx-validator-error-label {
+        display: none !important;
+    }
+</style>
+@section scripts {
+    <script type="text/javascript" src="~/js/Dashboard/DashboardController.js"></script>
+}

@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-header clearfix">
+    <h1 class="pull-left">Sites</h1>
+    <div class="pull-right">
+        <a class="btn bg-blue" href="/BreakDownAnalysis/Add/">
+            <i class="fa fa-plus-square"></i>
+            Add New
+        </a>
+        <button class="btn bg-red">
+            <i class="fa fa-trash-o"></i>
+            Delete (selected)
+        </button>
+    </div>
+</div>
+<div class="content">
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-default panel-search">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label" for="SearchSiteName">Site Name</label>
+                                        <div title="A site name" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <input name="SearchSiteName" class="form-control text-box single-line" id="SearchSiteName" type="text" value="" />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <div class="col-md-4">
+
+                                </div>
+                                <div class="col-md-8">
+                                    <button class="btn btn-primary btn-search" id="searchSites" type="button">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    List Of Sites
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

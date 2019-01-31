@@ -1,0 +1,395 @@
+﻿@model  ProERP.Web.Models.PreventiveMaintenanceViewModel
+@Html.HiddenFor(m => m.Id, new { id = "txtId" })
+
+<script type="text/javascript" src="~/JS/PrventiveMaintanace/AddOrUpdateController.js"></script>
+<div jqx-validator jqx-instance="PMValidator" jqx-hint-type="'label'" jqx-rules="Rules">
+    <div class="row form-group">
+
+        <div class="col-md-2" ng-show="IsSite">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Site</label>
+                <div title="A plant name" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" ng-show="IsSite">
+            <jqx-drop-down-list ng-model="model.SiteId"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="SiteSource"
+                                jqx-instance="ddlSite"
+                                jqx-selected-index="0"
+                                jqx-disabled="DisableSiteList"
+                                jqx-theme="theme"
+                                jqx-on-change="onSiteChange(event)"
+                                jqx-on-binding-complete="onSiteBindingComplete(event)"></jqx-drop-down-list>
+
+        </div>
+
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Plant</label>
+                <div title="select plant" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <jqx-drop-down-list ng-model="model.PlantId"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="PlantSource"
+                                jqx-instance="ddlPlant"
+                                jqx-auto-bind="true"
+                                jqx-theme="theme"
+                                jqx-on-change="onPlantChange(event)"
+                                jqx-on-binding-complete="onPlantBindingComplete(event)"
+                                id="plantid"></jqx-drop-down-list>
+        </div>
+
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Line</label>
+                <div title="select line" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <jqx-drop-down-list ng-model="model.LineId"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="LineSource"
+                                jqx-instance="ddlLine"
+                                jqx-auto-bind="false"
+                                jqx-theme="theme"
+                                jqx-on-change="onLineChange(event)"
+                                jqx-on-binding-complete="onLineBindingComplete(event)"
+                                id="lineId"></jqx-drop-down-list>
+        </div>
+    </div>
+
+    <div class="row form-group">
+
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Machine</label>
+                <div title="select machine" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+            <jqx-combo-box ng-model="model.MachineId"
+                           jqx-width="300"
+                           jqx-height="30"
+                           jqx-auto-drop-down-height="false"
+                           jqx-display-member="'Name'"
+                           jqx-value-member="'Id'"
+                           jqx-source="MachineSource"
+                           jqx-theme="theme"
+                           jqx-search-mode="'containsignorecase'"
+                           jqx-auto-complete="true"
+                           jqx-selected-index="0"
+                           jqx-on-select="selectHandler(event)"
+                           jqx-on-binding-complete="onBindingMachine(event)"
+                           jqx-instance="MachineInstance"
+                           id="machineId"></jqx-combo-box>
+        </div>
+
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Check Point</label>
+                <div title="Checkpoint" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <jqx-input ng-model="model.Checkpoints"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+        </div>
+
+    </div>
+
+    <div class=" row form-group">
+
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Work Description</label>
+                <div title="a work discription" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-md-9">
+
+                <jqx-combo-box ng-model="model.WorkId"
+                               jqx-width="300"
+                               jqx-height="30"
+                               jqx-auto-drop-down-height="false"
+                               jqx-display-member="'Description'"
+                               jqx-value-member="'Id'"
+                               jqx-source="PwdSource"
+                               jqx-theme="theme"
+                               jqx-instance="PwdInstance"
+                               jqx-selected-index="0"
+                               jqx-search-mode="'containsignorecase'"
+                               jqx-auto-complete="true"
+                               jqx-on-select="selectHandler(event)"
+                               jqx-on-binding-complete="onBindingWork(event)"></jqx-combo-box>
+            </div>*@
+        <div class="col-md-10">
+            <jqx-input ng-model="model.WorkDescription"
+                       jqx-width="'92%'"
+                       jqx-height="30"
+                       jqx-theme="theme"
+                       id="txtWorkDisc" />
+        </div>
+
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Description</label>
+                <div title="site description" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <jqx-text-area ng-model="model.Description"
+                           jqx-width="'92%'"
+                           jqx-height="50"
+                           jqx-theme="theme" />
+        </div>
+    </div>
+
+    <div class="row form-group" > @*style="pointer-events:none"*@
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Schedule</label>
+                <div title="Schedule" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="col-md-2" style="border: solid; border-width: 1px; border-color: #c6c6c6;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="rbtnDay" type="radio" name="ScheduleType" ng-model="model.ScheduleType" value="6" ng-change="OnScheduleTypeChanged(event)" ng-disabled="enableRadioBtn" /> @*ng-disabled="true"*@
+                        <label for="rbtnDay">Hourly</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="rbtnDay" type="radio" name="ScheduleType" ng-model="model.ScheduleType" value="1" ng-change="OnScheduleTypeChanged(event)" ng-disabled="enableRadioBtn" /> @*ng-disabled="true"*@
+                        <label for="rbtnDay">Daily</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="rbtnWeek" type="radio" name="ScheduleType" ng-model="model.ScheduleType" value="2" ng-change="OnScheduleTypeChanged(event)" ng-disabled="enableRadioBtn"/>
+                        <label for="rbtnWeek">Weekly</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="rbtnMonth" type="radio" name="ScheduleType" ng-model="model.ScheduleType" value="3" ng-change="OnScheduleTypeChanged(event)" ng-disabled="enableRadioBtn"/>
+                        <label for="rbtnMonth">Monthly</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="rbtnYear" type="radio" name="ScheduleType" ng-model="model.ScheduleType" value="4" ng-change="OnScheduleTypeChanged(event)" ng-disabled="enableRadioBtn"/>
+                        <label for="rbtnYear">Yearly</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input id="rbtnShutdown" type="radio" name="ScheduleType" ng-model="model.ScheduleType" value="5" ng-change="OnScheduleTypeChanged(event)" ng-disabled="enableRadioBtn"/>
+                        <label for="rbtnShutdown">Shutdown</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" style="border: solid; border-width: 1px; border-color: #c6c6c6; height: 164px;">
+                <div class="row" ng-show="IsPeriod">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Every</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-number-input jqx-height="25"
+                                                  jqx-width="50"
+                                                  jqx-theme="theme"
+                                                  jqx-input-mode="simple"
+                                                  jqx-instance="ddlInterval"
+                                                  jqx-decimal=""
+                                                  jqx-min="1"
+                                                  jqx-decimal-digits="0"
+                                                  jqx-digits="5"
+                                                  ng-model="model.Interval"
+                                                  ng-disabled="enableRadioBtn"></jqx-number-input>
+                            </div>
+                            <div class="col-md-3" id="isPeriod">
+                                <label title="" class="control-label">
+                                    {{Period}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row form-group">
+
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Shutdown Required</label>
+                <div title="Shutdown Required" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <jqx-input ng-model="model.ShutdownRequired"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+        </div>
+        <div class="col-md-1">
+            <label>
+                (in min)
+            </label>
+        </div>
+
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Assign To</label>
+                <div title="AssignTo" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <jqx-drop-down-list jqx-checkboxes="true"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'UserName'"
+                                jqx-value-member="'Id'"
+                                jqx-source="UserSource"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-theme="theme"
+                                jqx-instance="UserInstance"
+                                jqx-on-binding-complete="onBindingUser(args)"
+                                id="assignto" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Severity</label>
+                <div title="Severity" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <jqx-drop-down-list ng-model="model.Severity"
+                                jqx-auto-drop-down-height="true"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-theme="theme"
+                                jqx-display-member="'Description'"
+                                jqx-value-member="'Id'"
+                                jqx-source="[{Id:1,Description:'Moderate'},{Id:2,Description:'Critical'},{Id:3,Description:'Minor'}]"
+                                jqx-selected-index="0"
+                                jqx-instance="ddlSeverity"
+                                jqx-on-binding-complete="onSeverityBindingComplete(event)" />
+        </div>
+        
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Observation</label>
+                <div title="Observation" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>
+                <input type="checkbox" ng-model="model.IsObservation" checked="checked"> 
+            </label>
+            @*<jqx-check-box ng-model="model.IsObservation">Observation</jqx-check-box>*@
+        </div>
+
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Schedule Start Date</label>
+                <div title="ScheduleStartDate" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <jqx-date-time-input jqx-width="300"
+                                 jqx-height="33"
+                                 jqx-theme="theme"
+                                 jqx-format-string="'dd-MM-yyyy'"
+                                 ng-model="model.ScheduleStartDate"></jqx-date-time-input>
+        </div>
+        <div class="col-md-1">
+            <label>
+                <input type="checkbox" ng-model="checked" aria-label="Toggle ngHide" value="">
+                End Date
+            </label>
+        </div>
+
+        <div class="col-md-2" ng-show="checked">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Schedule End Date</label>
+                <div title="ScheduleEndtDate" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" ng-show="checked">
+            <jqx-date-time-input jqx-width="300" jqx-height="33" jqx-theme="theme" jqx-format-string="'dd-MM-yyyy'" ng-model="model.ScheduleEndDate"></jqx-date-time-input>
+        </div>
+    </div>
+
+    
+
+    <div class="pull-right">
+        <button class="btn bg-blue" ng-click="OnSavePM(event)">
+            <i class="fa fa-floppy-o"></i>
+            Save
+        </button>
+    </div>
+</div>

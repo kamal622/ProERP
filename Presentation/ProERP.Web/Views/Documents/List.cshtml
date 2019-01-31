@@ -1,0 +1,389 @@
+﻿@model  ProERP.Web.Models.TreeViewData
+@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Documents");
+}
+
+<div ng-controller="DocumentController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Document Management</h1>
+        <div class="pull-right">
+            @if (User.IsInRole("Lavel2"))
+            {
+                <button class="btn bg-red" ng-click="onDelete(event)">
+                    <i class="fa fa-trash-o"></i>
+                    Delete 
+                </button>   
+            }
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="col-md-1">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Plant</label>
+                                    <div title="select plant" class="ico-help" area-describedby="">
+                                        <i class="fa fa-question-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-drop-down-list jqx-width="180"
+                                                    jqx-height="30"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-display-member="'Name'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="PlantSource"
+                                                    jqx-instance="ddlPlant"
+                                                    jqx-selected-index="0"
+                                                    jqx-theme="theme"
+                                                    jqx-on-change="onPlantChange(event)"
+                                                    jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Line</label>
+                                    <div title="select line" class="ico-help" area-describedby="">
+                                        <i class="fa fa-question-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <jqx-drop-down-list jqx-width="180"
+                                                    jqx-height="30"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-display-member="'Name'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="LineSource"
+                                                    jqx-instance="ddlLine"
+                                                    jqx-theme="theme"
+                                                    jqx-on-change="onLineChange(event)"
+                                                    jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+                            </div>
+
+                            <div class="col-md-1">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Machine</label>
+                                    <div title="Select machine" class="ico-help" area-describedby="">
+                                        <i class="fa fa-question-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-combo-box jqx-width="180"
+                                               jqx-height="30"
+                                               jqx-auto-drop-down-height="false"
+                                               jqx-display-member="'Name'"
+                                               jqx-value-member="'Id'"
+                                               jqx-source="MachineSource"
+                                               jqx-theme="theme"
+                                               jqx-search-mode="'containsignorecase'"
+                                               jqx-auto-complete="false"
+                                               jqx-selected-index="0"
+                                               jqx-on-binding-complete="onBindingMachine(event)"
+                                               jqx-instance="ddlMachine"></jqx-combo-box>
+                            </div>
+
+                            <div class="col-md-3">
+                                <button class="btn btn-primary" id="searchSites" type="button" ng-click="onSearchClick()">
+                                    <i class="fa fa-search"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <fieldset>
+                        <jqx-splitter jqx-width="'100%'" jqx-height="600" jqx-orientation="vertical" jqx-panels="[{ size: 250, collapsible: true }]" jqx-theme="theme">
+                            <div>
+                                <jqx-expander jqx-show-arrow="false" jqx-toggle-mode="none" jqx-width="'100%'" jqx-height="'100%'" jqx-theme="theme">
+                                    <div>
+                                        Document Categories
+                                    </div>
+                                    <div style="overflow: hidden;">
+                                        <jqx-tree jqx-create="treeSettings" jqx-settings="treeSettings" style="border: none;"></jqx-tree>
+                                    </div>
+                                </jqx-expander>
+                            </div>
+                            <div>
+                                <jqx-splitter jqx-width="'100%'" jqx-height="600" jqx-orientation="horizontal" jqx-panels="[{ size: 30, collapsible: true }]" jqx-theme="theme">
+                                    <div>
+                                        <table width="'100%'">
+                                            <tr>
+                                                <td width="100%">
+                                                    <jqx-button-group jqx-mode="default" jqx-theme="theme" jqx-on-buttonclick="toolBarButtonClick(event)">
+                                                        <button id="btnUpload">
+                                                            <i class="fa fa-upload"></i>
+                                                        </button>
+                                                        <button id="btndownload">
+                                                            <i class="fa  fa-download"></i>
+                                                        </button>
+                                                        @*<button id="btnExportToExcel">
+                                                            <i class="fa fa-file-excel-o"></i>
+                                                        </button>
+                                                        <button id="btnExportToPDF">
+                                                            <i class="fa fa-file-pdf-o"></i>
+                                                        </button>
+                                                        <button id="btnPrint">
+                                                            <i class="fa fa-print"></i>
+                                                        </button>*@
+                                                    </jqx-button-group>
+                                                </td>
+                                                <td>
+                                                    
+                                                    <div id="txtSearch">
+                                                        <input type="text" />
+                                                        <div id="btnSearch" ng-click="btnSearchClick(event)">
+                                                            <i class="fa fa-search"></i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div>
+                                        <jqx-splitter jqx-width="'100%'" jqx-height="'100%'" jqx-orientation="horizontal" jqx-panels="[{ size: 350, collapsible: false }]" jqx-theme="theme">
+                                            <div>
+                                                <jqx-loader jqx-settings="GridLoaderSettings">
+                                                </jqx-loader>
+                                                <jqx-grid id="grdMain" jqx-altrows="true" jqx-instance="gridMain" jqx-theme="theme" jqx-altrows="true" jqx-width="'99.8%'" jqx-height="'100%'" jqx-sortable="true"
+                                                          jqx-selection-mode="'singlerow'" 
+                                                          jqx-source="GridSource"
+                                                          jqx-editable="true"
+                                                          jqx-columns="[  
+                                                                                { text: 'Id', datafield: 'Id', hidden: 'true' },
+                                                                                { text: 'Select', columntype: 'checkbox', datafield: 'Select', width: 50, editable: true },
+                                                                                { text: 'Document Name', datafield: 'OriginalFileName', editable: false  },
+                                                                                { text: 'Category', datafield: 'CategoryName', width: '100', editable: false },
+                                                                                { text: 'CreatedBy', datafield: 'CreatedBy', width: '100', editable: false },
+                                                                                { text: 'CreatedOn', datafield: 'CreatedOn', width: '100', cellsformat: 'dd/MM/yyyy', editable: false },
+                                                                        ]"></jqx-grid>
+                                            </div>
+                                            <div>
+                                                <jqx-tabs jqx-width="'99.8%'" jqx-height="'100%'" jqx-position="top" jqx-selection-tracker="true" jqx-theme="theme">
+
+                                                    <ul>
+
+                                                        <li>Tags</li>
+                                                        <li>History</li>
+
+                                                    </ul>
+                                                    <div style="margin-left: 5px;">
+                                                        <div class="col-md-12">
+                                                        <jqx-text-area ng-model="Tags"  jqx-width="'100%'" jqx-height="110"></jqx-text-area>
+                                                        @*@Html.TextArea("KeyWords", new { @class = "form-control", @style = "width:99.7%; height:95%" })*@
+                                                            </div>
+                                                        <div class="col-md-12 text-right pad">
+                                                            <button id="btnSave" class="btn bg-blue" type="button" ng-click="onUpdateClick(event)">
+                                                                Update
+                                                            </button>
+                                                            <button id="btnCancel" class="btn bg-blue" type="button" ng-click="TagCancelClick()">
+                                                                Cancel
+                                                            </button>
+
+                                                        </div>
+                                                    </div>
+                                                    <div style="margin-left: 5px;">
+                                                        <jqx-grid jqx-instance="gridDetails"  jqx-theme="theme" jqx-altrows="true" jqx-width="'99.8%'" jqx-height="'100%'" jqx-sortable="true"
+                                                                  jqx-source="HistoryGridSource"
+                                                                   jqx-columns="[
+                                                                                    { text: 'Id', datafield: 'Id', hidden: 'true' },
+                                                                                    { text: 'Action', datafield: 'ActionName' },
+                                                                                    { text: 'ActionBy', datafield: 'ActionBy'},
+                                                                                    { text: 'ActionDate', datafield: 'ActionDate', cellsformat: 'dd/MM/yyyy' },
+                                                                                ]"></jqx-grid>
+                                                    </div>
+                                                </jqx-tabs>
+                                            </div>
+                                        </jqx-splitter>
+                                    </div>
+                                </jqx-splitter>
+                            </div>
+                        </jqx-splitter>
+                    </fieldset>
+                    <jqx-window jqx-instance="Uploadwindow" jqx-height="400" jqx-width="600" jqx-resizable="true" jqx-draggable="true" jqx-is-modal="true" jqx-auto-open="false" jqx-theme="theme">
+                        <div>
+                            Add New Document
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <label title="" class="control-label">Plant:</label>
+                                </div>
+                                <jqx-drop-down-list ng-model="model.PlantId"
+                                                    jqx-width="200"
+                                                    jqx-height="30"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-display-member="'Name'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="PopUpPlantSource"
+                                                    jqx-instance="Plantinstance"
+                                                    jqx-selected-index="0"
+                                                    jqx-auto-bind="true"
+                                                    jqx-theme="theme"
+                                                    jqx-on-change="onPopUpPlantChange(event)"
+                                                    jqx-on-binding-complete="onPopUpPlantBindingComplete(event)"></jqx-drop-down-list>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <label title="" class="control-label">Line:</label>
+                                </div>
+                                <jqx-drop-down-list ng-model="model.LineId"
+                                                    jqx-width="200"
+                                                    jqx-height="30"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-display-member="'Name'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="PopUpLineSource"
+                                                    jqx-instance="Lineinstance"
+                                                    jqx-auto-bind="false"
+                                                    jqx-theme="theme"
+                                                    jqx-on-change="onPopUpLineChange(event)"
+                                                    jqx-on-binding-complete="onPopUpLineBindingComplete(event)"></jqx-drop-down-list>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Machine:</label>
+                                    </div>
+                                </div>
+                                <jqx-combo-box ng-model="model.MachineId"
+                                               jqx-width="200"
+                                               jqx-height="30"
+                                               jqx-auto-drop-down-height="false"
+                                               jqx-display-member="'Name'"
+                                               jqx-value-member="'Id'"
+                                               jqx-source="PopUpMachineSource"
+                                               jqx-theme="theme"
+                                               jqx-search-mode="'containsignorecase'"
+                                               jqx-auto-complete="true"
+                                               jqx-on-binding-complete="onPopUpBindingMachine(event)"
+                                               jqx-instance="Machineinstance"></jqx-combo-box>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Category:</label>
+
+                                    </div>
+                                </div>
+                                <jqx-drop-down-button jqx-width="200"
+                                                      jqx-height="30"
+                                                      jqx-theme="theme"
+                                                      jqx-created="DDLCategoryCreated"
+                                                      jqx-instance="ddlCategory">
+                                    <jqx-tree jqx-create="popupTreeSettings" jqx-settings="popupTreeSettings" style="border: none;z-index: 10000;"
+                                              jqx-instance="ddljqxTree"></jqx-tree>
+                                </jqx-drop-down-button>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Upload Zip:</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <jqx-file-upload jqx-instance="ddlUploadZip" jqx-theme="theme" jqx-width="350" ng-show="ShowUpload"
+                                                     jqx-auto-upload="true"
+                                                     jqx-accept="'zip/*'"
+                                                     jqx-multiple-files-upload="false"
+                                                     jqx-upload-url="'@Url.Content("~/Documents/ZipFileUpload")'"
+                                                     jqx-file-input-name="ZipFileUpload"
+                                                     jqx-on-upload-end="ZipFile_UploadEnd(event))"></jqx-file-upload>
+                                    <div class="col-md-3">
+                                        <div class="box box-success box-solid" ng-hide="ShowUpload" style="width:350px;">
+                                            <div class="box-body">
+                                                Zip uploaded successfully.
+                                                <div class="box-tools pull-right">
+                                                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove" ng-click="onZipClose()">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 text-center">
+                                    <label title="" class="control-label">(And/Or)</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Upload File:</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    <jqx-file-upload jqx-instance="ddlUploadFile" jqx-theme="theme" jqx-width="350" ng-show="ShowFileUpload"
+                                                     jqx-auto-upload="false"
+                                                     jqx-multiple-files-upload="true"
+                                                     jqx-upload-url="'@Url.Content("~/Documents/SingleFileUpload")'"
+                                                     jqx-file-input-name="singleFileUpload"
+                                                     jqx-on-upload-end="SingleFile_UploadEnd(event)"></jqx-file-upload>
+                                    <div class="col-md-3">
+                                        <div class="box box-success box-solid" ng-hide="ShowFileUpload" style="width:350px;">
+                                            <div class="box-body">
+                                                File(s)  uploaded successfully.
+                                                <div class="box-tools pull-right">
+                                                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove" ng-click="onFilesClose()">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 text-right">
+                                    <button id="btnSave" class="btn bg-blue" type="button" ng-click="onSaveClick(this)">
+                                        Save
+                                    </button>
+                                    <button id="btnCancel" class="btn bg-blue" type="button" ng-click="onCancelClick(this)">
+                                        Cancel
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </jqx-window>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/js/Document/ListController.js"></script>
+}
+
+
+
+
+

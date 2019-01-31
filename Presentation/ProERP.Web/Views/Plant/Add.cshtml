@@ -1,0 +1,72 @@
+﻿
+@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.PlantViewModel
+
+
+@{
+    ViewBag.Title = "Add a new plant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Plants");
+}
+
+<div ng-controller="PlantAddController">
+    @using (Html.BeginForm("AddPlant", "Plant", FormMethod.Post, null))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="content-header clearfix">
+            <h1 class="pull-left">
+                Add a new plant
+                <small>
+
+                    <i class="fa fa-arrow-circle-left"></i>
+                    <a href="/Plant/List/">back to plant list</a>
+                </small>
+            </h1>
+            <div class="pull-right">
+
+                <button class="btn bg-blue">
+                    <i class="fa fa-floppy-o"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="form-horizontal">
+                <div id="customer-edit" class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#tabDetail" data-toggle="tab" data-tab-name="tabDetail">Plant Detail</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabDetail">
+                            <div class="panel-group">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        @Html.Partial("_AddOrUpdatePlant", Model)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+    </div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/JS/Plant/AddController.js"></script>
+
+}
+
+
+
+
+
+

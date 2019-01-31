@@ -1,0 +1,70 @@
+﻿@model ProERP.Web.Models.ProductViewModel
+
+<jqx-validator jqx-instance="ProductValidator" jqx-hint-type="'label'" jqx-rules="ProductRules">
+    <div class="form-group">
+        <div class="col-md-4">
+            <div class="label-wrapper">
+                <label title="Product Code" class="control-label">Product Category</label>
+            </div>
+        </div>
+        <div class="col-md-8">
+                <jqx-drop-down-list ng-model="model.CategoryId"
+                                    jqx-width="'100%'"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Name'"
+                                    jqx-value-member="'Id'"
+                                    jqx-source="ProductCategorySource"
+                                    jqx-instance="ddlProductCategory"
+                                    jqx-theme="theme"
+                                    id="ddlProductCategory"></jqx-drop-down-list>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <div class="label-wrapper">
+                <label title="Product Code" class="control-label">Product Code</label>
+            </div>
+        </div>
+        <div class="col-md-8">
+                <jqx-input ng-model="model.Code" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <div class="label-wrapper">
+                <label title="Product ShortName" class="control-label">Short Name</label>
+            </div>
+        </div>
+        <div class="col-md-8">
+                <jqx-input ng-model="model.ShortName" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">
+            <div class="label-wrapper">
+                <label title="Product Name" class="control-label">Product Name</label>
+            </div>
+        </div>
+        <div class="col-md-8">
+                <jqx-input ng-model="model.Name" id="txtproductName" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-4">
+            <div class="label-wrapper">
+                <label title="Description" class="control-label">Description</label>
+            </div>
+        </div>
+        <div class="col-md-8">
+                <textarea class="form-control text-box multi-line" type="text" ng-model="model.Description" value="" style="padding-left:1px;"></textarea>
+        </div>
+    </div>
+
+</jqx-validator>
+
+<style type="text/css">
+    .jqx-validator-error-label {
+        display: none !important;
+    }
+</style>

@@ -1,0 +1,340 @@
+﻿@model  ProERP.Web.Models.MaintenanceRequestViewModel
+
+<div class="nav-tabs-custom">
+    @*<ul class="nav nav-tabs">
+        <li class="active" id="liService">
+            <a href="#tab1" data-toggle="tab" data-tab-name="MaintanceRequest">MaintanceRequest</a>
+        </li>
+    </ul>*@
+    <div class="tab-content" style="height: 490px;">
+        <div id="tab1" class="tab-pane active">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-body form-horizontal" style="height: 470px;">
+                        <jqx-validator jqx-instance="MRValidator" jqx-hint-type="'label'" jqx-rules="MaintanceRules">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="SerialNo" class="control-label">Serial No</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-input ng-model="model.SerialNo" jqx-max-length="10" jqx-width="160" jqx-height="25" jqx-theme="theme" id="txtSerialNo" ng-disabled="enableProperty" />
+                            </div>
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="RequestDate" class="control-label">Date</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-date-time-input jqx-width="120"
+                                                     jqx-theme="theme"
+                                                     jqx-format-string="'dd-MM-yyyy'"
+                                                     jqx-instance="dtRequestDate"
+                                                     jqx-show-calendar-button="true" 
+                                                     ng-model="model.RequestDate"
+                                                     ng-disabled="enableProperty" ></jqx-date-time-input>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="RequestTime" class="control-label">Time</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-date-time-input jqx-width="100"
+                                                     jqx-theme="theme"
+                                                     jqx-format-string="'HH:mm:ss'"
+                                                     jqx-instance="dtRequestTime"
+                                                     jqx-show-time-button="true"
+                                                     jqx-show-calendar-button="false"
+                                                     ng-model="model.RequestTime"
+                                                     ng-disabled="enableProperty" ></jqx-date-time-input>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="IsBreakdown" class="control-label">IsBreakdown</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label><jqx-check-box jqx-instance="chkBreakdown" ng-model="model.IsBreakdown" ng-click="onBreakdownCheck(event)" ng-disabled="enableProperty" ></jqx-check-box></label>
+                            </div>
+                            <div class="col-md-2" ng-show="IsBreakdown">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Plant</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-show="IsBreakdown">
+                                <jqx-drop-down-list ng-model="model.PlantId"
+                                                    jqx-width="200"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-display-member="'Name'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="WinPlantSource"
+                                                    jqx-instance="ddlWinPlant"
+                                                    jqx-theme="theme"
+                                                    jqx-on-change="onWinPlantChange(event)"
+                                                    jqx-on-binding-complete="onPlantWinBindingComplete(event)" 
+                                                    id="ddlPlant"
+                                                    ng-disabled="enableProperty"></jqx-drop-down-list>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="IsBreakdown">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Line</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-drop-down-list ng-model="model.LineId"
+                                                    jqx-width="160"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-display-member="'Name'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="WinLineSource"
+                                                    jqx-instance="ddlWinLine"
+                                                    jqx-auto-bind="false"
+                                                    jqx-theme="theme"
+                                                    jqx-on-change="onWinLineChange(event)"
+                                                    jqx-on-binding-complete="onWinLineBindingComplete(event)"
+                                                    id="ddlLine"
+                                                    ng-disabled="enableProperty"></jqx-drop-down-list>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="" class="control-label">Machine</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+                                <jqx-combo-box ng-model="model.MachineId"
+                                               jqx-width="200"
+                                               jqx-auto-drop-down-height="false"
+                                               jqx-display-member="'Name'"
+                                               jqx-value-member="'Id'"
+                                               jqx-source="WinMachineSource"
+                                               jqx-theme="theme"
+                                               jqx-search-mode="'containsignorecase'"
+                                               jqx-auto-complete="true"
+                                               jqx-on-binding-complete="onWinBindingMachine(event)"
+                                               jqx-instance="ddlWinMachine"
+                                               id="ddlMachine"
+                                               ng-disabled="enableProperty"></jqx-combo-box>
+                            </div>
+                        </div>
+
+                           
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="IsBreakdown" class="control-label">Problem</label>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <jqx-input ng-model="model.Problem"
+                                           jqx-width="612"
+                                           jqx-height="25"
+                                           jqx-theme="theme"
+                                           id="txtProblem"
+                                            ng-disabled="enableProperty"/> 
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="Description" class="control-label">Description</label>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <textarea name="Description" class="form-control" id="txtDescription" style="height: 55px;width:612px" ng-model="model.Description" ng-disabled="enableProperty" ></textarea>
+                            </div>   
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="PriorityId" class="control-label">Priority</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <jqx-drop-down-list ng-model="model.PriorityId"
+                                                    jqx-auto-drop-down-height="true"
+                                                    jqx-display-member="'Description'"
+                                                    jqx-value-member="'Id'"
+                                                    jqx-source="PrioritySource"
+                                                    jqx-width="160"
+                                                    jqx-theme="theme"
+                                                    jqx-instance="PriorityInstance"
+                                                    jqx-selected-index="1"
+                                                    jqx-on-binding-complete="onBindingPriority(event)" 
+                                                    ng-disabled="enableProperty"></jqx-drop-down-list>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="IsCritical" class="control-label">IsCritical</label>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <jqx-check-box jqx-instance="chkCritical" ng-model="model.IsCritical" ng-disabled="enableRadioBtn"></jqx-check-box>
+                            </div>
+                            <div class="col-md-2" ng-show="IsRemarks">
+                                <a ng-click="ViewAllMRRemarks(event)">View All Remarks</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group" ng-show="IsBreakdownType" >
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="BreakdownType" class="control-label">Breakdown Type</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="radio" name="btnBreakdwonType" id="btnElectrical" ng-checked="btnElectrical"  ng-model="model.BreakdownType" ng-disabled="enableRadioBtn" ng-value="1" />&nbsp;<label for="btnElectrical">Electrical</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="radio" name="btnBreakdwonType" id="btnMechanical" ng-checked="btnMechanical"  ng-model="model.BreakdownType" ng-disabled="enableRadioBtn" ng-value="2" />&nbsp;<label for="btnMechanical">Mechanical</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="radio" name="btnBreakdwonType" id="btnInstrument" ng-checked="btnInstrument" ng-model="model.BreakdownType" ng-disabled="enableRadioBtn" ng-value="3" />&nbsp;<label for="btnInstrument">Instrument</label>
+                                </div>
+                         </div>
+                            <div class="form-group" ng-show="IsAssigned">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="Remarks" class="control-label">Remarks</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <textarea name="Remarks" class="form-control" id="txtRemarks" style="height: 70px;width:612px" ng-disabled="!enableProperty" ng-model="model.Remarks"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="IsAssigned">
+                                <div class="col-md-2">
+                                <div class="label-wrapper">
+                                    <label title="AssignTo" class="control-label">Assign To</label>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            <jqx-drop-down-list ng-model="model.AssignTo"
+                                                jqx-auto-drop-down-height="false"
+                                                jqx-display-member="'UserName'"
+                                                jqx-value-member="'Id'"
+                                                jqx-source="UserSource"
+                                                jqx-width="150"
+                                                jqx-height="30"
+                                                jqx-theme="theme"
+                                                jqx-instance="ddlUser"
+                                                jqx-on-binding-complete="onBindingUser(event)" 
+                                                id="ddlUser"
+                                                ng-disabled="!enableProperty"></jqx-drop-down-list>
+                            </div>
+                            </div>
+
+                            <div class="form-group" ng-show="InProgress">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="StartDate" class="control-label">Start Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-date-time-input jqx-width="120"
+                                                         jqx-theme="theme"
+                                                         jqx-instance="dtWorkStartDate"
+                                                         jqx-format-string="'dd-MM-yyyy'"
+                                                         ng-model="model.WorkStartDate"
+                                                         ng-disabled="!enableProperty" 
+                                                         id="dtWorkStartDate" ></jqx-date-time-input>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="StartTime" class="control-label">Start Time</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-date-time-input jqx-width="100"
+                                                         jqx-theme="theme"
+                                                         jqx-format-string="'HH:mm:ss'"
+                                                         jqx-instance="dtWorkStartTime"
+                                                         jqx-show-time-button="true"
+                                                         jqx-show-calendar-button="false"
+                                                         ng-model="model.WorkStartTime"
+                                                         ng-disabled="!enableProperty" 
+                                                         id="dtWorkStartTime" ></jqx-date-time-input>
+                                </div>
+                                </div>
+                            <div class="form-group" ng-show="InProgress">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="PRRemarks" class="control-label">Remarks</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <textarea name="PRRemarks" class="form-control" autofocus id="txtProgressRemarks" placeholder="Progress Remarks" style="height: 70px;width:612px" ng-disabled="!enableProperty" ng-model="model.ProgressRemarks"></textarea>
+                                </div>
+                            </div>
+                                <div class="form-group" ng-show="IsCompelete">
+                                    <div class="col-md-2" >
+                                        <div class="label-wrapper">
+                                            <label title="EndDate" class="control-label">End Date</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <jqx-date-time-input jqx-width="120"
+                                                             jqx-theme="theme"
+                                                             jqx-instance="dtWorkEndDate"
+                                                             jqx-format-string="'dd-MM-yyyy'"
+                                                             ng-model="model.WorkEndDate"
+                                                             ng-disabled="!enableProperty" 
+                                                             id="dtWorkEndDate"  ></jqx-date-time-input>
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <div class="label-wrapper">
+                                            <label title="EndTime" class="control-label">End Time</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2" >
+                                        <jqx-date-time-input jqx-width="100"
+                                                             jqx-theme="theme"
+                                                             jqx-format-string="'HH:mm:ss'"
+                                                             jqx-instance="dtWorkEndTime"
+                                                             jqx-show-time-button="true"
+                                                             jqx-show-calendar-button="false"
+                                                             ng-model="model.WorkEndTime"
+                                                             ng-disabled="!enableProperty"
+                                                             id="dtWorkEndTime" ></jqx-date-time-input>
+                                    </div>
+                                    
+                                </div>
+                            <div class="form-group" ng-show="IsCompelete">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="CMPRemarks" class="control-label">Remarks</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <textarea name="CMPRemarks" class="form-control" id="txtCompleteRemarks" placeholder="Complete Remarks" style="height: 70px;width:612px" ng-disabled="!enableProperty" ng-model="model.CompleteRemarks"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group" ng-show="IsClose">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="CLRemarks" class="control-label">Remarks</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <textarea name="CLRemarks" class="form-control" id="txtCloseRemarks" placeholder="Close Remarks" style="height: 70px;width:612px" ng-disabled="!enableProperty" ng-model="model.CloseRemarks"></textarea>
+                                </div>
+                            </div>
+                        </jqx-validator>
+                    </div>
+                </div>
+            </div>
+         </div>
+      </div>
+ </div>          

@@ -1,0 +1,79 @@
+﻿@model ProERP.Web.Models.FormulationRequestsViewModel
+
+<jqx-validator jqx-instance="FormulationValidator" jqx-hint-type="'label'" jqx-rules="FormulationRules">
+    <div class="form-group" style="margin-bottom:10px;">
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="LotNo" class="control-label">Lot No</label>
+            </div>
+        </div>
+        <div class="col-md-4" >
+                <jqx-input ng-model="model.FormulationRequests.LotNo" id="txtLotNo" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+        </div>
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="GradeName" class="control-label">Grade Name</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+                <jqx-input jqx-height="25" ng-model="model.FormulationRequests.GradeName" id="txtGradeName" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom:10px;">
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="QtyToProduce" class="control-label">Qty Produce</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+                <jqx-number-input ng-model="model.FormulationRequests.QtyToProduce"
+                                  jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-min="1"
+                                  jqx-input-mode="simple"
+                                  jqx-decimal-digits="0"
+                                  jqx-instance="txtQtyToProduce"
+                                  jqx-theme="theme"
+                                  jqx-on-change="onQtytoProduceChange()"
+                                  ng-disabled="enableProperty" />
+        </div>
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="Lot Size" class="control-label">Lot Size</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+                <jqx-input jqx-height="25" ng-model="model.FormulationRequests.LOTSize" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom:10px;">
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="Color STD" class="control-label">Color STD</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+                <jqx-input jqx-height="25" ng-model="model.FormulationRequests.ColorSTD" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+        </div>
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="WorkoderNo" class="control-label">Work Order#</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+                <jqx-input jqx-height="25" ng-model="model.FormulationRequests.WorkOrderNo" jqx-width="'100%'" jqx-theme="theme" ng-disabled="enableProperty" />
+        </div>
+    </div>
+    <div class="form-group" style="margin-bottom:10px;">
+        <div class="col-md-2">
+            <div class="label-wrapper">
+                <label title="Description" class="control-label">Notes</label>
+            </div>
+        </div>
+        <div class="col-md-10">
+                <textarea ng-model="model.FormulationRequests.Notes" class="form-control text-box multi-line" type="text" style="padding-left:1px;" ng-disabled="enableProperty"></textarea>
+        </div>
+    </div>
+</jqx-validator>
+
+

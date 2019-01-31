@@ -1,0 +1,98 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Web.Models.IndentConsolidateModel
+
+@{
+    ViewBag.Title = "ConsolidateReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("EPConsolidateReport");
+}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header  clearfix">
+        <h1>
+            Consolidate Report
+            <small>Engineering Purchase</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Indent </li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            @*@using (Html.BeginForm("ConsolidateReport", "Report", null, FormMethod.Post, new { role = "form" }))*@
+                            @using (Ajax.BeginForm("ConsolidateReport", "Report", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divRpt" }))
+                            {
+                            <!-- Main content -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <div class="col-md-2">
+                                                <div class="label-wrapper">
+                                                    <label title="" class="control-label" for="SearchSiteName">Year</label>
+                                                    <div title="select year" class="ico-help" area-describedby="">
+                                                        <i class="fa fa-question-circle"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearData), new
+                                           {
+                                               jqx_drop_down_list = "ddlYear",
+                                               jqx_width = "200",
+                                               jqx_height = "30",
+                                               jqx_auto_drop_down_height = "false",
+                                               jqx_instance = "ddlYear",
+                                               jqx_selected_index = "0",
+                                               jqx_theme = "theme"
+                                           })
+
+                                                @*<jqx-drop-down-list jqx-width="200"
+                                                    jqx-height="30"
+                                                    jqx-auto-bind="true"
+                                                    jqx-auto-drop-down-height="false"
+                                                    jqx-source="YearSource"
+                                                    jqx-instance="ddlYear"
+                                                    jqx-selected-index="0"
+                                                    jqx-theme="theme"></jqx-drop-down-list>*@
+                                            </div>
+
+                                            <div class="col-md-7">
+                                                <button class="btn btn-primary" id="searchSites" type="submit">
+                                                    <i class="fa fa-search"></i>
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div id="divRpt" class="panel-body">
+                    @*<iframe id="frmReport" frameborder="0" style="width:100%;height:800px" scrolling="auto"></iframe>*@
+                    @Html.Partial("_RdlcReportViewer", new ProERP.Web.Models.ReportViewModels { DataSetName = "DataSet1", ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\ConsolidateReport.rdlc", ReportDataSource = Model.ReportDataSource })
+                </div>
+            </div>
+        </div>
+    </div>
+@section scripts{
+    
+}

@@ -1,0 +1,138 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Web.Models.WIPStoreViewModel
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div ng-controller="WIPStoreController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">WIP Store</h1>
+        <div class="pull-right">
+            <button id="btnAdd" class="btn bg-blue" type="button" ng-click="onAddClick()">
+                <i class="fa fa-plus"></i>
+                Add
+            </button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <div class="label-wrapper">
+                                            <label title="WIP Store" class="control-label">WIP Store Name</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input name="SearchName" ng-model="SearchName" class="form-control text-box single-line" type="text" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-search" type="button" ng-click="onSearch(event)">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right pad">
+                            <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefresh(event)">
+                                <i class="fa fa-refresh"></i>
+                                Refresh
+                            </button>
+                        </div>
+                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                                  jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme"
+                                  jqx-source="WIPStoreSource" jqx-instance="GrdWIPStore"
+                                  jqx-columns="[
+                                            { text: 'Name', datafield: 'Name',width: 200 },
+                                            { text: 'Location', datafield: 'Location' },
+                                            { text: 'Edit', width: 70, cellsrenderer: UpdateWIP,sortable: false},
+                                            { text: 'Delete', width: 70, cellsrenderer: DeleteWIP,sortable: false}
+                                                ]"></jqx-grid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <jqx-window jqx-instance="WinAddOrUpdateWIPStore" jqx-theme="theme" jqx-width="500" jqx-height="330" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="false">
+        <div><b>WIP Store</b></div>
+        <div>
+            <br>
+            <div class="nav-tabs-custom">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    <jqx-validator jqx-instance="WIPStoreValidator" jqx-hint-type="'label'" jqx-rules="WIpStoreRules">
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label title="Item Name" class="control-label">Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                    <jqx-input ng-model="model.Name" id="txtName" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label title="Location" class="control-label">Location</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                    <jqx-input ng-model="model.Location" id="txtLocation" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+                                                <div class="label-wrapper">
+                                                    <label title="Description" class="control-label">Description</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                    <jqx-text-area jqx-instance="txtDescription" jqx-theme="theme" jqx-height="40" ng-model="model.Description"></jqx-text-area>
+                                            </div>
+                                        </div>
+                                    </jqx-validator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="onSaveWIP(event)">
+                    <i class="fa fa-floppy-o"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+</div>
+<style type="text/css">
+    .jqx-validator-error-label {
+        display: none !important;
+    }
+</style>
+@section scripts {
+    <script type="text/javascript" src="~/js/WIPStore/WIPStoreController.js"></script>
+}

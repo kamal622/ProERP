@@ -1,0 +1,239 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Web.Models.AddUserViewModel
+
+@{
+    ViewBag.Title = "ManageUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("ManageUsers");
+}
+
+<style type="text/css">
+    .jqx-validator-error-label {
+        display: none !important;
+    }
+</style>
+<div ng-controller="ListUserController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Manage Users</h1>
+        <div class="pull-right">
+            <a class="btn bg-blue" href="#" ng-click="AddUserClick()">
+                <i class="fa fa-user-plus"></i>
+                Add New User
+            </a>
+        </div>
+        <div jqx-validator jqx-instance="UserValidator" jqx-hint-type="'label'" jqx-rules="Rules">
+            <jqx-window jqx-height="510" jqx-width="500" jqx-auto-open="false" jqx-animation-type="'slide'"
+                        jqx-is-modal="true" jqx-theme="theme"
+                        jqx-instance="AddUser">
+                <div>
+                    Add User
+                </div>
+                <div>
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#tab1" data-toggle="tab" data-tab-name="AddUser">Add User</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab1" class="tab-pane active">
+                                <div class="panel-group">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body form-horizontal">
+                                            <div class="form-group">
+                                                <label title="" class="control-label col-md-3">Role</label>
+                                                <div class="col-md-9">
+                                                    <jqx-drop-down-list ng-model="model.Id"
+                                                                        jqx-width="315"
+                                                                        jqx-height="30"
+                                                                        jqx-auto-drop-down-height="true"
+                                                                        jqx-display-member="'Name'"
+                                                                        jqx-value-member="'Id'"
+                                                                        jqx-source="RoleSource"
+                                                                        jqx-instance="ddlRole"
+                                                                        jqx-auto-bind="true"
+                                                                        jqx-theme="theme"
+                                                                        id="dropRole"
+                                                                        jqx-on-binding-complete="onRoleBindingComplete(event)"></jqx-drop-down-list>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label title="" class="control-label col-md-3">First Name</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="fname" ng-model="model.FirstName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label title="" class="control-label col-md-3">Last Name</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="lname" ng-model="model.LastName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label title="" class="control-label col-md-3">Username</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="uname" ng-model="model.UserName" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label title="" class="control-label col-md-3">Email</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" id="email" ng-model="model.Email" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label title="" class="control-label col-md-3">Password</label>
+                                                <div class="col-md-9">
+                                                    <input type="password" class="form-control" id="password" ng-model="model.Password" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group pull-right ">
+                                                <div class="col-md-12">
+                                                    <jqx-button jqx-theme="theme" jqx-height="30" jqx-width="150" jqx-instance="btnAddUser" ng-click="CreateUserClick()">Add User</jqx-button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">User Name</label>
+                                            <div title="A user name" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input name="SearchUserName" ng-model="SearchUserName" class="form-control text-box single-line" id="SearchUserName" type="text" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">Email</label>
+                                            <div title="A email" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input name="SearchEmail" ng-model="SearchEmail" class="form-control text-box single-line" id="SearchEmail" type="text" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+
+                                    </div>
+                                    <div class="col-md-7">
+                                        <button class="btn btn-primary btn-search" id="searchUsers" type="button" ng-click="onSearch(event)">
+                                            <i class="fa fa-search"></i>
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right pad">
+                            <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                                <i class="fa fa-refresh"></i>
+                                Refresh
+                            </button>
+                        </div>
+                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true" jqx-altrows="true"
+                                  jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme"
+                                  jqx-source="Users" jqx-instance="UserGrid" jqx-editable="true"
+                                  jqx-columns="[
+                                            { text: 'User Name', datafield: 'UserName', editable: false, width: 130},
+                                            { text: 'UserProfile_Id', datafield: 'UserProfile_Id', editable: false, hidden: true},
+                                            { text: 'First Name', datafield: 'FirstName', editable: false, width: 130},
+                                            { text: 'Last Name', datafield: 'LastName', editable: false, width: 130},
+                                            { text: 'Email Address', datafield: 'Email', editable: false},
+                                            { text: 'Is Active', datafield: 'IsActive', columntype: 'checkbox', width: 60},
+                                            { text: 'Is Blocked', datafield: 'IsBlocked', columntype: 'checkbox',  width: 60},
+                                            { text: 'Change Password', width: 120, cellsrenderer: UpdatePassword, sortable: false}
+                                                ]">
+                        </jqx-grid>
+                    </div>
+                    <div jqx-validator jqx-instance="PasswordValidator" jqx-hint-type="'label'" jqx-rules="Pass">
+                        <jqx-window jqx-height="260" jqx-width="700" jqx-auto-open="false" jqx-animation-type="'slide'"
+                                    jqx-is-modal="true" jqx-theme="theme"
+                                    jqx-instance="UpPass">
+                            <div>
+                                Change Password
+                            </div>
+                            <div>
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#tab1" data-toggle="tab" data-tab-name="UpdatePassword">Update Password</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="tab1" class="tab-pane active">
+                                            <div class="panel-group">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body form-horizontal">
+                                                        <div class="form-group">
+                                                            <label title="" class="control-label col-md-3">New Password</label>
+                                                            <div class="col-md-9">
+                                                                <input type="password" class="form-control" id="txtNewPass" ng-model="NewPassword" />
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="form-group">
+                                                <label title="" class="control-label col-md-3">Confirm New Password</label>
+                                                <div class="col-md-9">
+                                                    <input type="password" class="form-control" ng-model="ConfNewPassword"/>
+                                                </div>
+                                            </div>*@
+                                                        <div class="form-group pull-right ">
+                                                            <div class="col-md-12">
+                                                                <jqx-button jqx-theme="theme" jqx-height="30" jqx-width="150" jqx-instance="btnUpPass" ng-click="UpdatePasswordClick()">Change Password</jqx-button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </jqx-window>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+    @section scripts {
+        <script type="text/javascript" src="~/JS/User/ListUserController.js"></script>
+    }
+
+

@@ -1,0 +1,770 @@
+﻿@*@model  ProERP.Web.Models.PreventiveMaintenanceViewModel*@
+@model ProERP.Web.Models.DashboardViewModels
+
+@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "Home Page";
+    Html.SetActiveMenuItemSystemName("Dashboard");
+}
+
+<div ng-controller="HomeController" class="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="small-box bg-blue-gradient">
+                    <div class="inner text-center" style="height: 108px;">
+                        <img alt="kkalpana industries (india) ltd" src="~/images/logo.png" width="100" height="80" />
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        kkalpana industries
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-red-gradient">
+                    <div class="inner text-center">
+                        <h4>BreakDowns</h4>
+                        <h4> @Model.BreakdownYesterDayCount | @Model.BreakdownTodayCount</h4>
+                        <b>YesterDay | ToDay</b>
+                    </div>
+                    <a href="Breakdown/List" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-green-gradient">
+                    <div class="inner text-center ">
+                        <h4>Preventive Maintenance </h4>
+                        <h4>@Model.PMOverDueCount | @Model.PMPendingCount | @Model.PMShutdownCount</h4>
+                        <b>OverDue | Current | Shutdown</b>
+                    </div>
+                    <a href="#PM" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-yellow-gradient">
+                    <div class="inner text-center">
+                        <h4>Quality Objective Status </h4>
+                        <h4>@Model.BreakdownMonthPerCount % </h4> @*|@Model.MaintenanceRequestInProcessCount*@
+                        <b>For Last Month </b>
+                    </div>
+                    <a href="#AT" class="small-box-footer">
+                        More info <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="box box-primary ">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Breakdown By Plants</h3>
+                        <div>&nbsp;</div>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools/ pie chart -->
+
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+
+                        <jqx-chart id='piechartid' style="width: 100%; height: 300px"
+                                   jqx-title="'Breakdown Analysis'"
+                                   jqx-description="'Plant Wise Breakdowns'"
+                                   jqx-padding="{ left: 5, top: 5, right: 5, bottom: 5 }"
+                                   jqx-title-padding="{ left: 0, top: 0, right: 0, bottom: 10 }"
+                                   @*jqx-legend-layout="{ left: 500, top: 160, width: 300, height: 200, flow: 'vertical'  }"*@
+                                   jqx-enable-animations="true"
+                                   jqx-show-legend="true"
+                                   jqx-show-border-line="true"
+                                   @*jqx-on-click="onclick(event)"*@
+                                   jqx-series-groups="piechartseriesGroups"
+                                   jqx-source="piechartsource"></jqx-chart>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Breakdown By Lines</h3>
+                        <jqx-drop-down-list jqx-width="180"
+                                            jqx-height="20"
+                                            jqx-auto-drop-down-height="true"
+                                            jqx-display-member="'Name'"
+                                            jqx-value-member="'Id'"
+                                            jqx-source="PlantSource"
+                                            jqx-instance="ddlPlant"
+                                            jqx-auto-bind="true"
+                                            jqx-theme="theme"
+                                            jqx-selected-index="0"
+                                            jqx-on-change="onPlantChange(event)"
+                                            jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools/ bar chart -->
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+                        <jqx-chart id='chartContainer' style="width: 100%; height: 300px"
+                                   jqx-title="'Breakdown Analysis'"
+                                   jqx-description="'Line Wise Breakdowns'"
+                                   jqx-padding="{ left: 5, top: 5, right: 5, bottom: 5 }"
+                                   jqx-title-padding="{ left: 90, top: 0, right: 0, bottom: 10 }"
+                                   jqx-enable-animations="true"
+                                   jqx-show-legend="true"
+                                   jqx-x-axis="xAxis"
+                                   jqx-value-axis="valueAxis"
+                                   jqx-series-groups="seriesGroups"
+                                   jqx-source="chartsource"
+                                   jqx-instance="chartinst"></jqx-chart>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box box-primary ">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Breakdown By Machine</h3>
+                        <jqx-drop-down-list jqx-width="180"
+                                            jqx-height="20"
+                                            jqx-auto-drop-down-height="true"
+                                            jqx-display-member="'Name'"
+                                            jqx-value-member="'Id'"
+                                            jqx-source="LineSource"
+                                            jqx-instance="ddlLine"
+                                            jqx-theme="theme"
+                                            jqx-selected-index="0"
+                                            jqx-on-change="onLineChange(event)"
+                                            jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools/ Machine Grid -->
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+                        <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-height="300" jqx-sortable="true" jqx-theme="theme" jqx-source="MachineGridSource"
+                                  jqx-columns="[
+                                                    { text: 'Machine', datafield: 'MachineName' },
+                                                    { text: 'BreakDown', datafield: 'Count',width:'80' },
+                                                    { text: 'Time', datafield: 'TotalTime',width:'70',cellsrenderer: TimeFormate },]"></jqx-grid>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="divShutLineMachine">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">ShutDown Line/Machine</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+                        <!-- Main content -->
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tabLine" data-toggle="tab" data-tab-name="Line">Line</a>
+                                </li>
+                                <li>
+                                    <a href="#tabMachine" data-toggle="tab" data-tab-name="Machine">Machine</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tabLine" class="tab-pane active">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                @*<button type="button" class="btn btn-info" ng-click="OnAddNew()"><i class="fa fa-plus"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="lineOnFilterClick()"><i class="fa fa-filter"></i></button>
+                                                @*<button type="button" class="btn btn-info" ng-click="OnExport('excel', 'overline')"><i class="fa fa-file-excel-o"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnExport('pdf', 'overdue')"><i class="fa fa-file-pdf-o"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnPrintLine('overline')"><i class="fa fa-print"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="lineOnRefresh()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-altrows="true" jqx-instance="ddlLineInstance" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="false" jqx-theme="theme"
+                                                  jqx-pagesize="GridPageSize" jqx-pagesizeoptions="GridPageSizeOption"
+                                                  jqx-source="gridLineSource" jqx-editable="true" jqx-filterable="ShowFilterAtline" jqx-showfilterrow="ShowFilterAtline"
+                                                  jqx-on-bindingcomplete="onGrid1BinidingComplete()"
+                                                  jqx-columns="[
+                                                        { text: 'Id', datafield: 'Id', editable: false, hidden: true },
+                                                        { text: 'Plant Name', datafield: 'PlantName', editable: false },
+                                                        { text: 'Line Name', datafield: 'LineName', editable: false },
+                                                        { text: 'Last Shutdown By', datafield: 'ShutdownBy', editable: false },
+                                                        { text: 'Last Shutdown Date', datafield: 'ShutdownDate', editable: false, width: 130, filtertype: 'range', cellsformat: 'MM/dd/yyyy' },
+                                                        { text: 'Shutdown', datafield: 'IsShutdown', editable: true, width: 70, filterable: false, columntype: 'checkbox' }
+                                                  ]"></jqx-grid>
+                                    </div>
+                                </div>
+                                <div id="tabMachine" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                @*<button type="button" class="btn btn-info" ng-click="OnAddNew()"><i class="fa fa-plus"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="machineOnFilterClick()"><i class="fa fa-filter"></i></button>
+                                                @*<button type="button" class="btn btn-info" ng-click="OnExport('excel', 'overmachine')"><i class="fa fa-file-excel-o"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnExport('pdf', 'today')"><i class="fa fa-file-pdf-o"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnPrintMachine('overmachine')"><i class="fa fa-print"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="machineOnRefresh()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-altrows="true" jqx-instance="ddlMachineInstance" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="false" jqx-theme="theme"
+                                                  jqx-pagesize="GridPageSize" jqx-pagesizeoptions="GridPageSizeOption"
+                                                  jqx-source="gridMachineSource" jqx-editable="true" jqx-filterable="ShowFilterAtmachine" jqx-showfilterrow="ShowFilterAtmachine"
+                                                  jqx-on-bindingcomplete="onGrid2BinidingComplete()"
+                                                  jqx-columns="[
+                                                        { text: 'Id', datafield: 'Id', editable: false, hidden: true },
+                                                        { text: 'Plant Name', datafield: 'PlantName', editable: false },
+                                                        { text: 'Line Name', datafield: 'LineName', editable: false },
+                                                        { text: 'Machine Name', datafield: 'MachineName', editable: false },
+                                                        { text: 'Last Shutdown By', datafield: 'ShutdownBy', editable: false },
+                                                        { text: 'Last Shutdown Date', datafield: 'ShutdownDate', editable: false, width: 130, filtertype: 'range', cellsformat: 'MM/dd/yyyy' },
+                                                        { text: 'Shutdown', datafield: 'IsShutdown', editable: true, width: 70, filterable: false, columntype: 'checkbox' }
+                                                  ]"></jqx-grid>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row" id="PM">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Preventive Maintenance</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+                        <!-- Main content -->
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tabDetail_2" data-toggle="tab" data-tab-name="Today">Current Activities</a>
+                                </li>
+                                <li>
+                                    <a href="#tabDetail_1" data-toggle="tab" data-tab-name="OverDue">Overdue Activities</a>
+                                </li>
+                                <li style="display:none">
+                                    <a href="#tabDetail_3" data-toggle="tab" data-tab-name="UpComming">Up Comming</a>
+                                </li>
+                                <li>
+                                    <a href="#tabDetail_4" data-toggle="tab" data-tab-name="ShutdownActivity">Shutdown Activities</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tabDetail_1" class="tab-pane ">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                @*<button type="button" class="btn btn-info" ng-click="OnAddNew()"><i class="fa fa-plus"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="OnFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'overdue')"><i class="fa fa-file-excel-o"></i></button>
+                                                @*<button type="button" class="btn btn-info" ng-click="OnExport('pdf', 'overdue')"><i class="fa fa-file-pdf-o"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('overdue')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnRefresh1()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-altrows="true" jqx-instance="GridMain1" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="false" jqx-theme="theme"
+                                                  jqx-pagesize="GridPageSize" jqx-pagesizeoptions="GridPageSizeOption"
+                                                  jqx-source="OverDueSource" jqx-editable="true" jqx-filterable="ShowFilter" jqx-showfilterrow="ShowFilter"
+                                                  jqx-columns="GridColumns1" jqx-on-bindingcomplete="onGrid1BinidingComplete()"
+                                                  jqx-columnsresize="true"></jqx-grid>
+                                    </div>
+                                </div>
+                                <div id="tabDetail_2" class="tab-pane active">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                @*<button type="button" class="btn btn-info" ng-click="OnAddNew()"><i class="fa fa-plus"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="todayOnFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'today')"><i class="fa fa-file-excel-o"></i></button>
+                                                @*<button type="button" class="btn btn-info" ng-click="OnExport('pdf', 'today')"><i class="fa fa-file-pdf-o"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('today')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnRefresh2()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-altrows="true" jqx-instance="GridMain2" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="false" jqx-theme="theme"
+                                                  jqx-pagesize="GridPageSize" jqx-pagesizeoptions="GridPageSizeOption"
+                                                  jqx-source="TodaySource" jqx-editable="true" jqx-filterable="ShowFiltertoday" jqx-showfilterrow="ShowFiltertoday"
+                                                  jqx-columns="GridColumns2" jqx-on-bindingcomplete="onGrid2BinidingComplete()" jqx-columnsresize="true"></jqx-grid>
+                                    </div>
+                                </div>
+                                <div id="tabDetail_3" class="tab-pane" style="display:none">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                @*<button type="button" class="btn btn-info" ng-click="OnAddNew()"><i class="fa fa-plus"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="nextweekOnFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'nextweek')"><i class="fa fa-file-excel-o"></i></button>
+                                                @*<button type="button" class="btn btn-info" ng-click="OnExport('pdf', 'nextweek')"><i class="fa fa-file-pdf-o"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('nextweek')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnRefresh3()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-altrows="true" jqx-instance="GridMain3" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="false" jqx-theme="theme"
+                                                  jqx-pagesize="GridPageSize" jqx-pagesizeoptions="GridPageSizeOption"
+                                                  jqx-source="UpComingSource" jqx-editable="true" jqx-filterable="ShowFilternextweek" jqx-showfilterrow="ShowFilternextweek"
+                                                  jqx-columns="GridColumns3" jqx-columnsresize="true"></jqx-grid>
+                                    </div>
+                                </div>
+                                <div id="tabDetail_4" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                @*<button type="button" class="btn btn-info" ng-click="OnAddNew()"><i class="fa fa-plus"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="shutdownOnFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnExport('excel', 'shutdownactivity')"><i class="fa fa-file-excel-o"></i></button>
+                                                @*<button type="button" class="btn btn-info" ng-click="OnExport('pdf', 'today')"><i class="fa fa-file-pdf-o"></i></button>*@
+                                                <button type="button" class="btn btn-info" ng-click="OnPrint('shutdownactivity')"><i class="fa fa-print"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="shutdownOnRefresh()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-altrows="true" jqx-instance="ShutdownActivity" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="false" jqx-theme="theme"
+                                                  jqx-pagesize="GridPageSize" jqx-pagesizeoptions="GridPageSizeOption"
+                                                  jqx-source="ShutdownActivitySource" jqx-editable="true" jqx-filterable="ShowFiltershutdown" jqx-showfilterrow="ShowFiltershutdown"
+                                                  jqx-on-bindingcomplete="onGrid4BinidingComplete()"
+                                                  jqx-columns="GridColumns5" jqx-columnsresize="true"></jqx-grid>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <jqx-window jqx-instance="Mainwindow1" jqx-height="210" jqx-width="500" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+                        <div>
+                            Review Now
+                        </div>
+                        <div jqx-validator jqx-instance="ReviewValidator" jqx-hint-type="'label'" jqx-rules="Rules">
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="Note description" class="control-label">Note</label>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-10">
+                                    <jqx-text-area jqx-width="'100%'"
+                                                   jqx-height="100"
+                                                   jqx-theme="theme"
+                                                   ng-model="Note"
+                                                   id="txtforNote" />
+                                </div>
+                            </div>
+                            <div class="form-group pull-right pad">
+                                <button class="btn bg-blue" ng-click="onReviewNow($event)">
+                                    Review Now
+                                </button>
+                            </div>
+                        </div>
+                    </jqx-window>
+                    <jqx-window jqx-instance="Mainwindow2" jqx-height="300" jqx-width="500" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+                        <div>
+                            Hold For
+                        </div>
+                        <div>
+                            <div class="panel-body form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">Hold</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <jqx-text-area jqx-height="25"
+                                                       jqx-theme="theme"
+                                                       ng-model="HoldDays"></jqx-text-area>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{HoldIntervalType}}(s)
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <div class="label-wrapper">
+                                            <label title="Note description" class="control-label">Reason</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <jqx-text-area jqx-width="'100%'"
+                                                       jqx-height="100"
+                                                       jqx-theme="theme"
+                                                       ng-model="Reason" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group pull-right pad">
+                                    <button class="btn bg-blue" ng-click="onSave($event)">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </jqx-window>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <jqx-window jqx-instance="WinVersionUpdated" jqx-height="'auto'" jqx-width="500" jqx-is-modal="true" jqx-resizable="true" jqx-theme="theme" jqx-auto-open="IsVersionUpdated" jqx-on-close="OnVersionUpdateWinClose(event)">
+            <div>
+                What's New
+            </div>
+            <div>
+                <h4 class="text-center"> Version : @Model.ReleaseVersion</h4>
+                <ul>
+                    @foreach (var item in Model.WhatsNewNotes)
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+                <div class="form-group content-header">
+                    <jqx-check-box jqx-instance="chkNextTime" jqx-theme="theme"><b><font color="gray">Do not show me next time</font></b> </jqx-check-box>
+                </div>
+                <div class="form-group pull-right pad">
+                    <jqx-button jqx-theme="theme" jqx-height="30" jqx-width="100" jqx-instance="BtnOK" ng-click="OnOkClick(event)">
+                        Ok
+                    </jqx-button>
+                </div>
+            </div>
+        </jqx-window>
+
+        <div class="row" id="MR">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Maintenance Request</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <div class="box-body" style="width: 100%; height: 100%;">
+                        <!-- Main content -->
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                @if (User.IsInRole("Lavel1") || User.IsInRole("Lavel2"))
+                                {
+                                    <li class="active">
+                                        <a href="#OpentabDetail_1" data-toggle="tab" data-tab-name="Open">Open</a>
+                                    </li>
+                                    <li>
+                                        <a href="#CompletedtabDetail_1" data-toggle="tab" data-tab-name="Completed">Completed</a>
+                                    </li>
+                                }
+
+                                @if (User.IsInRole("Lavel3"))
+                                {
+                                    <li class="active">
+                                        <a href="#NewTasktab" data-toggle="tab" data-tab-name="New">New </a>
+                                    </li>
+                                    <li>
+                                        <a href="#ProgressTasktab" data-toggle="tab" data-tab-name="Progress">Progress </a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="#OthertabDetail" data-toggle="tab" data-tab-name="Other">Other</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                @if (User.IsInRole("Lavel1") || User.IsInRole("Lavel2"))
+                                {
+                                    <div id="OpentabDetail_1" class="tab-pane active">
+                                        <div class="panel-group">
+                                            <div class="pull-right pad">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" ng-click="OpenMRFilterClick()"><i class="fa fa-filter"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnOpenRefresh()"><i class="fa fa-refresh"></i></button>
+                                                </div>
+                                            </div>
+                                            <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-source="OpenMR" jqx-instance="grdOpenMR"
+                                                      jqx-columnsresize="true" jqx-filterable="ShowFilterOpenMR" jqx-showfilterrow="ShowFilterOpenMR"
+                                                      jqx-on-bindingcomplete="OpenMRBinidingComplete()" jqx-columns="[
+                                            { text: 'Serial No', datafield: 'SerialNo', width: 60 },
+                                            { text: 'Plant', datafield: 'PlantName' , width: 90},
+                                            { text: 'Line', datafield: 'LineName' , width: 90},
+                                            { text: 'Machine', datafield: 'MachineName' , width: 100},
+                                            { text: 'Problem', datafield: 'Problem' },
+                                            { text: 'Priority', datafield: 'Priority' , width: 60 },
+                                            { text: 'Status', datafield: 'Status' , width: 60 },
+                                            { text: 'RequestBy', datafield: 'RequestUserName', width: 100 },
+                                            { text: 'RequestDate', datafield: 'RequestDate', width: 100 ,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Assign To', datafield: 'AssignUserName', width: 100 },
+                                            { text: 'Is Breakdown', datafield: 'IsBreakdown', editable: false, width: 80, columntype: 'checkbox' },
+                                            { text: '', width: 100 , pinned: true, cellsrenderer: UpdateMaitanceRequest, columntype: 'button', buttonclick : AssignToUser , sortable: false ,cellsalign: 'center'}
+                                      ]"></jqx-grid>
+                                        </div>
+                                    </div>
+
+                                    <div id="CompletedtabDetail_1" class="tab-pane">
+                                        <div class="panel-group">
+                                            <div class="pull-right pad">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" ng-click="CompletedMRFilterClick()"><i class="fa fa-filter"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnCompleteRefresh()"><i class="fa fa-refresh"></i></button>
+                                                </div>
+                                            </div>
+                                            <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-source="CompletedMR" jqx-instance="grdCompletedMR"
+                                                      jqx-columnsresize="true" jqx-filterable="ShowFilterCompletedMR" jqx-showfilterrow="ShowFilterCompletedMR"
+                                                      jqx-on-bindingcomplete="CompletedMRBinidingComplete()" jqx-columns="[
+                                            { text: 'Serial No', datafield: 'SerialNo', width: 60 },
+                                            { text: 'Plant', datafield: 'PlantName' , width: 90},
+                                            { text: 'Line', datafield: 'LineName' , width: 90},
+                                            { text: 'Machine', datafield: 'MachineName' , width: 100},
+                                            { text: 'Problem', datafield: 'Problem' },
+                                            { text: 'Priority', datafield: 'Priority' , width: 100 },
+                                            { text: 'Status', datafield: 'Status' , width: 100 },
+                                            { text: 'RequestBy', datafield: 'RequestUserName', width: 100 },
+                                            { text: 'RequestDate', datafield: 'RequestDate', width: 100 ,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Assign To', datafield: 'AssignUserName', width: 100 },
+                                            { text: 'Is Breakdown', datafield: 'IsBreakdown', editable: false, width: 80, columntype: 'checkbox' },
+                                            { text: '', width: 100 , pinned: true, cellsrenderer: CloseMaitanceRequest, columntype: 'button', buttonclick : CloseMRequest , sortable: false ,cellsalign: 'center'}
+                                      ]"></jqx-grid>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (User.IsInRole("Lavel3"))
+                                {
+                                    <div id="NewTasktab" class="tab-pane active">
+                                        <div class="panel-group">
+                                            <div class="pull-right pad">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" ng-click="AssignMRFilterClick()"><i class="fa fa-filter"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnAssignRefresh()"><i class="fa fa-refresh"></i></button>
+                                                </div>
+                                            </div>
+                                            <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-source="AssignMR" jqx-instance="grdAssignMR"
+                                                      jqx-columnsresize="true" jqx-filterable="ShowFilterAssignMR" jqx-showfilterrow="ShowFilterAssignMR"
+                                                      jqx-on-bindingcomplete="AssignMRBinidingComplete()" jqx-columns="[
+                                            { text: 'Serial No', datafield: 'SerialNo', width: 60},
+                                            { text: 'Plant', datafield: 'PlantName' , width: 90},
+                                            { text: 'Line', datafield: 'LineName' , width: 90},
+                                            { text: 'Machine', datafield: 'MachineName' , width: 100},
+                                            { text: 'Problem', datafield: 'Problem' },
+                                            { text: 'Priority', datafield: 'Priority' , width: 60 },
+                                            { text: 'Status', datafield: 'Status' , width: 60 },
+                                            { text: 'RequestBy', datafield: 'RequestUserName', width: 100 },
+                                            { text: 'RequestDate', datafield: 'RequestDate', width: 100 ,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Assign To', datafield: 'AssignUserName', width: 100 },
+                                            { text: 'Is Breakdown', datafield: 'IsBreakdown', editable: false, width: 80, columntype: 'checkbox' },
+                                            { text: 'In Progress', width: 100 , pinned: true ,cellsrenderer: StartMaintenanceWork, columntype: 'button', buttonclick : StartWork , sortable: false ,cellsalign: 'center' }
+                                        ]"></jqx-grid>
+                                        </div>
+                                    </div>
+
+                                    <div id="ProgressTasktab" class="tab-pane">
+                                        <div class="panel-group">
+                                            <div class="pull-right pad">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info" ng-click="ProgressMRFilterClick()"><i class="fa fa-filter"></i></button>
+                                                    <button type="button" class="btn btn-info" ng-click="OnProgressRefresh()"><i class="fa fa-refresh"></i></button>
+                                                </div>
+                                            </div>
+                                            <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" jqx-source="ProgressMR" jqx-instance="grdProgressMR"
+                                                      jqx-columnsresize="true" jqx-filterable="ShowFilterProgressMR" jqx-showfilterrow="ShowFilterProgressMR"
+                                                      jqx-on-bindingcomplete="ProgressMRBinidingComplete()" jqx-columns="[
+                                            { text: 'Serial No', datafield: 'SerialNo', width: 60},
+                                            { text: 'Plant', datafield: 'PlantName' , width: 90},
+                                            { text: 'Line', datafield: 'LineName' , width: 90},
+                                            { text: 'Machine', datafield: 'MachineName' , width: 100},
+                                            { text: 'Problem', datafield: 'Problem' },
+                                            { text: 'Priority', datafield: 'Priority' , width: 60 },
+                                            { text: 'Status', datafield: 'Status' , width: 60 },
+                                            { text: 'RequestBy', datafield: 'RequestUserName', width: 100 },
+                                            { text: 'RequestDate', datafield: 'RequestDate', width: 100 ,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Assign To', datafield: 'AssignUserName', width: 100 },
+                                            { text: 'Is Breakdown', datafield: 'IsBreakdown', editable: false, width: 80, columntype: 'checkbox' },
+                                            { text: 'Complete', width: 100 , pinned: true, cellsrenderer: EndMaintenanceWork , columntype: 'button', buttonclick : EndWork , sortable: false ,cellsalign: 'center'}
+                                        ]"></jqx-grid>
+                                        </div>
+                                    </div>
+                                }
+                                <div id="OthertabDetail" class="tab-pane">
+                                    <div class="panel-group">
+                                        <div class="pull-right pad">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info" ng-click="OtherMRFilterClick()"><i class="fa fa-filter"></i></button>
+                                                <button type="button" class="btn btn-info" ng-click="OnOtherRefresh()"><i class="fa fa-refresh"></i></button>
+                                            </div>
+                                        </div>
+                                        <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-theme="theme" @*jqx-source="OtherMR"*@ jqx-instance="grdOtherMR"
+                                                  jqx-columnsresize="true" jqx-filterable="ShowFilterOtherMR" jqx-showfilterrow="ShowFilterOtherMR" id="grdOtherMR"
+                                                  jqx-on-bindingcomplete="OtherMRBinidingComplete()" jqx-pageable="true" jqx-pagesizeoptions="[10,20,50,100]"
+                                                  jqx-settings="OtherMRGrid" jqx-columns="[
+                                            { text: 'Serial No', datafield: 'SerialNo', width: 60 },
+                                            { text: 'Plant', datafield: 'PlantName' , width: 90},
+                                            { text: 'Line', datafield: 'LineName' , width: 90},
+                                            { text: 'Machine', datafield: 'MachineName' , width: 100},
+                                            { text: 'Problem', datafield: 'Problem' },
+                                            { text: 'Priority', datafield: 'Priority' , width: 60 },
+                                            { text: 'Status', datafield: 'Status' , width: 60 },
+                                            { text: 'RequestBy', datafield: 'RequestUserName', width: 100 },
+                                            { text: 'RequestDate', datafield: 'RequestDate', width: 100 ,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Assign To', datafield: 'AssignUserName', width: 100 },
+                                            { text: 'Is Breakdown', datafield: 'IsBreakdown', editable: false, width: 80, columntype: 'checkbox' },
+                                            { text: 'View', width: 100 , pinned: true ,cellsrenderer: ViewMR, columntype: 'button', buttonclick : ViewMRDetails , sortable: false ,cellsalign: 'center' }
+                                      ]"></jqx-grid>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <jqx-window jqx-instance="Mainwindow3" jqx-height="350" jqx-width="600" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false">
+                        <div>
+                            Update
+                        </div>
+                        <div>
+                            <div class="panel-body form-horizontal">
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">Status</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <jqx-drop-down-list jqx-auto-drop-down-height="true"
+                                                            jqx-display-member="'Description'"
+                                                            jqx-value-member="'Id'"
+                                                            jqx-source="StatusSource"
+                                                            jqx-width="200"
+                                                            jqx-height="30"
+                                                            jqx-theme="theme"
+                                                            jqx-instance="ddlStatus"
+                                                            jqx-on-change="onStatusChange(event)"
+                                                            jqx-on-binding-complete="onBindingStatus(event)" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3">
+                                        <div class="label-wrapper">
+                                            <label title="Work conducted" class="control-label">Work Conducted</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <jqx-text-area jqx-width="'100%'"
+                                                       jqx-height="100"
+                                                       jqx-theme="theme"
+                                                       jqx-instance="ddlWorkconducted"
+                                                       ng-model="WorkConducted" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-3" ng-show="!IsCd">
+                                        <div class="label-wrapper">
+                                            <label title="Close datetime" class="control-label">Close DateTime</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9" ng-show="!IsCd">
+                                        <jqx-date-time-input jqx-width="180"
+                                                             jqx-height="30"
+                                                             jqx-theme="theme"
+                                                             jqx-format-string="'dd/MM/yyyy HH:mm'"
+                                                             jqx-show-time-button="true"
+                                                             jqx-instance="dtClose"></jqx-date-time-input>
+
+                                    </div>
+                                </div>
+                                <div class="form-group pull-right pad">
+                                    <button class="btn bg-blue" ng-click="onUpdate($event)">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </jqx-window>
+
+                    <jqx-window jqx-instance="WinMaintenanceRequest" jqx-theme="theme" jqx-width="800" jqx-height="600" jqx-auto-open="false" jqx-is-modal="true"
+                                jqx-resizable="true">
+                        <div><b>Maintance Request</b></div>
+                        <div>
+                            <br>
+
+                            <div class="nav-tabs-custom">
+                                @{Html.RenderPartial("~/Views/MaintenanceRequest/_AddUpdateMaintenanceRequest.cshtml", new ProERP.Web.Models.MaintenanceRequestViewModel { });}
+
+                            </div>
+                            <div class="pull-right">
+                                <button class="btn bg-blue" ng-click="OnSaveMaintenanceRequest(event)" ng-show="IsSave">
+                                    <i class="fa fa-floppy-o"></i>
+                                    Save
+                                </button>
+                                <button class="btn bg-blue" ng-click="OnDownloadMaitanceRequest(event)" ng-show="IsDownload">
+                                    <i class="fa fa-download"></i>
+                                    Download
+                                </button>
+                            </div>
+                        </div>
+                    </jqx-window>
+
+                    <jqx-window jqx-instance="WinMRRemarks" jqx-theme="theme" jqx-width="600" jqx-height="300" jqx-auto-open="false" jqx-is-modal="true"
+                                jqx-resizable="true">
+                        <div><b>All Remarks</b></div>
+                        <div>
+                            <div class="panel-group">
+                                <jqx-grid jqx-altrows="true" jqx-width="'550'" jqx-height="'230'" jqx-sortable="true" jqx-theme="theme" jqx-source="MRRemarks" jqx-instance="grdMRRemarks"
+                                          jqx-columnsresize="true" jqx-columns="[
+                                           { text: '#', datafield: 'Id', width: 50  },
+                                           { text: 'Status', datafield: 'StatusName', width: 90 },
+                                           { text: 'Remarks', datafield: 'Remarks' },
+                                           { text: 'Remarks Date', datafield: 'RemarksDate' ,cellsformat: 'dd/MM/yyyy' , width: 100 },
+                                          { text: 'Remarks By', datafield: 'RemarksBy' , width: 100 }
+                                      ]"></jqx-grid>
+                            </div>
+                        </div>
+                    </jqx-window>
+
+                    <br />
+                </div>
+            </div>
+        </div>
+
+
+
+    </section>
+</div>
+@section scripts {
+    <script type="text/javascript" src="~/js/Dashboard/Home.js"></script>
+}

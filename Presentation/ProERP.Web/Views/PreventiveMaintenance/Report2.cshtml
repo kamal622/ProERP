@@ -1,0 +1,208 @@
+﻿@model  ProERP.Web.Models.PreventiveMaintenanceViewModel
+@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "Report2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("PMReport2");
+}
+
+<div ng-controller="SummaryController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Summary Report</h1>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label" for="SearchSiteName">Plant Name</label>
+                                                <div title="Plant name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-drop-down-list id="ddlPlant"
+                                                                jqx-instance="ddlPlant"
+                                                                jqx-source="PlantSource"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-width="200"
+                                                                jqx-height="33"
+                                                                jqx-theme="theme"
+                                                                jqx-selected-index="0"
+                                                                jqx-on-change="onPlantChange(event)"
+                                                                jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+                                        </div>
+
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Line Name</label>
+                                                <div title="Line name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-drop-down-list id="ddlLine"
+                                                                jqx-instance="ddlLine"
+                                                                jqx-source="LineSource"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-width="200"
+                                                                jqx-height="33"
+                                                                jqx-theme="theme"></jqx-drop-down-list>
+
+
+                                        </div>
+                                        @*<div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">To Date</label>
+                                                <div title="To date" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-date-time-input jqx-width="200"
+                                                                 jqx-height="33"
+                                                                 jqx-theme="theme"
+                                                                 jqx-format-string="'dd-MM-yyyy'"
+                                                                 jqx-instance="toinstance"
+                                                                 jqx-created="ToDateCreated"
+                                                                 ng-model="model.ToDate"></jqx-date-time-input>
+
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Schedule</label>
+                                                <div title="Schedule type" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-drop-down-list jqx-instance="ddlScheduleType"
+                                                                jqx-source="[{Id: 0, Name: 'All'}, {Id: 1, Name: 'Daily'}, {Id: 2, Name: 'Weekly'}, {Id: 3, Name: 'Monthly'}, {Id: 4, Name: 'Yearly'}, {Id: 5, Name: 'Shutdown'}, {Id: 6, Name: 'Hourly'}]"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-width="200"
+                                                                jqx-height="33"
+                                                                jqx-theme="theme"
+                                                                jqx-selected-index="0"
+                                                                ng-model="model.ScheduleType">
+                                            </jqx-drop-down-list>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Date</label>
+                                                <div title="From date" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <jqx-date-time-input jqx-instance="dtpSearchDate" 
+                                                                 jqx-width="180" jqx-height="30"
+                                                                 jqx-selection-mode="'range'" 
+                                                                 jqx-theme="theme" 
+                                                                 jqx-created="SearchDateCreated" 
+                                                                 id="dtpSearchDate"></jqx-date-time-input>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <button class="btn btn-primary btn-search" id="searchDate" type="button" ng-click="onSearch(event)">
+                                                <i class="fa fa-search"></i>
+                                                Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="pull-right pad">
+                        <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onExportClick(event)">
+                            <i class="fa fa-file-excel-o"></i>
+                            Export
+                        </button>
+                        <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <jqx-grid jqx-altrows="true" jqx-instance="PMSummaryGrid" jqx-width="'100%'" jqx-theme="theme" jqx-sortable="true" jqx-auto-bind="false"
+                              jqx-showstatusbar="true" jqx-showaggregates="true"
+                              jqx-source="ReportSource" jqx-columns="[{ text: 'Line Name', datafield: 'LineName' },
+                                                                      { text: 'Total Activity(All)', datafield: 'TotalActivity', width: 120, aggregates: ['sum'] ,hidden: true },
+                                                                      { text: 'Moderate', datafield: 'Moderate', width: 80 ,columngroup: 'TotalActivity' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Critical', datafield: 'Critical',width: 80 ,columngroup: 'TotalActivity' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Minor',datafield: 'Minor', width: 80 ,columngroup: 'TotalActivity' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Reviewed', datafield: 'ReviewedCount', width: 80, aggregates: ['sum'] ,hidden: true},
+                                                                      { text: 'Moderate', datafield: 'ModerateReviewedCount', width: 80,columngroup: 'Reviewed' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Critical',datafield: 'CriticalReviewedCount', width: 80 ,columngroup: 'Reviewed' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Minor', datafield: 'MinorReviewedCount',width: 80 ,columngroup: 'Reviewed' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Lapse', datafield: 'LapseCount', width: 80, aggregates: ['sum'] ,hidden: true},
+                                                                      { text: 'Moderate',datafield: 'ModerateLapseCount',  width: 80 ,columngroup: 'Lapse' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Critical',datafield: 'CriticalLapseCount', width: 80 ,columngroup: 'Lapse' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Minor',datafield: 'MinorLapseCount', width: 80 ,columngroup: 'Lapse' , align: 'center', aggregates: ['sum']},
+                                                                      { text: 'Hold', datafield: 'HoldCount', width: 100, aggregates: ['sum'] ,hidden: true }]" 
+                                                   jqx-columngroups="[{ text: 'Total Activity', align: 'center', name: 'TotalActivity' },
+                                                                      { text: 'Reviewed', align: 'center', name: 'Reviewed' },
+                                                                      { text: 'Lapse', align: 'center', name: 'Lapse' }]" jqx-columnsheight="25" jqx-columnsresize="true"></jqx-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript" src="~/js/PrventiveMaintanace/SummaryReportController.js"></script>
+}

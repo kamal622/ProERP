@@ -1,0 +1,157 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Web.Models.PreventiveMonthlySummaryReportModel
+
+@{
+    ViewBag.Title = "PreventiveSummary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("PreventiveSummary");
+}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header  clearfix">
+        <h1>
+            Monthly Summary Report
+            <small>Preventive Mintenance</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Reports</li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            @*@using (Html.BeginForm("ConsolidateReport", "Report", null, FormMethod.Post, new { role = "form" }))*@
+                            @using (Ajax.BeginForm("PreventiveSummary", "Report", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divRpt" }))
+                            {
+                            <!-- Main content -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="" class="control-label" for="SearchSiteName">Plant</label>
+                                                    <div title="select plant" class="ico-help" area-describedby="">
+                                                        <i class="fa fa-question-circle"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.DropDownListFor(m => m.PlantId, new SelectList(Model.PlantData, "Id", "Name"), new
+                                           {
+                                               jqx_drop_down_list = "ddlPlant",
+                                               jqx_width = "200",
+                                               jqx_height = "30",
+                                               jqx_auto_drop_down_height = "false",
+                                               jqx_instance = "ddlPlant",
+                                               jqx_theme = "theme"
+                                           })
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="" class="control-label" for="SearchSiteName">Year</label>
+                                                    <div title="select year" class="ico-help" area-describedby="">
+                                                        <i class="fa fa-question-circle"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.DropDownListFor(m => m.Year, new SelectList(Model.YearData), new
+                                           {
+                                               jqx_drop_down_list = "ddlYear",
+                                               jqx_width = "200",
+                                               jqx_height = "30",
+                                               jqx_auto_drop_down_height = "false",
+                                               jqx_instance = "ddlYear",
+                                               jqx_selected_index = "0",
+                                               jqx_theme = "theme"
+                                           })
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <div class="label-wrapper">
+                                                    <label title="" class="control-label" for="SearchSiteName">Month</label>
+                                                    <div title="select month" class="ico-help" area-describedby="">
+                                                        <i class="fa fa-question-circle"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                @Html.DropDownListFor(m => m.Month, new SelectList(Model.MonthData, "Id", "Name"), new
+                                           {
+                                               jqx_drop_down_list = "ddlMonth",
+                                               jqx_width = "200",
+                                               jqx_height = "30",
+                                               jqx_auto_drop_down_height = "false",
+                                               jqx_instance = "ddlMonth",
+                                               jqx_theme = "theme"
+                                           })
+                                            </div>
+
+                                            
+                                                <div class="col-md-1">
+                                                    <div class="label-wrapper">
+                                                        <label title="" class="control-label" for="SearchSchedule">Schedule</label>
+                                                        <div title="select Schedule Type" class="ico-help" area-describedby="">
+                                                            <i class="fa fa-question-circle"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    @Html.DropDownListFor(m => m.ScheduleType, new SelectList(Model.ScheduleData, "Id", "Name"), new
+                                           {
+                                               jqx_drop_down_list = "ddlScheduleType",
+                                               jqx_width = "200",
+                                               jqx_height = "30",
+                                               jqx_auto_drop_down_height = "false",
+                                               jqx_instance = "ddlScheduleType",
+                                               jqx_theme = "theme"
+                                           })
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-md-1">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button class="btn btn-primary" id="searchSites" type="submit">
+                                                    <i class="fa fa-search"></i>
+                                                    Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div id="divRpt" class="panel-body">
+                    @Html.Partial("_RdlcReportViewer", new ProERP.Web.Models.ReportViewModels { DataSetName = "DataSet1", ReportPath = Request.MapPath(Request.ApplicationPath) + @"Reports\PreventiveSummaryReport.rdlc", ReportDataSource = Model.ReportDataSource })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+

@@ -1,0 +1,1003 @@
+﻿@model  ProERP.Web.Models.IndentViewModel
+@*<input type="hidden" value="" ng-value="model.Indent.Id" id="hdnindentid" />*@
+@Html.HiddenFor(m => m.Id, new { id = "txtId" })
+
+<div class="panel panel-default" id="#Indent">
+    <div class="panel-body">
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Indent No</label>
+                    <div title="Indent no" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <b>{{model.Indent.IndentNo}}</b>
+                @*<jqx-input ng-model="model.Indent.IndentNo"
+                    style="width:100%;"
+                    jqx-height="30"
+                    jqx-theme="theme" />*@
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Priority</label>
+                    <div title="Priority" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-drop-down-list ng-model="model.Indent.Priority"
+                                    ng-disabled="!IsDisabled"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Description'"
+                                    jqx-value-member="'Id'"
+                                    jqx-selected-index="0"
+                                    jqx-source="PrioritySource"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-theme="theme"
+                                    jqx-instance="PriorityInstance"
+                                    jqx-on-binding-complete="onBindingPriority(event)" />
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Requisition</label>
+                    <div title="Requisition" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-drop-down-list ng-model="model.Indent.RequisitionType"
+                                    ng-disabled="!IsDisabled"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-source="['PR','JR']"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-selected-index="0"
+                                    jqx-theme="theme"
+                                    jqx-instance="ddlRequisition"
+                                    jqx-on-binding-complete="onBindingRequisition(event)" />
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Budget Type</label>
+                    <div title="Budget type" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-drop-down-list ng-model="model.Indent.BudgetType"
+                                    jqx-auto-drop-down-height="true"
+                                    ng-disabled="!IsDisabled"
+                                    jqx-source="['CapEx','OpEx']"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-theme="theme"
+                                    jqx-instance="ddlBudgetType"
+                                    jqx-on-change="onBudgetTypeChange(event)"
+                                    jqx-on-binding-complete="onBindingBudgetType(event)" />
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">{{BudgetCodeTitle}}</label>
+                    <div title="Budget code" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-combo-box ng-model="model.Indent.BudgetId"
+                               ng-disabled="!IsDisabled"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-auto-drop-down-height="true"
+                               jqx-display-member="'BudgetCode'"
+                               jqx-value-member="'Id'"
+                               jqx-source="BudgetCodeSource"
+                               jqx-theme="theme"
+                               jqx-search-mode="'containsignorecase'"
+                               jqx-auto-complete="true"
+                               jqx-instance="ddlBudgetCode"
+                               jqx-on-change="onBudgetCodeChange(event)"
+                               jqx-on-binding-complete="onBindingBudgetCode(event)"></jqx-combo-box>
+
+            </div>
+
+            <div class="col-md-2" ng-hide="true">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Budget Head</label>
+                    <div title="Budget code" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-hide="true">
+                <jqx-combo-box ng-model="model.Indent.BudgetHead"
+                               ng-disabled="!IsDisabled"
+                               style="width:100%;"
+                               jqx-height="30"
+                               jqx-auto-drop-down-height="true"
+                               jqx-source="['Mechanical', 'Electrical', 'Instrumental', 'Utility', 'General']"
+                               jqx-theme="theme"
+                               jqx-search-mode="'containsignorecase'"
+                               jqx-auto-complete="true"
+                               jqx-instance="ddlBudgetHead"
+                               jqx-on-binding-complete="onBindingBudgetHead"></jqx-combo-box>
+
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Remaining Budget </label>
+                    <div title="Remaining budget " class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 pad">
+                <b>{{RemainingBudget}}</b>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Subject</label>
+                    <div title="Subject" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <jqx-input ng-model="model.Indent.Subject"
+                            jqx-width="630"
+                           jqx-height="30"
+                           jqx-theme="theme" />
+            </div>
+
+            <div class="col-md-2" ng-show="IsUpdate">
+                <div class="label-wrapper">
+                    <label class="control-label">Status</label>
+                    <div title="Status" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="IsUpdate">
+                <jqx-drop-down-list ng-model="model.Indent.StatusId"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Description'"
+                                    jqx-value-member="'Id'"
+                                    jqx-source="IndentStatusSource"
+                                    jqx-theme="theme" 
+                                    jqx-instance="ddlIndentStatus"
+                                    jqx-on-change="onIndentStatusChange(event)"
+                                    jqx-on-binding-complete="onIndentBindingStatus(event)"/>
+                
+
+
+            </div>
+        </div>
+        <div id="IndentPO" ng-show="!IsIndentPoDetails">
+            <div class="row form-group">
+                <div class="col-md-2" >
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Po Date</label>
+                        <div title="Purchase order date" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" >
+                    <jqx-date-time-input jqx-width="'100%'"
+                                         jqx-height="30"
+                                         jqx-theme="theme"
+                                         jqx-format-string="'dd/MM/yyyy'"
+                                         jqx-instance="dtIndentPoDate"
+                                         ng-model="model.Indent.PoDate"></jqx-date-time-input>
+                </div>
+
+                <div class="col-md-2" >
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Delivery Date</label>
+                        <div title="Delivery date" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" >
+                    <jqx-date-time-input jqx-width="'100%'"
+                                         jqx-height="30"
+                                         jqx-theme="theme"
+                                         jqx-format-string="'dd/MM/yyyy'"
+                                         jqx-instance="dtIndentDeliveryDate"
+                                         ng-model="model.Indent.DeliveryDate"></jqx-date-time-input>
+                </div>
+                <div class="col-md-2" >
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">PO No</label>
+                        <div title="Purchase order no" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" >
+                    <jqx-input ng-model="model.Indent.PoNo"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-theme="theme" />
+                </div>
+            </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-2" ng-show="!IsIndentPoDetails">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">PO Amount</label>
+                        <div title="Purchase order no" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2" ng-show="!IsIndentPoDetails">
+                    <jqx-number-input jqx-width="'100%'"
+                                      jqx-height="30"
+                                      jqx-spin-buttons="true"
+                                      ng-model="model.Indent.PoAmount" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Note</label>
+                        <div title="Note" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <jqx-text-area ng-model="model.Indent.Note"
+                                   jqx-width="630"
+                                   jqx-height="50"
+                                   jqx-instance="ddlNote"
+                                   jqx-theme="theme" />
+                </div>
+
+                <div class="col-md-4">
+                    <button id="btnGenerate" ng-show="!IsUpdate" class="btn bg-blue" type="button" ng-click="onGenerateClick(event)">
+                        Generate
+                    </button>
+                </div>
+                <div class="col-md-4 pull-right">
+                    <button id="btnUpdate" ng-show="IsUpdate" class="btn bg-blue" type="button" ng-click="onUpdateClick(event)">
+                        Update
+                    </button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="panel panel-default" ng-show="IsUpdate">
+    <div class="panel-body">
+        <div id="PR" ng-show="!IsPR">
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Item Name</label>
+                        <div title="Item name" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <a href="javascript:void(0)" ng-click="AddNewItem()">+ Add New Item</a>
+                    <jqx-combo-box id="ItemName"
+                                   ng-model="model.IndentDetail.ItemId"
+                                   jqx-width="'100%'"
+                                   jqx-height="30"
+                                   jqx-auto-drop-down-height="false"
+                                   jqx-display-member="'Name'"
+                                   jqx-value-member="'Id'"
+                                   jqx-source="ItemNameSource"
+                                   jqx-theme="theme"
+                                   jqx-search-mode="'containsignorecase'"
+                                   jqx-auto-complete="true"
+                                   jqx-on-change="onItemNameChange(event)"
+                                   jqx-on-binding-complete="onBindingItemName(event)"
+                                   jqx-instance="ddlItemName"></jqx-combo-box>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Item Code</label>
+                        <div title="Item code" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-input id="ItemCode"
+                               ng-model="model.Item.ItemCode"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-disabled="DisableItemCode"
+                               jqx-theme="theme" />
+                </div>
+            </div>
+           
+             <div class="row form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Make</label>
+                        <div title="Make" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-input ng-model="model.IndentDetail.Make"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-theme="theme" />
+                </div>
+
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Model</label>
+                        <div title="Model" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-input ng-model="model.Item.Model"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-disabled="DisableModel"
+                               jqx-theme="theme" />
+                </div>
+
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">UOM</label>
+                        <div title="Unit of measure" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-input ng-model="model.Item.UnitOfMeasure"
+                               jqx-width="180"
+                               jqx-height="30"
+                               jqx-disabled="DisableUnitOfMeasure"
+                               jqx-instance="ddlUOM"
+                               jqx-theme="theme"></jqx-input>
+
+                </div>
+
+            </div>
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Description</label>
+                        <div title="Description" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-text-area ng-model="model.Item.Description"
+                                   jqx-width="'100%'"
+                                   jqx-height="50"
+                                   jqx-instance="ddlDescription"
+                                   jqx-theme="theme" />
+                </div>
+
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">MOC</label>
+                        <div title="MOC" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-input ng-model="model.Item.MOC"
+                               style="width:100%;"
+                               jqx-height="30"
+                               jqx-disabled="DisableModel"
+                               jqx-theme="theme" />
+                </div>
+
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Available Quantity</label>
+                        <div title="Available quantity in store" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-number-input ng-model="model.Item.AvailableQty"
+                                      jqx-width="180"
+                                      jqx-height="30"
+                                      jqx-input-mode="simple"
+                                      jqx-decimal-digits="0"
+                                      jqx-disabled="DisableQty"
+                                      jqx-theme="theme" />
+                </div>
+            </div>
+        </div>
+        <div id="JR" ng-show="!IsJR">
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Job Description</label>
+                        <div title="job description" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <jqx-text-area ng-model="model.IndentDetail.JobDescription"
+                                   jqx-width="630"
+                                   jqx-height="80"
+                                   jqx-instance="ddlJobDescription"
+                                   jqx-theme="theme" />
+                </div>
+
+                <div class="col-md-2">
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">UOM</label>
+                        <div title="Unit of measure" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <jqx-input ng-model="model.IndentDetail.UnitOfMeasure"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-instance="ddlUOM"
+                               jqx-theme="theme"></jqx-input>
+
+                </div>
+
+                @*<div class="col-md-2">
+                    <div>&nbsp;</div>
+                    <div class="label-wrapper">
+                        <label title="" class="control-label">Estimate Price</label>
+                        <div title="Estimate price" class="ico-help" area-describedby="">
+                            <i class="fa fa-question-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div>&nbsp; </div>
+                    <jqx-number-input jqx-width="180"
+                                      jqx-height="30"
+                                      jqx-spin-buttons="true"
+                                      ng-model="model.IndentDetail.EstimatePrice" />
+                </div>*@
+                <div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Estimate Price</label>
+                    <div title="Estimate price" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-number-input jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-theme="theme"
+                                  jqx-spin-buttons="true"
+                                  ng-model="model.IndentDetail.EstimatePrice" />
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Currency</label>
+                    <div title="Currency" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-drop-down-list ng-model="model.IndentDetail.Currency"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-selected-index="1"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Currency'"
+                                    jqx-value-member="'Id'"
+                                    jqx-source="CurrencySource"
+                                    jqx-instance="ddlCurrency"
+                                    jqx-theme="theme"></jqx-drop-down-list>
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Exchange Rate</label>
+                    <div title="Exchange Rate" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-number-input jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-spin-buttons="true"
+                                  jqx-decimal-digits="4"
+                                  jqx-min="0.0001"
+                                  jqx-decimal="1"
+                                  jqx-theme="theme"
+                                  jqx-instance="txtExchangeRate"
+                                  ng-model="model.IndentDetail.ExchangeRate" />
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Plant</label>
+                    <div title="Select plant" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-drop-down-list ng-model="model.IndentDetail.PlantId"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Name'"
+                                    jqx-value-member="'Id'"
+                                    jqx-source="PlantSource"
+                                    jqx-instance="ddlPlant"
+                                    jqx-auto-bind="true"
+                                    jqx-theme="theme"
+                                    jqx-on-change="onPlantChange(event)"
+                                    jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Line</label>
+                    <div title="Select line" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <jqx-drop-down-list ng-model="model.IndentDetail.LineId"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Name'"
+                                    jqx-value-member="'Id'"
+                                    jqx-source="LineSource"
+                                    jqx-instance="ddlLine"
+                                    jqx-auto-bind="false"
+                                    jqx-theme="theme"
+                                    jqx-on-change="onLineChange(event)"
+                                    jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Machine</label>
+                    <div title="Select machine" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+
+                <jqx-combo-box ng-model="model.IndentDetail.MachineId"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-auto-drop-down-height="false"
+                               jqx-display-member="'Name'"
+                               jqx-value-member="'Id'"
+                               jqx-source="MachineSource"
+                               jqx-theme="theme"
+                               jqx-search-mode="'containsignorecase'"
+                               jqx-auto-complete="true"
+                               jqx-selected-index="0"
+                               jqx-on-select="selectHandler(event)"
+                               jqx-on-binding-complete="onBindingMachine(event)"
+                               jqx-instance="MachineInstance"></jqx-combo-box>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Requested Quantity</label>
+                    <div title="Requested quantity" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-number-input ng-model="model.IndentDetail.QtyNeeded"
+                                  jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-min="1"
+                                  jqx-input-mode="simple"
+                                  jqx-decimal-digits="0"
+                                  jqx-theme="theme" />
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Preferred Vendor</label>
+                    <div title="Preferred vendor" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <a href="javascript:void(0)" ng-click="AddNewVendor()">+ Add New Vendor</a>
+                <jqx-combo-box ng-model="model.IndentDetail.PreferredVendorId"
+                               jqx-width="'100%'"
+                               jqx-height="30"
+                               jqx-auto-drop-down-height="false"
+                               jqx-display-member="'Name'"
+                               jqx-value-member="'Id'"
+                               jqx-source="VendorSource"
+                               jqx-theme="theme"
+                               jqx-instance="ddlVendor"
+                               jqx-search-mode="'containsignorecase'"
+                               jqx-auto-complete="true"
+                               jqx-on-binding-complete="onBindingVendor(event)"></jqx-combo-box>
+            </div>
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Required By Date</label>
+                    <div title="Required by date" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-date-time-input jqx-width="'100%'"
+                                     jqx-height="30"
+                                     jqx-theme="theme"
+                                     jqx-format-string="'dd/MM/yyyy'"
+                                     jqx-instance="dtRequiredBy"
+                                     ng-model="model.IndentDetail.RequiredByDate"></jqx-date-time-input>
+            </div>
+        </div>
+        <div class="row form-group">
+
+            <div class="col-md-2">
+                <div class="label-wrapper">
+                    <label class="control-label">Status</label>
+                    <div title="Status" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <jqx-drop-down-list ng-model="model.IndentDetail.StatusId"
+                                    jqx-width="'100%'"
+                                    jqx-height="30"
+                                    jqx-auto-drop-down-height="true"
+                                    jqx-display-member="'Description'"
+                                    jqx-value-member="'Id'"
+                                    jqx-source="StatusSource"
+                                    jqx-theme="theme"
+                                    jqx-selected-index="0"
+                                    jqx-instance="ddlStatus"
+                                    jqx-on-change="onStatusChange(event)"
+                                    jqx-on-binding-complete="onBindingStatus(event)" />
+
+
+            </div>
+
+            <div class="col-md-2" ng-show="!IsPo">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Po Date</label>
+                    <div title="Purchase order date" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsPo">
+                <jqx-date-time-input jqx-width="'100%'"
+                                     jqx-height="30"
+                                     jqx-theme="theme"
+                                     jqx-format-string="'dd/MM/yyyy'"
+                                     jqx-instance="dtPoDate"
+                                     ng-model="model.IndentDetail.PoDate"></jqx-date-time-input>
+            </div>
+
+            <div class="col-md-2" ng-show="!IsPo">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Delivery Date</label>
+                    <div title="Delivery date" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsPo">
+                <jqx-date-time-input jqx-width="'100%'"
+                                     jqx-height="30"
+                                     jqx-theme="theme"
+                                     jqx-format-string="'dd/MM/yyyy'"
+                                     jqx-instance="dtDeliveryDate"
+                                     ng-model="model.IndentDetail.DeliveryDate"></jqx-date-time-input>
+            </div>
+
+            <div class="col-md-2" ng-show="!IsIssue">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Issued Quantity</label>
+                    <div title="Issued quantity" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsIssue">
+                <jqx-number-input ng-model="model.IndentDetail.IssuedQty"
+                                  jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-min="1"
+                                  jqx-input-mode="simple"
+                                  jqx-decimal-digits="0"
+                                  jqx-theme="theme" />
+            </div>
+
+            <div class="col-md-2" ng-show="!IsIssue">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Final Price</label>
+                    <div title="Final price" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsIssue">
+                <jqx-number-input jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-spin-buttons="true"
+                                  ng-model="model.IndentDetail.FinalPrice" />
+            </div>
+
+            <div class="col-md-2" ng-show="!IsApprovedBy">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Approved By</label>
+                    <div title="Approved by" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsApprovedBy">
+                <jqx-input ng-model="model.IndentDetail.UserName"
+                           jqx-width="'100%'"
+                           jqx-height="30"
+                           jqx-disabled="DisableApprovedBy"
+                           jqx-theme="theme" />
+            </div>
+
+            <div class="col-md-2" ng-show="!IsApprovedDate">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Approved Date</label>
+                    <div title="Approved date" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsApprovedDate">
+                <jqx-date-time-input jqx-width="'100%'"
+                                     jqx-height="30"
+                                     jqx-theme="theme"
+                                     jqx-format-string="'dd/MM/yyyy'"
+                                     jqx-instance="dtApproveddate"
+                                     jqx-disabled="DisableApprovedOn"
+                                     ng-model="model.IndentDetail.ApprovedOn"></jqx-date-time-input>
+            </div>
+
+            <div class="col-md-2" ng-show="!IsRejectedBy">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Rejected By</label>
+                    <div title="Rejected by" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsRejectedBy">
+                <jqx-input ng-model="model.IndentDetail.UserName2"
+                           jqx-width="'100%'"
+                           jqx-height="30"
+                           jqx-disabled="DisableRejectedBy"
+                           jqx-theme="theme" />
+            </div>
+
+            <div class="col-md-2" ng-show="!IsRejectedDate">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">Rejected Date</label>
+                    <div title="Rejected date" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsRejectedDate">
+                <jqx-date-time-input jqx-width="'100%'"
+                                     jqx-height="30"
+                                     jqx-theme="theme"
+                                     jqx-format-string="'dd/MM/yyyy'"
+                                     jqx-instance="dtRejectedDate"
+                                     jqx-disabled="DisableRejectedDate"
+                                     ng-model="model.IndentDetail.Rejectedon"></jqx-date-time-input>
+            </div>
+
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2" ng-show="!IsPo">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">PO No</label>
+                    <div title="Purchase order no" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsPo">
+                <jqx-input ng-model="model.IndentDetail.PoNo"
+                           jqx-width="'100%'"
+                           jqx-height="30"
+                           jqx-theme="theme" />
+            </div>
+
+            <div class="col-md-2" ng-show="!IsPo">
+                <div class="label-wrapper">
+                    <label title="" class="control-label">PO Amount</label>
+                    <div title="Purchase order no" class="ico-help" area-describedby="">
+                        <i class="fa fa-question-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2" ng-show="!IsPo">
+                <jqx-number-input jqx-width="'100%'"
+                                  jqx-height="30"
+                                  jqx-spin-buttons="true"
+                                  ng-model="model.IndentDetail.PoAmount" />
+            </div>
+
+            <div class="col-md-12 text-right">
+                <button id="btnEmail" class="btn bg-blue" type="button" ng-click="onSendEmailClick(event)">
+                    <i class="fa fa-envelope-o"></i> Send Email
+                </button>
+                <button id="btnAttachment" class="btn bg-blue" type="button" ng-show="ShowAttachment" ng-click="onAttachmentClick(event)">
+                    <i class="fa fa-paperclip"></i> Attachment
+                </button>
+                <a id="lnkDownload" href="javascript:void(0);" class="btn bg-blue"><i class="fa fa-download"></i> Download</a>
+                @*<button id="btnPo" class="btn bg-blue" ng-show="!IsPo" style="width:6.5%;" type="button" ng-click="onPoClick(this)">
+                    Po
+                    </button>
+                    <button id="btnIssue" class="btn bg-blue" ng-show="!IsIssue" style="width:6.5%;" type="button" ng-click="onIssueClick(this)">
+                    Issue
+                    </button>*@
+                <button id="btnAdd" class="btn bg-blue" ng-show="!IsSave" type="button" ng-click="onAddClick(this)">
+                    <i class="fa fa-floppy-o"></i>
+                    Save
+                </button>
+                <button id="btnCancel" class="btn bg-blue" type="button" ng-click="onCancelClick(this)">
+                    <i class="fa  fa-plus"></i>
+                    Add New
+                </button>
+                @*<button id="btnApprove"class="btn bg-blue" ng-show="!IsApprove" style="width:6.5%;" type="button" ng-click="onApproveClick(this)">
+                    Approve
+                    </button>
+                    <button id="btnReject" class="btn bg-blue" ng-show="!IsReject" style="width:6.5%;" type="button" ng-click="onRejectClick(this)">
+                    Reject
+                    </button>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="IsUpdate" class="panel panel-default">
+    <div class="panel-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                @*{ text: 'Job Description', datafield: 'JobDescription',hidden:$scope.IsJR},*@
+                <jqx-grid jqx-width="'100%'" jqx-theme="theme"
+                          jqx-instance="GrdItem" jqx-source="IndentGridSource" jqx-ready="OnGridReady"
+                          jqx-columns="[
+                                        { text: 'Id', datafield: 'Id',hidden:'true'},
+                                        { text: 'Plant Name', datafield: 'PlantName',width:'150'},
+                                        { text: 'Item Code', datafield:'ItemCode',width:'70', hidden: IsPR },
+                                        { text: 'Item Name', datafield: 'Name', hidden: IsPR},
+                                        { text: 'Job Description', datafield: 'JobDescription', hidden: IsJR},
+                                        { text: 'Requested Quantity', datafield: 'QtyNeeded',width:'130'},
+                                        { text: 'Status', datafield: 'StatusName',width:'100'},
+                                        { text: 'Required By Date', datafield: 'RequiredByDate',width:'110',cellsformat: 'dd/MM/yyyy'},
+                                        { text: 'Edit', width: 70, align: 'center', columntype:'button', buttonclick: EditIndentDetail, cellsrenderer: UpdateCellRenderer},
+                                        { text: 'Delete', width: 70, align: 'center', columntype:'button', buttonclick: DeleteIndentDetail, cellsrenderer: DeleteCellRenderer}]"></jqx-grid>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<jqx-window jqx-instance="Itemwindow" jqx-height="530" jqx-width="550" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false" jqx-theme="theme">
+    <div>
+        Add New Item
+    </div>
+    <div>
+        <div ng-controller="AddOrUpdateController" class="panel-body form-horizontal">
+            @Html.Partial("~/Views/Item/_AddOrUpdateItem.cshtml", Model)
+            <div class="form-group pull-right pad">
+                <button class="btn bg-blue" ng-click="SaveNewItem(2)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</jqx-window>
+<jqx-window jqx-instance="Vendorwindow" jqx-height="400" jqx-width="645" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false" jqx-theme="theme">
+    <div>
+        Add New Vendor
+    </div>
+    <div>
+        <div ng-controller="AddOrUpdateVendorController" class="panel-body form-horizontal">
+            @Html.Partial("~/Views/Vendor/_AddOrUpdateVendor.cshtml", Model)
+            <div class="form-group pull-right pad">
+                <button class="btn bg-blue" ng-click="OnSavevendor(2)">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</jqx-window>
+<jqx-window jqx-instance="Attachmentwindow" jqx-height="340" jqx-width="750" jqx-resizable="false" jqx-is-modal="true" jqx-auto-open="false" jqx-theme="theme">
+    <div>
+        Add Attachment
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <jqx-file-upload jqx-instance="ddlAttachment" jqx-theme="theme"
+                             jqx-auto-upload="true"
+                             jqx-multiple-files-upload="false"
+                             jqx-upload-url="'@Url.Content("~/Indent/UploadIndentAttachments")'"
+                             jqx-file-input-name="fileToUpload"
+                             jqx-on-upload-end="SchoolLogo_UploadEnd(event)" />
+        </div>
+        &nbsp;
+        <div class="col-md-12">
+            <jqx-grid jqx-theme="theme" jqx-width="'100%'" jqx-height="200" jqx-auto-bind="false"
+                      jqx-instance="GrdAttachment" jqx-source="AttachmentSource" jqx-ready="OnGridReady"
+                      jqx-columns="[
+                                         { text: 'Id', datafield: 'Id',hidden:'true'},
+                                        { text: 'File Name', datafield: 'OriginalFileName'},
+                                        { text: 'Download', width: 100, align: 'center', columntype:'button', cellsrenderer: DownloadAttachmentCellRenderer},
+                                        { text: 'Delete', width: 100, align: 'center', columntype:'button', buttonclick: DeleteAttachment, cellsrenderer: DeleteAttachmentCellRenderer}]"></jqx-grid>
+        </div>
+        <div class="col-md-12 text-right pad">
+            <button class="btn bg-blue" ng-click="CloseAttachmentWindow()">
+                Close
+            </button>&nbsp;
+        </div>
+    </div>
+</jqx-window>

@@ -1,0 +1,101 @@
+﻿@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "AllUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("Users");
+}
+<div ng-controller="AllUsersController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Users</h1>
+        <div class="pull-right">
+            <a class="btn bg-blue" href="/Account/Register">
+                <i class="fa fa-plus-square"></i>
+                Add New
+            </a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">User Name</label>
+                                            <div title="A user name" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input name="SearchUserName" ng-model="SearchUserName" class="form-control text-box single-line" id="SearchUserName" type="text" value=""  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+                                        <div class="label-wrapper">
+                                            <label title="" class="control-label">Email</label>
+                                            <div title="A email" class="ico-help" area-describedby="">
+                                                <i class="fa fa-question-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input name="SearchEmail" ng-model="SearchEmail" class="form-control text-box single-line" id="SearchEmail" type="text" value=""  />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <div class="col-md-5">
+
+                                    </div>
+                                    <div class="col-md-7">
+                                        <button class="btn btn-primary btn-search" id="searchUsers" type="button" ng-click="onSearch(event)">
+                                            <i class="fa fa-search"></i>
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right pad">
+                            <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                                <i class="fa fa-refresh"></i>
+                                Refresh
+                            </button>
+                        </div>
+                        <jqx-grid jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true"
+                                  jqx-pagesize="10" jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme"
+                                  jqx-source="AllUsers" jqx-instance="GrdUsers" 
+                                  jqx-columns="[
+
+                                            { text: 'User', datafield: 'UserName' },
+                                            { text: 'Email', datafield: 'Email' }
+                                                ]"></jqx-grid>
+                    </div>
+                </div>
+            </div>
+            </div>
+</div>
+</div>
+@section scripts {
+    <script type="text/javascript" src="~/JS/Account/AllUsersController.js"></script>
+}

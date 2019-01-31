@@ -1,0 +1,51 @@
+﻿@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.SubAssemblyViewModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("SubAssemblies");
+}
+
+
+<div ng-controller="SubAssemblyUpdateController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Update SubAssembly
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a href="/SubAssembly/List/">back to subassembly list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button class="btn bg-blue">
+                <i class="fa fa-floppy-o"></i>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="col-md-7">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            @Html.Partial("_AddOrUpdateSubAssembly")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/JS/SubAssembly/UpdateController.js"></script>
+
+}
+
+

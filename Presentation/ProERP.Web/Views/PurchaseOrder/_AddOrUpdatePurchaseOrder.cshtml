@@ -1,0 +1,193 @@
+﻿@model  ProERP.Web.Models.IndentsViewModel
+@Html.HiddenFor(m => m.Id, new { id = "txtId" })
+
+
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Item Name</label>
+            <div title="ItemName" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.ItemName"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Description</label>
+            <div title="Indents description" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.Description"
+                       jqx-width="300"
+                       jqx-height="100"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Specification</label>
+            <div title="Specification" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.Specification"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Quantity In Stock</label>
+            <div title="QtyInStock" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.QtyInStock"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Quantity Needed</label>
+            <div title="QtyNeeded" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.QtyNeeded"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Unit Price</label>
+            <div title="UnitPrice" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.UnitPrice"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Total Amount</label>
+            <div title="TotalAmount" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.TotalAmount"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Priority</label>
+            <div title="Priority" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <jqx-text-area ng-model="model.Priority"
+                       jqx-width="300"
+                       jqx-height="30"
+                       jqx-theme="theme" />
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-3">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Plant</label>
+            <div title="select plant" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+
+        <jqx-drop-down-list ng-model="model.PlantId"
+                            jqx-width="300"
+                            jqx-height="30"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Name'"
+                            jqx-value-member="'Id'"
+                            jqx-source="PlantSource"
+                            jqx-theme="theme"
+                            jqx-instance="PlantInstance"
+                            jqx-on-binding-complete="onBindingPlant(event)"
+                            jqx-on-change="onSelectPlant(event)"></jqx-drop-down-list>
+    </div>
+</div>
+
+<div class="form-group">
+        <div class="col-md-3">
+            <div class="label-wrapper">
+                <label title="" class="control-label">Vendor</label>
+                <div title="Status" class="ico-help" area-describedby="">
+                    <i class="fa fa-question-circle"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <jqx-drop-down-list ng-model="model.VendorId"
+                                jqx-auto-drop-down-height="true"
+                                jqx-display-member="'Name'"
+                                jqx-value-member="'Id'"
+                                jqx-source="VendorSource"
+                                jqx-width="300"
+                                jqx-height="30"
+                                jqx-theme="theme"
+                                jqx-instance="Vendorinstance" />
+        </div>
+    </div>
+
+
+
+
+
+

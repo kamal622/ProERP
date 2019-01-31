@@ -1,0 +1,236 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Services.Models.ProcessLogSheetGridModel
+
+@{
+    ViewBag.Title = "ProcessLogSheet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-controller="LogSheetController">
+    <section class="content-header  clearfix">
+        <h1>
+            Process LogSheet
+            <small>Process LogSheet</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Process LogSheet</li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <div class="form-group">
+                                <div class="col-md-1">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Line</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-drop-down-list jqx-width="'100%'"
+                                                        jqx-auto-drop-down-height="false"
+                                                        jqx-display-member="'Name'"
+                                                        jqx-value-member="'Id'"
+                                                        jqx-source="LineSource"
+                                                        jqx-instance="ddlLine"
+                                                        jqx-on-change="onLineChange(event)"
+                                                        jqx-theme="theme"
+                                                        id="ddlLine"></jqx-drop-down-list>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Batch No</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-drop-down-list jqx-width="'100%'"
+                                                        jqx-auto-drop-down-height="false"
+                                                        jqx-display-member="'LotNo'"
+                                                        jqx-value-member="'BatchId'"
+                                                        jqx-source="BatchSource"
+                                                        jqx-instance="ddlBatch"
+                                                        jqx-on-change="onBatchChange(event)"
+                                                        jqx-theme="theme"
+                                                        id="ddlBatch"></jqx-drop-down-list>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Grade</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-input id="txtGradeName" jqx-instance="txtGradeName" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" />
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label" for="SearchSiteName">Date</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-date-time-input jqx-width="'100%'"
+                                                         jqx-theme="theme"
+                                                         jqx-format-string="'dd-MM-yyyy'"
+                                                         jqx-instance="dtPackingDate"
+                                                         jqx-show-calendar-button="true"></jqx-date-time-input>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button class="btn btn-primary bg-blue" id="searchSites" type="submit" ng-click="onSearchClick()">
+                                            <i class="fa fa-search"></i>
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-tabs-custom" style="margin-bottom:8px;">
+                <ul class="nav nav-tabs">
+                    <li class="active" id="liProcessLogsheet1">
+                        <a href="#tab_processlogsheet_1" data-toggle="tab" data-tab-name="Process LogSheet1">Process LogSheet1</a>
+                    </li>
+                    <li id="liProcessLogsheet2">
+                        <a href="#tab_processlogsheet_2" data-toggle="tab" data-tab-name="Process LogSheet2">Process LogSheet2</a>
+                    </li>
+                </ul>
+                <div class="tab-content"  style="height:503px;">
+                    <div id="tab_processlogsheet_1" class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <table style="width:100%;" cellpadding="2" cellspacing="2" border="0">
+                                        <tr>
+                                            <td style="text-align:left">
+                                                <button id="btnAddNew" class="btn bg-blue" type="button" ng-click="onAddNewRowSheet1Click(this)">
+                                                    <i class="fa fa-plus"></i>
+                                                    Add Rows
+                                                </button>
+                                                <button id="btnSave" class="btn bg-blue" type="button" ng-click="onSaveSheet1Click(this)">
+                                                    <i class="fa fa-save"></i>
+                                                    Save
+                                                </button>
+
+                                            </td>
+                                            <td style="text-align:right">@*ng-show="IsBatchChange"*@
+                                                <button type="button" class="btn bg-blue" ng-click="OnExportlogSheet1('excel')" ><i class="fa fa-file-excel-o"></i>&nbsp;Export</button>
+                                                <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshSheet1Click(event)">
+                                                    <i class="fa fa-refresh"></i>
+                                                    Refresh
+                                                </button>
+                                                <button id="btnDelete" class="btn bg-red" type="button" ng-click="onDeleteSheet1Click(event)">
+                                                    <i class="fa fa-trash-o"></i>
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div style="height:5px;"></div>
+                                    <jqx-grid jqx-instance="gridProcessLogSheet1"
+                                              jqx-width="'100%'"
+                                              jqx-sortable="true"
+                                              jqx-theme="theme"
+                                              jqx-editable="true"
+                                              jqx-autoheight="false"
+                                              jqx-selectionmode="'checkbox'" @*multiplecellsadvanced*@
+                                              jqx-source="ProcessLogSheet1Source"
+                                              jqx-columns="ProcessLogSheet1Columns"
+                                              jqx-columngroups="ProcessLogSheet1GroupColumns"
+                                              jqx-editmode="'click'"
+                                              jqx-columnsresize="true"
+                                              jqx-on-cellbeginedit="OnCellBeginEditSheet1(event)"
+                                              jqx-auto-bind="false"
+                                              id="gridProcessLogSheet1"></jqx-grid>
+
+                                    @*<div class="pull-right pad">
+
+                </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab_processlogsheet_2" class="tab-pane">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+
+                                    <table style="width:100%;" cellpadding="2" cellspacing="2" border="0">
+                                        <tr>
+                                            <td style="text-align:left">
+                                                <button id="btnAddNew" class="btn bg-blue" type="button" ng-click="onAddNewRowSheet2Click(this)">
+                                                    <i class="fa fa-plus"></i>
+                                                    Add Rows
+                                                </button>
+                                                <button id="btnSave" class="btn bg-blue" type="button" ng-click="onSaveSheet2Click(this)" >
+                                                    <i class="fa fa-save"></i>
+                                                    Save
+                                                </button>
+
+                                            </td>
+                                            <td style="text-align:right">@*ng-show="IsBatchChange"*@
+                                                <button type="button" class="btn bg-blue" ng-click="OnExportlogSheet2('excel')" ><i class="fa fa-file-excel-o"></i>&nbsp;Export</button>
+                                                <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshSheet2Click(event)" >
+                                                    <i class="fa fa-refresh"></i>
+                                                    Refresh
+                                                </button>
+                                                <button id="btnDelete" class="btn bg-red" type="button" ng-click="onDeleteSheet2Click(event)" >
+                                                    <i class="fa fa-trash-o"></i>
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div style="height:5px;"></div>
+                                    <jqx-grid jqx-instance="gridProcessLogSheet2"
+                                              jqx-width="'100%'"
+                                              jqx-sortable="true"
+                                              jqx-theme="theme"
+                                              jqx-editable="true"
+                                              jqx-autoheight="false"
+                                              jqx-selectionmode="'checkbox'" @*multiplecellsadvanced*@
+                                              jqx-source="ProcessLogSheet2Source"
+                                              jqx-columns="ProcessLogSheet2Columns"
+                                              jqx-columngroups="ProcessLogSheet2GroupColumns"
+                                              jqx-editmode="'click'"
+                                              jqx-columnsresize="true"
+                                              jqx-on-cellbeginedit="OnCellBeginEditSheet2(event)"
+                                              jqx-auto-bind="false"
+                                              id="gridProcessLogSheet2"></jqx-grid>
+
+                                    @*<div class="pull-right pad">
+
+                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                @section scripts{
+                    <script type="text/javascript" src="~/js/FormulationRequest/ProcessLogSheetController.js"></script>
+                }
+
+
+
+

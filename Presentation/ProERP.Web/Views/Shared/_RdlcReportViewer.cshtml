@@ -1,0 +1,26 @@
+﻿@model ProERP.Web.Models.ReportViewModels
+@using ReportViewerForMvc;
+
+@Html.ReportViewer(new
+{
+    ProcessingMode = 0, //ProcessingMode.Local
+    SizeToReportContent = true,
+    Width = System.Web.UI.WebControls.Unit.Percentage(100),
+    Height = System.Web.UI.WebControls.Unit.Percentage(100)
+},
+new
+{
+    ReportPath = Model.ReportPath
+},
+new { },
+new
+{
+    Name = Model.DataSetName,
+    Value = Model.ReportDataSource
+},
+new
+{
+    scrolling = "auto",
+    frameborder = "0",
+    style = "width:100%;height:100%"
+})

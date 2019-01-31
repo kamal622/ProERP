@@ -1,0 +1,56 @@
+﻿@using ProERP.Web.Framework.UI;
+@model  ProERP.Web.Models.IndentsViewModel
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("EngineeringPurchase");
+}
+
+<div ng-controller="IndentsController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">
+            Add a new indent
+            <small>
+                <i class="fa fa-arrow-circle-left"></i>
+                <a href="/Indents/List/">back to indent list</a>
+            </small>
+        </h1>
+        <div class="pull-right">
+            <button class="btn bg-blue" ng-click="onSave(event)">
+                <i class="fa fa-floppy-o"></i>
+                Save
+            </button>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="form-horizontal">
+            <div id="customer-edit" class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tabDetail" data-toggle="tab" data-tab-name="tabDetail">Indent Detail</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tabDetail">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    @Html.Partial("_AddOrUpdateIndents", Model)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/JS/Indents/AddOrUpdateController.js"></script>
+
+}

@@ -1,0 +1,229 @@
+﻿
+@model  ProERP.Web.Models.MaintenanceRequestViewModel
+@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("MaintenanceRequest");
+}
+
+<div ng-controller="MRController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Maintenance Request</h1>
+        
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Plant</label>
+                                        <div title="select plant" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-drop-down-list jqx-width="180"
+                                                        jqx-height="30"
+                                                        jqx-auto-drop-down-height="true"
+                                                        jqx-display-member="'Name'"
+                                                        jqx-value-member="'Id'"
+                                                        jqx-source="SearchPlantSource"
+                                                        jqx-instance="ddlSearchPlant"
+                                                        jqx-theme="theme"
+                                                        jqx-on-change="onPlantSearchChange(event)"
+                                                        jqx-on-binding-complete="onPlantSearchBindingComplete(event)"></jqx-drop-down-list>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Line</label>
+                                        <div title="select line" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <jqx-drop-down-list jqx-width="180"
+                                                        jqx-height="30"
+                                                        jqx-auto-drop-down-height="true"
+                                                        jqx-display-member="'Name'"
+                                                        jqx-value-member="'Id'"
+                                                        jqx-source="SearchLineSource"
+                                                        jqx-instance="ddlSearchLine"
+                                                        jqx-theme="theme"
+                                                        jqx-on-change="onLineSearchChange(event)"
+                                                        jqx-on-binding-complete="onLineSearchBindingComplete(event)"></jqx-drop-down-list>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Machine</label>
+                                        <div title="Select machine" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <jqx-combo-box jqx-width="180"
+                                                   jqx-height="30"
+                                                   jqx-auto-drop-down-height="false"
+                                                   jqx-display-member="'Name'"
+                                                   jqx-value-member="'Id'"
+                                                   jqx-source="SearchMachineSource"
+                                                   jqx-theme="theme"
+                                                   jqx-search-mode="'containsignorecase'"
+                                                   jqx-auto-complete="false"
+                                                   jqx-selected-index="0"
+                                                   jqx-on-binding-complete="onBindingSearchMachine(event)"
+                                                   jqx-instance="ddlSearchMachine"></jqx-combo-box>
+                                </div>
+                            </div>
+                            <div>&nbsp;</div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="label-wrapper">
+                                        <label title="" class="control-label">Priority</label>
+                                        <div title="Priority" class="ico-help" area-describedby="">
+                                            <i class="fa fa-question-circle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                            <jqx-drop-down-list jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Description'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="SearchPrioritySource"
+                                                                jqx-width="180"
+                                                                jqx-height="30"
+                                                                jqx-theme="theme"
+                                                                jqx-instance="ddlPrioritySearch" />
+                                        </div>
+                      
+                                <div class="col-md-2">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Status</label>
+                                                <div title="Status" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <div class="col-md-2">
+                                            <jqx-drop-down-list jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'StatusName'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="SearchStatusSource"
+                                                                jqx-width="180"
+                                                                jqx-height="30"
+                                                                jqx-theme="theme"
+                                                                jqx-instance="ddlStatusSearch" />
+                                        </div>
+
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary" id="searchMachines" type="button" ng-click="onSearch(event)">
+                                        <i class="fa fa-search"></i>
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="pull-right pad">
+                                <button id="btnAdd" class="btn bg-blue" type="button" ng-click="onAddClick()">
+                                    <i class="fa fa-plus"></i>
+                                    Add
+                                </button>
+                                <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                                    <i class="fa fa-refresh"></i>
+                                    Refresh
+                                </button>
+                               
+                            </div>
+                            <jqx-grid jqx-altrows="true" jqx-width="'100%'" jqx-sortable="true" jqx-pageable="true" jqx-columnsresize="true"
+                                      jqx-pagesizeoptions="GridPageSizeOption" jqx-theme="theme" jqx-pagesize="10" jqx-settings="MRGrid"
+                                      jqx-source="MR"  jqx-instance="grdMR"
+                                      jqx-columns="[
+                                            { text: 'Serial No', datafield: 'SerialNo', width: 60 },
+                                            { text: 'Plant', datafield: 'PlantName' , width: 90},
+                                            { text: 'Line', datafield: 'LineName' , width: 90},
+                                            { text: 'Machine', datafield: 'MachineName' , width: 100},
+                                            { text: 'Problem', datafield: 'Problem' },
+                                            { text: 'Priority', datafield: 'Priority' , width: 70 },
+                                            { text: 'Status', datafield: 'Status' , width: 70 },
+                                            { text: 'RequestBy', datafield: 'RequestUserName', width: 90 },
+                                            { text: 'RequestDate', datafield: 'RequestDate', width: 80 ,cellsformat: 'dd/MM/yyyy'},
+                                            { text: 'Assign To', datafield: 'AssignUserName', width: 90 },
+                                            { text: 'Is Breakdown', datafield: 'IsBreakdown', editable: false, width: 80, columntype: 'checkbox' },
+                                            { text: '', width: 70 , cellsrenderer: UpdateMaitanceRequest,sortable: false ,cellsalign: 'center'}
+                                      ]"></jqx-grid>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    <jqx-window jqx-instance="WinAddRequest" jqx-theme="theme" jqx-width="800" jqx-height="600" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="true">
+        <div><b>Maintance Request</b></div>
+        <div>
+                <br>
+
+                <div class="nav-tabs-custom">
+                    @{Html.RenderPartial("_AddUpdateMaintenanceRequest");}
+                    
+                </div>
+                <div class="pull-right">
+                    <button class="btn bg-blue" ng-click="OnDownloadMaitanceRequest(event)" ng-show="IsDownload">
+                        <i class="fa fa-download"></i>
+                        Download
+                    </button>
+                    <button class="btn bg-blue" ng-click="OnSaveMaitanceRequest(event)" ng-show="IsSave" >
+                        <i class="fa fa-floppy-o"></i>
+                        Save
+                    </button>
+                </div>
+        </div>
+    </jqx-window>
+
+    <jqx-window jqx-instance="WinMRRemarks" jqx-theme="theme" jqx-width="600" jqx-height="300" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="true">
+        <div><b>All Remarks</b></div>
+        <div>
+            <div class="panel-group">
+                <jqx-grid jqx-altrows="true" jqx-width="'550'" jqx-height="'230'" jqx-sortable="true" jqx-theme="theme" jqx-source="MRRemarks" jqx-instance="grdMRRemarks"
+                          jqx-columnsresize="true" jqx-columns="[
+                                           { text: '#', datafield: 'Id', width: 50  },
+                                           { text: 'Status', datafield: 'StatusName', width: 90 },
+                                           { text: 'Remarks', datafield: 'Remarks' },
+                                           { text: 'Remarks Date', datafield: 'RemarksDate' ,cellsformat: 'dd/MM/yyyy' , width: 100 },
+                                          { text: 'Remarks By', datafield: 'RemarksBy' , width: 100 }
+                                      ]"></jqx-grid>
+            </div>
+        </div>
+    </jqx-window>
+
+    </div>
+@section scripts {
+    <script type="text/javascript" src="~/js/MaintenanceRequest/ListController.js"></script>
+}
+

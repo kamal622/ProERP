@@ -1,0 +1,68 @@
+﻿@using ProERP.Web.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="login-box box box-info" style="border: solid; border-width:1px; border-color: #c6c6c6; box-shadow: 3px 3px 3px #888888;">
+    <div class="box-header text-center">
+        <img alt="kkalpana industries (india) ltd" src="~/images/logo.png"/>&nbsp;<h3>kkalpana industries (india) ltd</h3>
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "User" })
+                @*<input type="email" class="form-control" placeholder="Email">*@
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @type = "password", @placeholder = "Password" })
+                @*<input type="password" class="form-control" placeholder="Password">*@
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+
+            </div>
+            <div class="row box-footer">
+                <div class="col-xs-8">
+                    <div>
+                        <label>
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                            @*<input type="checkbox"> Remember Me*@
+                        </label>
+                    </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div>
+                <!-- /.col -->
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        }
+        @*<a href="#">I forgot my password</a><br>*@
+
+        @Html.ActionLink("I forgot my password", "ForgotPassword")
+
+        @*<a href="register.html" class="text-center">Register a new membership</a>*@
+        @*@Html.ActionLink("Register as a new user", "Register", new { @class= "text-center" })*@
+    </div>
+    <!-- /.login-box-body -->
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

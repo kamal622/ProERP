@@ -1,0 +1,228 @@
+﻿
+@model  ProERP.Web.Models.MaintenanceRequestViewModel
+@Html.HiddenFor(m => m.Id, new { id = "txtId" })
+
+<div class="row form-group">
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Plant</label>
+            <div title="Select plant" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <jqx-drop-down-list ng-model="model.PlantId"
+                            jqx-width="178"
+                            jqx-height="30"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Name'"
+                            jqx-value-member="'Id'"
+                            jqx-source="PlantSource"
+                            jqx-instance="ddlPlant"
+                            jqx-theme="theme"
+                            jqx-on-change="onPlantChange(event)"
+                            jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+    </div>
+
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Line</label>
+            <div title="Select line" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+
+        <jqx-drop-down-list ng-model="model.LineId"
+                            jqx-width="178"
+                            jqx-height="30"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Name'"
+                            jqx-value-member="'Id'"
+                            jqx-source="LineSource"
+                            jqx-instance="ddlLine"
+                            jqx-auto-bind="false"
+                            jqx-theme="theme"
+                            jqx-on-change="onLineChange(event)"
+                            jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+    </div>
+
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Machine</label>
+            <div title="Select machine" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+
+        <jqx-combo-box ng-model="model.MachineId"
+                       jqx-width="180"
+                       jqx-height="30"
+                       jqx-auto-drop-down-height="false"
+                       jqx-display-member="'Name'"
+                       jqx-value-member="'Id'"
+                       jqx-source="MachineSource"
+                       jqx-theme="theme"
+                       jqx-search-mode="'containsignorecase'"
+                       jqx-auto-complete="true"
+                       jqx-on-binding-complete="onBindingMachine(event)"
+                       jqx-instance="ddlMachine"></jqx-combo-box>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Serial No</label>
+            <div title="Serial no" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <jqx-input ng-model="model.SerialNo"
+                   jqx-width="180"
+                   jqx-height="30"
+                   jqx-theme="theme" />
+    </div>
+
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Priority</label>
+            <div title="Priority" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <jqx-drop-down-list ng-model="model.PriorityId"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Description'"
+                            jqx-value-member="'Id'"
+                            jqx-source="PrioritySource"
+                            jqx-width="180"
+                            jqx-height="30"
+                            jqx-theme="theme"
+                            jqx-instance="PriorityInstance"
+                            jqx-on-binding-complete="onBindingPriority(event)" />
+    </div>
+
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Open DateTime</label>
+            <div title="Open datetime" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <jqx-date-time-input jqx-width="178"
+                             jqx-height="30"
+                             jqx-theme="theme"
+                             jqx-format-string="'dd/MM/yyyy HH:mm'"
+                             jqx-show-time-button="true"
+                             jqx-instance="dtOpen"
+                             jqx-value="null"></jqx-date-time-input>
+    </div>
+
+</div>
+
+<div class="row form-group">
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Task Description</label>
+            <div title="site description" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <jqx-text-area ng-model="model.TaskDescription"
+                       jqx-width="593"
+                       jqx-height="80"
+                       jqx-theme="theme" />
+    </div>
+
+    <div class="col-md-2" ng-show="!IsCd">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Close DateTime</label>
+            <div title="Close datetime" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2" ng-show="!IsCd">
+        <jqx-date-time-input jqx-width="180"
+                             jqx-height="30"
+                             jqx-theme="theme"
+                             jqx-format-string="'dd/MM/yyyy HH:mm'"
+                             jqx-show-time-button="true"
+                             jqx-instance="dtClose"
+                             jqx-value="null"></jqx-date-time-input>
+    </div>
+    </div>
+
+<div class="row form-group">
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Work Conducted</label>
+            <div title="Work conducte" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <jqx-text-area ng-model="model.WorkConducted"
+                       jqx-width="593"
+                       jqx-height="80"
+                       jqx-theme="theme" />
+    </div>
+
+    <div class="col-md-2">
+        <div class="label-wrapper">
+            <label title="" class="control-label">Requested By</label>
+            <div title="Requested by" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <jqx-input ng-model="model.RequestedBy"
+                   jqx-width="180"
+                   jqx-height="30"
+                   jqx-theme="theme" />
+    </div>
+
+    <div class="col-md-2">
+        <div>&nbsp;</div>
+        <div class="label-wrapper">
+            <label title="" class="control-label">Status</label>
+            <div title="Status" class="ico-help" area-describedby="">
+                <i class="fa fa-question-circle"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div>&nbsp;</div>
+        <jqx-drop-down-list ng-model="model.StatusId"
+                            jqx-auto-drop-down-height="true"
+                            jqx-display-member="'Description'"
+                            jqx-value-member="'Id'"
+                            jqx-source="StatusSource"
+                            jqx-width="180"
+                            jqx-height="30"
+                            jqx-theme="theme"
+                            jqx-selected-index="0"
+                            jqx-instance="ddlStatus" 
+                            jqx-on-change="onStatusChange(event)"
+                            jqx-on-binding-complete="onBindingStatus(event)"/>
+    </div>
+</div>
+
+
+
+

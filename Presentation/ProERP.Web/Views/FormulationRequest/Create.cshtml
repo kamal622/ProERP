@@ -1,0 +1,283 @@
+﻿@using ProERP.Web.Framework.UI;
+@model ProERP.Web.Models.FormulationCreateViewModel
+@Html.HiddenFor(m => m.Id, new { id = "txtId" })
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div ng-controller="FormulationCreateController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Formulation Request</h1>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="panel-group">
+                <div class="panel panel-default panel-search">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <jqx-validator jqx-instance="GenerateValidator" jqx-hint-type="'label'" jqx-rules="GenerateRules">
+                                        <div class="col-md-1">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Line</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <jqx-drop-down-list ng-model="model.LineId"
+                                                                jqx-width="'100%'"
+                                                                jqx-auto-drop-down-height="false"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="LineSource"
+                                                                jqx-instance="ddlLine"
+                                                                jqx-theme="theme"
+                                                                id="ddlLine"
+                                                                jqx-disabled="disableProperty"></jqx-drop-down-list>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Category</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <jqx-drop-down-list ng-model="model.CategoryId"
+                                                                jqx-width="'100%'"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="ProductCategorySource"
+                                                                jqx-instance="ddlProductCategory"
+                                                                jqx-theme="theme"
+                                                                jqx-on-change="onCategoryChange(event)"
+                                                                jqx-on-binding-complete="onBindingCategory(event)"
+                                                                id="ddlProductCategory"
+                                                                jqx-disabled="disableProperty"></jqx-drop-down-list>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Product</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <jqx-drop-down-list ng-model="model.ProductId"
+                                                                jqx-width="'100%'"
+                                                                jqx-auto-drop-down-height="false"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-source="ProductSource"
+                                                                jqx-instance="ddlProduct"
+                                                                jqx-theme="theme"
+                                                                jqx-on-binding-complete="onBindingProduct(event)"
+                                                                id="ddlProduct"
+                                                                ng-disabled="disableProperty"></jqx-drop-down-list>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Product Qty</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <jqx-number-input ng-model="model.QtyToProduce"
+                                                              jqx-width="'100%'"
+                                                              jqx-height="25"
+                                                              jqx-min="1"
+                                                              jqx-input-mode="simple"
+                                                              jqx-decimal-digits="0"
+                                                              jqx-theme="theme"
+                                                              ng-disabled="disableProperty" />
+                                        </div>
+                                    </jqx-validator>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="pull-right">
+                                    <button id="btnAdd" class="btn bg-blue" type="button" ng-click="onGenerateRequest(event)" ng-show="IsGenerated">
+                                        Generate
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="pull-right" style="padding-bottom:10px;">
+                            <button id="btnAdd" class="btn bg-blue" type="button" ng-show="IsNew" ng-click="onAddNewFormuation(event)">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </button>
+                            <button id="btnDelete" class="btn bg-red" type="button" ng-show="IsDeleted" ng-click="onDeleteFormulation(event)">
+                                <i class="fa fa-trash-o"></i>
+                                Delete
+                            </button>
+                        </div>
+                        <jqx-grid jqx-width="'100%'"
+                                  jqx-theme="theme"
+                                  jqx-editmode="'click'"
+                                  jqx-auto-bind="false"
+                                  jqx-columns="FormulationColumn"
+                                  jqx-source="FormulationSource"
+                                  jqx-instance="GrdFormulation"
+                                  jqx-editable="true"
+                                  jqx-ready="OnGridReady"
+                                  jqx-showaggregates="true"
+                                  jqx-show-statusbar="true"
+                                  jqx-selection-mode="checkbox"
+                                  ng-disabled="disableProperty"
+                                  id="GrdFormulation"></jqx-grid>
+
+
+                        <div class="row">
+                            <div class="col-md-12" style="margin-top:10px;">
+                                <div class="form-group">
+                                    <jqx-validator jqx-instance="FormulationValidator" jqx-hint-type="'label'" jqx-rules="FormulationRules">
+                                        <div class="col-md-1">
+                                            <div class="label-wrapper">
+                                                <label title="LotNo" class="control-label">Lot No</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                                <jqx-input ng-model="model.LotNo" id="txtLotNo" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" ng-disabled="disableProperty" />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="label-wrapper">
+                                                <label title="LotNo" class="control-label">Lot Size</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                                <jqx-input ng-model="model.LOTSize" id="txtLotSize" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" ng-disabled="disableProperty" />
+                                        </div>
+                                        <div class="col-md-1" style="padding-right:10px;">
+                                            <div class="label-wrapper">
+                                                <label title="Order No" class="control-label">Work Order#</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <jqx-input id="txtWorkorder" ng-model="model.WorkOrderNo" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" ng-disabled="disableProperty" />
+                                        </div>
+                                        <div class="col-md-3 ">
+                                            <div class="pull-right">
+                                                <button class="btn bg-blue" type="button" ng-show="IsBaseValue" ng-click="onUpdateBaseValue(event)">
+                                                    Update BaseValue
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </jqx-validator>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-1">
+                                        <div class="label-wrapper">
+                                            <label title="Notes" class="control-label">Color STD</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <jqx-input ng-model="model.ColorSTD" jqx-height="25" jqx-width="'100%'" jqx-theme="theme" ng-disabled="disableProperty" />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="label-wrapper">
+                                            <label title="Notes" class="control-label">Notes</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <jqx-text-area id="txtNotes" ng-model="model.Notes" jqx-height="45" jqx-width="'100%'" jqx-theme="theme" ng-disabled="disableProperty"></jqx-text-area>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="pull-right">
+                                            <button id="btnCreate" class="btn bg-blue" type="button" ng-show="IsCreate" ng-click="onCreateFormulation(event)">
+                                                Create
+                                            </button>
+                                            <button id="btnCreate" class="btn bg-blue" type="button" ng-show="IsDownload" ng-click="onDownloadClick(event)">
+                                                Download
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <jqx-window jqx-instance="WinAddFormulation" jqx-theme="theme" jqx-width="500" jqx-height="300" jqx-auto-open="false" jqx-is-modal="true"
+                jqx-resizable="false">
+        <div><b>Formulation</b></div>
+        <div>
+            <br>
+            <div class="nav-tabs-custom">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-body form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="Product Code" class="control-label">Item</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                                <jqx-combo-box ng-model="ItemId"
+                                                               jqx-width="'100%'"
+                                                               jqx-auto-drop-down-height="false"
+                                                               jqx-display-member="'Name'"
+                                                               jqx-value-member="'Id'"
+                                                               jqx-source="popItemSource"
+                                                               jqx-theme="theme"
+                                                               jqx-search-mode="'containsignorecase'"
+                                                               jqx-auto-complete="true"
+                                                               jqx-instance="ddlPopItem"
+                                                               id="ddlPopItem"></jqx-combo-box>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="Base Value" class="control-label">Base Value</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                                <jqx-number-input ng-model="PercBaseValue"
+                                                                  jqx-width="'100%'"
+                                                                  jqx-height="25"
+                                                                  jqx-input-mode="simple"
+                                                                  jqx-decimal-digits="2"
+                                                                  jqx-theme="theme"
+                                                                  ng-disabled="disableProperty" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-right">
+                <button class="btn bg-blue" ng-click="onSaveNewFormula(event)">
+                    <i class="fa fa-floppy-o"></i>
+                    Save
+                </button>
+            </div>
+        </div>
+    </jqx-window>
+
+</div>
+
+<style type="text/css">
+    .jqx-validator-error-label {
+        display: none !important;
+    }
+</style>
+
+@section scripts{
+    <script type="text/javascript" src="~/js/FormulationRequest/FormulationCreateController.js"></script>
+}

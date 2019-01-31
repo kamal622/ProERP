@@ -1,0 +1,210 @@
+﻿@model  ProERP.Web.Models.PreventiveMaintenanceViewModel
+@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "Report1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("PMReport1");
+}
+
+
+<div ng-controller="PMController">
+    <div class="content-header clearfix">
+        <h1 class="pull-left">Detail Report </h1>
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Search</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.box-tools -->
+                        </div>
+                        <div class="box-body" style="width: 100%; height: 100%;">
+                            <!-- Main content -->
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Date</label>
+                                                <div title="From date" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            @*<jqx-date-time-input jqx-width="200"
+                                                                 jqx-height="33"
+                                                                 jqx-theme="theme"
+                                                                 jqx-format-string="'dd-MM-yyyy'"
+                                                                 jqx-instance="frominstance"
+                                                                 jqx-created="FromDateCreated"
+                                                                 ng-model="model.FromDate"></jqx-date-time-input>*@
+                                            <jqx-date-time-input jqx-instance="dtpSearchDate" jqx-width="180" jqx-height="30"
+                                                                 jqx-selection-mode="'range'" jqx-theme="theme" jqx-created="SearchDateCreated" id="dtpSearchDate"></jqx-date-time-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label" for="SearchSiteName">Plant Name</label>
+                                                <div title="Plant name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-drop-down-list id="ddlPlant"
+                                                                jqx-instance="ddlPlant"
+                                                                jqx-source="PlantSource"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-width="200"
+                                                                jqx-height="33"
+                                                                jqx-theme="theme"
+                                                                jqx-selected-index="0"
+                                                                jqx-on-change="onPlantChange(event)"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-on-binding-complete="onPlantBindingComplete(event)"></jqx-drop-down-list>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Line Name</label>
+                                                <div title="Line name" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-drop-down-list id="ddlLine"
+                                                                jqx-instance="ddlLine"
+                                                                jqx-source="LineSource"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-width="200"
+                                                                jqx-height="33"
+                                                                jqx-theme="theme"
+                                                                jqx-auto-drop-down-height="true"
+                                                                jqx-on-binding-complete="onLineBindingComplete(event)"></jqx-drop-down-list>
+
+
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label">Schedule</label>
+                                                <div title="Schedule type" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-drop-down-list jqx-instance="ddlScheduleType"
+                                                                jqx-source="[{Id: 0, Name: 'All'}, {Id: 1, Name: 'Daily'}, {Id: 2, Name: 'Weekly'}, {Id: 3, Name: 'Monthly'}, {Id: 4, Name: 'Yearly'}, {Id: 5, Name: 'Shutdown'}, {Id: 6, Name: 'Hourly'}]"
+                                                                jqx-display-member="'Name'"
+                                                                jqx-value-member="'Id'"
+                                                                jqx-width="200"
+                                                                jqx-height="33"
+                                                                jqx-theme="theme"
+                                                                jqx-selected-index="0"
+                                                                jqx-auto-drop-down-height="true"
+                                                                ng-model="model.ScheduleType">
+                                            </jqx-drop-down-list>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input id="rbtnDay" type="radio" name="Activity" ng-model="model.Activity" value="1" ng-checked="true" />
+                                            <label for="rbtnDay">All</label>  &nbsp;&nbsp;&nbsp;
+                                            <input id="rbtnDay" type="radio" name="Activity" ng-model="model.Activity" value="2" />
+                                            <label for="rbtnDay">Reviewed</label>   &nbsp;&nbsp;&nbsp;
+                                            <input id="rbtnDay" type="radio" name="Activity" ng-model="model.Activity" value="3" />
+                                            <label for="rbtnDay">Overdue</label>&nbsp;&nbsp;&nbsp;
+                                            <input id="rbtnDay" type="radio" name="Activity" ng-model="model.Activity" value="4" />
+                                            <label for="rbtnDay">Lapse</label>
+                                        </div>
+
+                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <div class="label-wrapper">
+                                                <label title="" class="control-label" style="width:109px;">Work Description</label>
+                                                <div title="Work Description" class="ico-help" area-describedby="">
+                                                    <i class="fa fa-question-circle"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <jqx-input ng-model="model.WorkDescription" 
+                                                       jqx-height="33" 
+                                                       jqx-width="200" 
+                                                       jqx-theme="theme" 
+                                                       ng-disabled="disableProperty" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="padding-right:82px;">
+                                    <div class="pull-right">
+                                        <button class="btn btn-primary btn-search" style="margin:0px;" id="searchDate" type="button" ng-click="onSearch(event)">
+                                            <i class="fa fa-search"></i>
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="pull-right pad">
+                        <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onExportClick(event)">
+                            <i class="fa fa-file-excel-o"></i>
+                            Export
+                        </button>
+                        <button id="btnRefresh" class="btn bg-blue" type="button" ng-click="onRefreshClick(event)">
+                            <i class="fa fa-refresh"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <jqx-grid jqx-altrows="true" jqx-instance="PMSummaryGrid" jqx-width="'100%'" jqx-theme="theme" jqx-groupable="true" jqx-sortable="true"
+                              jqx-source="Report1" @*jqx-groups="['WorkName']"*@ jqx-columns="GridColumns" jqx-columnsheight="50" jqx-columnsresize="true"
+                              @*jqx-on-bindingcomplete="OnGridBindingComplete()"*@></jqx-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="~/js/PrventiveMaintanace/Report1.js"></script>
+}

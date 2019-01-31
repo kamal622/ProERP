@@ -1,0 +1,56 @@
+﻿@model  ProERP.Web.Models.ReleaseNoteViewModel
+
+@using ProERP.Web.Framework.UI;
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.SetActiveMenuItemSystemName("AllNotes");
+}
+
+<div>
+    <div class="content-header clearfix">
+        <h1 class="pull-left">All Release Notes</h1>
+
+    </div>
+    <div class="content">
+        <div class="form-horizontal">
+            <div class="row">
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body ">
+                    <table class="table" width="500" cellpadding="2" cellspacing="2">
+                        <tbody>
+                            @foreach (var group in Model.AllData.OrderByDescending(o => o.PLMMVersion.ReleaseDate).GroupBy(g => new { g.PLMMVersion.ReleaseDate, g.PLMMVersion.ReleaseVersion }))
+                            {
+                                <tr>
+                                    <th>Release Date : <span>@group.Key.ReleaseDate.ToString("dd/MM/yyyy")</span></th>
+                                    <th  class="pull-right">Version : <span>@group.Key.ReleaseVersion</span></th>
+                                </tr>
+                                <tr class="bg-gray-light">
+                                    <td colspan="2">
+                                        <ul>
+                                            @foreach (var item in group)
+                                            {
+                                                <li>@item.Notes</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="dataTables_paginate paging_simple_numbers pull-right" id="example2_paginate">
+                        <ul class="pagination">
+                            @for (int i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li><a href="?Id=@i">@i</a></li>
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
